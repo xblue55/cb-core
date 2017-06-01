@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="70ef5c45-3f00-4bbf-a668-432bf8175d6b" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/CayBua/Bootstrap/CollectionBootstrap.php" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/CayBua/Bootstrap/ServiceBootstrap.php" afterPath="$PROJECT_DIR$/src/CayBua/Bootstrap/ServiceBootstrap.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/CayBua/Constants/Services.php" afterPath="$PROJECT_DIR$/src/CayBua/Constants/Services.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -121,12 +120,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1496292387166</updated>
-      <workItem from="1496292388970" duration="1785000" />
+      <workItem from="1496292388970" duration="2120000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1785000" />
+    <option name="totallyTimeSpent" value="2120000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="609" y="753" width="1280" height="752" extended-state="0" />
