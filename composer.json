@@ -1,0 +1,16 @@
+{
+  "name": "caybua/core",
+  "description": "CayBua core classes used for CayBua Phalcon REST Boilerplate framework",
+  "autoload": {
+    "psr-0": {
+      "CayBua": "src/"
+    }
+  },
+  "license": "GPL",
+  "authors": [
+    {
+      "name": "Nguyễn Ngọc Lương",
+      "email": "nnluong.it@gmail.com"
+    }
+  ]
+}
