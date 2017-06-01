@@ -208,7 +208,7 @@ class BaseModel extends \Phalcon\Mvc\Model
      * @param bool $loadFromCache
      * @param array $querydata
      */
-    public function getData($id, $loadFromCache = false, $querydata = array())
+    public function getData($id, $useJwt = true , $loadFromCache = false, $querydata = array())
     {
 //        if ($loadFromCache) {
 //            $myCacher = new Cacher(static::cacheKey($id));
@@ -231,7 +231,9 @@ class BaseModel extends \Phalcon\Mvc\Model
         try {
             $response = self::doRequest(
                 'GET',
-                $url
+                $url,
+                array(),
+                $useJwt
             );
             //request success
             if ($response['status'] == '200') {
