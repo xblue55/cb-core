@@ -5,14 +5,16 @@ namespace CayBua\Bootstrap;
 use Phalcon\Config;
 use PhalconRest\Api;
 use Phalcon\DiInterface;
+
 use CayBua\BootstrapInterface;
 use CayBua\Constants\Services;
-use App\Auth\UsernameAccountType;
+use CayBua\Auth\UsernameAccountType;
 use CayBua\Fractal\CustomSerializer;
+use CayBua\User\Service as UserService;
+use CayBua\Auth\Manager as AuthManager;
+
 use Phalcon\Mvc\Url as UrlResolver;
 use Phalcon\Mvc\View\Simple as View;
-use CayBua\User\Service as UserService;
-use App\Auth\Manager as AuthManager;
 use Phalcon\Events\Manager as EventsManager;
 use League\Fractal\Manager as FractalManager;
 use Phalcon\Mvc\Model\Manager as ModelsManager;
