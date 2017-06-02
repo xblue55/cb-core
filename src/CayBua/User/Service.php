@@ -13,12 +13,13 @@ class Service extends \PhalconApi\User\Service
     public function getRole()
     {
         /** @var User $userModel */
+
         $userModel = $this->getDetails();
 
         $role = AclRoles::UNAUTHORIZED;
-
-        if($userModel && in_array(ucfirst(strtolower($userModel->role)), AclRoles::ALL_ROLES)){
-            $role = $userModel->role;
+        $userRole = ucfirst(strtolower($userModel->role));
+        if($userModel && in_array($userRole, AclRoles::ALL_ROLES)){
+            $role = $$userRole;
         }
 
         return $role;

@@ -7,7 +7,7 @@ use Phalcon\Config;
 use Phalcon\DiInterface;
 use PhalconRest\Api;
 use PhalconApi\Middleware\AuthenticationMiddleware;
-use PhalconRest\Middleware\AuthorizationMiddleware;
+use CayBua\Middleware\AuthorizationMiddleware;
 use PhalconApi\Middleware\CorsMiddleware;
 use PhalconRest\Middleware\FractalMiddleware;
 use PhalconApi\Middleware\NotFoundMiddleware;
