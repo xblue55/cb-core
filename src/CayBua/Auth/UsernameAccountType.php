@@ -67,7 +67,7 @@ class UsernameAccountType implements \PhalconApi\Auth\AccountType
                         $myUserProfile->fullname = $ossData['name'];
                         $myUserProfile->address = $ossData['address'];
                         $myUserProfile->oauthpartner = \App\Model\Profile::OAUTH_PARTNER_OSS;
-                        $myUserProfile->oauthuid => $ossData['id'];
+                        $myUserProfile->oauthuid = $ossData['id'];
                         $myUserProfile->oauthaccesstoken = $ossAccessToken;
                         $myUserProfile->save();
                     } else {
