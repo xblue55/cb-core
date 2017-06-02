@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="70ef5c45-3f00-4bbf-a668-432bf8175d6b" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/CayBua/Middleware/AuthorizationMiddleware.php" afterPath="$PROJECT_DIR$/src/CayBua/Middleware/AuthorizationMiddleware.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/CayBua/User/Service.php" afterPath="$PROJECT_DIR$/src/CayBua/User/Service.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
