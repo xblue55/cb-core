@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="70ef5c45-3f00-4bbf-a668-432bf8175d6b" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/CayBua/Auth/UsernameAccountType.php" afterPath="$PROJECT_DIR$/src/CayBua/Auth/UsernameAccountType.php" />
-    </list>
+    <list default="true" id="70ef5c45-3f00-4bbf-a668-432bf8175d6b" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
