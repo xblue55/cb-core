@@ -18,21 +18,86 @@ class UsernameAccountType implements \PhalconApi\Auth\AccountType
         $username = $data[Manager::LOGIN_DATA_USERNAME];
         $password = $data[Manager::LOGIN_DATA_PASSWORD];
 
-        /** @var \App\Model\User $user */
-        $user = \App\Model\User::findFirst([
-            'conditions' => 'username = :username:',
-            'bind' => ['username' => $username]
-        ]);
+        /** Call api oss if get header login oss */
+        $request = Di::getDefault()->get(Services::REQUEST);
+        $config = Di::getDefault()->get(Services::CONFIG);
+        if ($request->getHeader('AccessFromOssSystem') && $request->getHeader('AccessFromOssSystem') == true) {
+            $ossLoginUrl = $config->get('ossapi')->loginurl . '?grant_type=password&username='.$username.'&password=' . $password;
+            BaseModel::$baseurl = $config->get('ossapi')->baseurl;
+            $headers = array(
+                'Authorization' => $config->get('ossapi')->basictoken
+            );
+            $ossUserInfoReq = BaseModel::doRequest('POST', $ossLoginUrl, $headers, false, false);
+            if ($ossUserInfoReq->status == '200' && isset($ossUserInfoReq['data']['access_token'])) {
+                $ossAccessToken = $ossUserInfoReq['data']['access_token'];
+                /** Get userinfo from oss accesstoken */
+                $headers = [
+                    'Authorization' => $ossAccessToken,
+                    'Content-Type' => 'application/json'
+                ];
+                $ossUserInfoReq = BaseModel::doRequest('GET', $config->get('ossapi')->userinfourl, $headers, false, false);
+                if ($ossUserInfoReq->status == '200'
+                    && $ossUserInfoReq->data['status']['status'] == 'SUCCESS' && !empty($ossUserInfoReq['data']['records'])) {
+                    $ossData = $ossUserInfoReq['data']['records'];
+                    $myUser = new \App\Model\User();
 
-        if (!$user) {
+                    $user = \App\Model\User::findFirst([
+                        'conditions' => 'username = :username:',
+                        'bind' => ['username' => $username]
+                    ]);
+                    if (!$user) {
+                        $myUser = $user;
+                    }
+                    $myUser->assign([
+                        "username" => $ossData['id'],
+                        "email" => $ossData['mail'],
+                        "phone" => $ossData['phone'],
+                        "address"=> $ossData['address'],
+                        'password' => $security->hash($ossData['id'] . $ossData['mail']),
+                        "cid"=> $ossData['mainCompany']
+                    ]);
+                    if ($myUser->save()) {
+                        $password = $ossData['id'] . $ossData['mail'];
+                        /** Save info in user profile */
+                        $myUserProfile = new \App\Model\Profile();
+                        $userprofile = \App\Model\Profile::findFirst(['conditions' => 'id = :id:', 'bind' => ['id' => $myUser->id]]);
+                        if ($userprofile) {
+                            $myUserProfile = $userprofile;
+                        }
+                        $myUserProfile->assign([
+                            'id' => $myUser->id,
+                            'fullname' => $ossData['name'],
+                            'address' => $ossData['address'],
+                            'oauthpartner' => \App\Model\Profile::OAUTH_PARTNER_OSS,
+                            'oauthuid' => $ossData['id'],
+                            'oauthaccesstoken' => $ossAccessToken,
+                        ]);
+                        $myUserProfile->save();
+                    } else {
+                        return null;
+                    }
+                } else {
+                    return null;
+                }
+            } else {
+                return null;
+            }
+        } else {
+            /** @var \App\Model\User $user */
+            $myUser = \App\Model\User::findFirst([
+                'conditions' => 'username = :username:',
+                'bind' => ['username' => $username]
+            ]);
+        }
+        if (!$myUser) {
             return null;
         }
 
-        if (!$security->checkHash($password, $user->password)) {
+        if (!$security->checkHash($password, $myUser->password)) {
             return null;
         }
 
-        return (string)$user->id;
+        return (string)$myUser->id;
     }
 
 //    public function authenticate($identity)
