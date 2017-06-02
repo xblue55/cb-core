@@ -45,7 +45,7 @@ class UsernameAccountType implements \PhalconApi\Auth\AccountType
                         'conditions' => 'username = :username:',
                         'bind' => ['username' => $username]
                     ]);
-                    if (!$user) {
+                    if ($user) {
                         $myUser = $user;
                     }
                     $myUser->username = $ossData['id'];
