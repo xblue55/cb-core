@@ -28,7 +28,7 @@ class UsernameAccountType implements \PhalconApi\Auth\AccountType
                 'Authorization' => $config->get('ossapi')->basictoken
             );
             $ossUserInfoReq = BaseModel::doRequest('POST', $ossLoginUrl, $headers, false, false);
-            if ($ossUserInfoReq->status == '200' && isset($ossUserInfoReq['data']['access_token'])) {
+            if ($ossUserInfoReq['status'] == '200' && isset($ossUserInfoReq['data']['access_token'])) {
                 $ossAccessToken = $ossUserInfoReq['data']['access_token'];
                 /** Get userinfo from oss accesstoken */
                 $headers = [
@@ -36,8 +36,8 @@ class UsernameAccountType implements \PhalconApi\Auth\AccountType
                     'Content-Type' => 'application/json'
                 ];
                 $ossUserInfoReq = BaseModel::doRequest('GET', $config->get('ossapi')->userinfourl, $headers, false, false);
-                if ($ossUserInfoReq->status == '200'
-                    && $ossUserInfoReq->data['status']['status'] == 'SUCCESS' && !empty($ossUserInfoReq['data']['records'])) {
+                if ($ossUserInfoReq['status'] == '200'
+                    && $ossUserInfoReq['data']['status'] == 'SUCCESS' && !empty($ossUserInfoReq['data']['records'])) {
                     $ossData = $ossUserInfoReq['data']['records'];
                     $myUser = new \App\Model\User();
 
@@ -48,14 +48,13 @@ class UsernameAccountType implements \PhalconApi\Auth\AccountType
                     if (!$user) {
                         $myUser = $user;
                     }
-                    $myUser->assign([
-                        "username" => $ossData['id'],
-                        "email" => $ossData['mail'],
-                        "phone" => $ossData['phone'],
-                        "address"=> $ossData['address'],
-                        'password' => $security->hash($ossData['id'] . $ossData['mail']),
-                        "cid"=> $ossData['mainCompany']
-                    ]);
+                    $myUser->username = $ossData['id'];
+                    $myUser->email = $ossData['mail'];
+                    $myUser->phone = $ossData['phone'];
+                    $myUser->address = $ossData['address'];
+                    $myUser->password = $security->hash($ossData['id'] . $ossData['mail']);
+                    $myUser->cid = $ossData['mainCompany'];
+                    $myUser->role = \CayBua\Constants\AclRoles::USER;
                     if ($myUser->save()) {
                         $password = $ossData['id'] . $ossData['mail'];
                         /** Save info in user profile */
@@ -64,14 +63,12 @@ class UsernameAccountType implements \PhalconApi\Auth\AccountType
                         if ($userprofile) {
                             $myUserProfile = $userprofile;
                         }
-                        $myUserProfile->assign([
-                            'id' => $myUser->id,
-                            'fullname' => $ossData['name'],
-                            'address' => $ossData['address'],
-                            'oauthpartner' => \App\Model\Profile::OAUTH_PARTNER_OSS,
-                            'oauthuid' => $ossData['id'],
-                            'oauthaccesstoken' => $ossAccessToken,
-                        ]);
+                        $myUserProfile->id = $myUser->id;
+                        $myUserProfile->fullname = $ossData['name'];
+                        $myUserProfile->address = $ossData['address'];
+                        $myUserProfile->oauthpartner = \App\Model\Profile::OAUTH_PARTNER_OSS;
+                        $myUserProfile->oauthuid => $ossData['id'];
+                        $myUserProfile->oauthaccesstoken = $ossAccessToken;
                         $myUserProfile->save();
                     } else {
                         return null;
