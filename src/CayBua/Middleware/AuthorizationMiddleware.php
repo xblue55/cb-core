@@ -8,6 +8,7 @@ use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\Micro\MiddlewareInterface;
 use PhalconRest\Mvc\Plugin;
 use PhalconRest\Api;
+use PhalconRest\Di;
 use PhalconApi\Constants\ErrorCodes;
 use PhalconApi\Exception;
 
