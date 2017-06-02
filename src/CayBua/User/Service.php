@@ -17,8 +17,8 @@ class Service extends \PhalconApi\User\Service
         $userModel = $this->getDetails();
 
         $role = AclRoles::UNAUTHORIZED;
-        if($userModel && in_array(ucfirst(strtolower($userModel->role)), AclRoles::ALL_ROLES)){
-            $role = ucfirst(strtolower($userModel->role));
+        if(!empty($userModel) && in_array(ucfirst(strtolower($userModel['role'])), AclRoles::ALL_ROLES)){
+            $role = ucfirst(strtolower($userModel['role']));
         }
 
         return $role;
@@ -29,8 +29,11 @@ class Service extends \PhalconApi\User\Service
         if (array_key_exists($identity, $this->detailsCache)) {
             return $this->detailsCache[$identity];
         }
-        $details = new BaseModel();
-        $details->getData($identity);
+        $details = [];
+        $myUser = BaseModel::doRequest('GET', '/users/'.$identity);
+        if (isset($myUser['data']['user']) && $myUser['data']['user']['id'] > 0) {
+            $details = $myUser['data']['user'];
+        }
         $this->detailsCache[$identity] = $details;
 
         return $details;

@@ -43,8 +43,11 @@ class EmailAccountType implements \PhalconApi\Auth\AccountType
 //    }
     public function authenticate($identity)
     {
-        $myUser = new BaseModel();
-        $myUser->getData($identity, false);
-        return isset($myUser->id) && $myUser->id > 0 ? 1 : 0;
+        $pass = 0;
+        $myUser = BaseModel::doRequest('GET', '/users/'.$identity);
+        if (isset($myUser['data']['user']) && $myUser['data']['user']['id'] > 0) {
+            $pass =1;
+        }
+        return $pass;
     }
 }
