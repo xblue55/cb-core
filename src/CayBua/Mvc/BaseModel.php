@@ -81,6 +81,7 @@ class BaseModel extends \Phalcon\Mvc\Model
         //Init request client (in this case, GuzzleHttp)
         if (is_null(self::$client)) {
             self::$client = new Client(array('base_uri' => self::$baseurl));
+            self::$client->setDefaultOption('verify', false);
         }
     }
 
