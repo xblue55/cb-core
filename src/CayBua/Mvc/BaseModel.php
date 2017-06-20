@@ -13,7 +13,7 @@ class BaseModel extends \Phalcon\Mvc\Model
      * Base URL of all restful request
      * This variable can be overwrite by environment variable 'REST_API'
      */
-    public static $baseurl = 'http://192.168.99.100:8005';
+    public static $baseurl = 'http://113.164.243.166';
 
     /**
      * This property will be set on each model to point to correct api point
