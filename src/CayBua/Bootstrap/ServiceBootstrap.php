@@ -132,18 +132,18 @@ class ServiceBootstrap implements BootstrapInterface
          */
         $di->setShared(Services::USER_SERVICE, new UserService);
 
-        $di->setShared(Services::SESSION,
-            function () use ($config) {
-                $session = new Session([
-                    'host' => $config->get('redis')->host,
-                    'port' => $config->get('redis')->port,
-                    'persistent' => $config->get('redis')->persistent,
-                    'lifetime' => $config->get('redis')->lifetime
-                ]);
-                $session->start();
-                return $session;
-            }
-        );
+        // $di->setShared(Services::SESSION,
+        //     function () use ($config) {
+        //         $session = new Session([
+        //             'host' => $config->get('redis')->host,
+        //             'port' => $config->get('redis')->port,
+        //             'persistent' => $config->get('redis')->persistent,
+        //             'lifetime' => $config->get('redis')->lifetime
+        //         ]);
+        //         $session->start();
+        //         return $session;
+        //     }
+        // );
 
     }
 }
