@@ -5,6 +5,7 @@ namespace CayBua\Middleware;
 use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\Micro\MiddlewareInterface;
 use PhalconApi\Mvc\Plugin;
+use CayBua\Constants\Services;
 
 class AuthenticationMiddleware extends Plugin implements MiddlewareInterface
 {
