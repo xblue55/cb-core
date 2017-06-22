@@ -108,7 +108,7 @@ class UsernameAccountType implements \PhalconApi\Auth\AccountType
     {
         $pass = 0;
         $myUser = BaseModel::doRequest('GET', '/users/'.$identity);
-        if (isset($myUser['data']['user']) && $myUser['data']['user']['id'] > 0) {
+        if (isset($myUser['data']['item']) && $myUser['data']['item']['id'] > 0) {
             $pass =1;
         }
         return $pass;

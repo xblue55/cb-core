@@ -31,8 +31,8 @@ class Service extends \PhalconApi\User\Service
         }
         $details = [];
         $myUser = BaseModel::doRequest('GET', '/users/'.$identity);
-        if (isset($myUser['data']['user']) && $myUser['data']['user']['id'] > 0) {
-            $details = $myUser['data']['user'];
+        if (isset($myUser['data']['item']) && $myUser['data']['item']['id'] > 0) {
+            $details = $myUser['data']['item'];
         }
         $this->detailsCache[$identity] = $details;
 
