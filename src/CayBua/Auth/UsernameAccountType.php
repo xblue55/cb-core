@@ -106,10 +106,19 @@ class UsernameAccountType implements \PhalconApi\Auth\AccountType
 //    }
     public function authenticate($identity)
     {
-        $pass = 0;
-        $myUser = BaseModel::doRequest('GET', '/users/'.$identity);
-        if (isset($myUser['data']['item']) && $myUser['data']['item']['id'] > 0) {
-            $pass =1;
+        $pass = 1;
+        $request = Di::getDefault()->get(Services::REQUEST);
+        // var_dump($request->getHeaders());
+        $config = Di::getDefault()->get(Services::CONFIG);
+        $accesstrustedkey = $request->getHeader('AccessTrustedKey');
+        if (!empty($accesstrustedkey) && $accesstrustedkey == $config->get('authentication')->accesstrustedkey) {
+            //Allow for server request
+            $pass = 1;
+        } else {
+            $myUser = BaseModel::doRequest('GET', '/users/'.$identity);
+            if (isset($myUser['data']['item']) && $myUser['data']['item']['id'] > 0) {
+                $pass =1;
+            }
         }
         return $pass;
     }
