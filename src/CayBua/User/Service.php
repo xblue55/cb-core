@@ -5,6 +5,8 @@ namespace CayBua\User;
 use CayBua\Constants\AclRoles;
 use App\Model\User;
 use CayBua\Mvc\BaseModel as BaseModel;
+use CayBua\Constants\Services;
+use Phalcon\Di;
 
 class Service extends \PhalconApi\User\Service
 {
@@ -30,7 +32,8 @@ class Service extends \PhalconApi\User\Service
             return $this->detailsCache[$identity];
         }
         $details = [];
-        $myUser = BaseModel::doRequest('GET', '/users/'.$identity);
+        $config = Di::getDefault()->get(Services::CONFIG);
+        $myUser = BaseModel::doRequest('GET', '/users/'.$identity, ['AccessTrustedKey'=>$config->get('authentication')->accesstrustedkey]);
         if (isset($myUser['data']['item']) && $myUser['data']['item']['id'] > 0) {
             $details = $myUser['data']['item'];
         }
