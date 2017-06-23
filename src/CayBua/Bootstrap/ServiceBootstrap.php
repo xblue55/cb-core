@@ -23,6 +23,7 @@ use Phalcon\Session\Adapter\Redis as Session;
 
 use Phalcon\Logger;
 use Phalcon\Logger\Adapter\File as FileAdapter;
+use Uploader\Uploader as Uploader;
 
 class ServiceBootstrap implements BootstrapInterface
 {
@@ -131,7 +132,10 @@ class ServiceBootstrap implements BootstrapInterface
          * @description PhalconRest - \PhalconRest\User\Service
          */
         $di->setShared(Services::USER_SERVICE, new UserService);
-
+        $di->setShared(Services::UPLOADS, function() {
+            $uploader = new Uploader();
+            return $uploader;
+        });
         // $di->setShared(Services::SESSION,
         //     function () use ($config) {
         //         $session = new Session([

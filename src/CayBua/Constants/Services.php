@@ -8,4 +8,5 @@ class Services extends \PhalconRest\Constants\Services
     const VIEW = 'view';
     const API_SERVICE = 'api';
     const LOGGER = 'logger';
+    const UPLOADS = 'uploads';
 }
