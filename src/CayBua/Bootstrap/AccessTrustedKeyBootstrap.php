@@ -13,5 +13,6 @@ class AccessTrustedKeyBootstrap implements BootstrapInterface
     public function run(Api $api, DiInterface $di, Config $config)
     {
         Base::$accessTrustedKey = $config->get('authentication')->accesstrustedkey;
+        Base::$baseurl = $config->get('url')->authUrl;
     }
 }
