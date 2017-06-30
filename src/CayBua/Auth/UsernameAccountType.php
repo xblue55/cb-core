@@ -106,7 +106,7 @@ class UsernameAccountType implements \PhalconApi\Auth\AccountType
 //    }
     public function authenticate($identity)
     {
-        $pass = 1;
+        $pass = 0;
         $request = Di::getDefault()->get(Services::REQUEST);
         // var_dump($request->getHeaders());
         $config = Di::getDefault()->get(Services::CONFIG);
