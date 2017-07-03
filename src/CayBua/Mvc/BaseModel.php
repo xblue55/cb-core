@@ -102,7 +102,7 @@ class BaseModel extends \Phalcon\Mvc\Model
         $headers = array(),
         $useJwt = true,
         $useAccessTrusted = true,
-        $requestbody = null,
+        $requestBody = null,
         $asyncItemId = 0
     ) {
         //Get url base on parameter
@@ -131,7 +131,7 @@ class BaseModel extends \Phalcon\Mvc\Model
         /** @var \GuzzleHttp\Client $client */
         $client = self::$client;
 
-        $request = new Request($method, $url, $headers, $requestbody);
+        $request = new Request($method, $url, $headers, $requestBody);
 
         if ($asyncItemId > 0) {
 

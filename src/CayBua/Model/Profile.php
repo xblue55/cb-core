@@ -73,7 +73,6 @@ class Profile extends BaseModel
 
     public function initialize()
     {
-
         $this->belongsTo('id', User::class, 'id', [
             'alias' => User::class,
         ]);

@@ -19,9 +19,8 @@ use Phalcon\Events\Manager as EventsManager;
 use League\Fractal\Manager as FractalManager;
 use Phalcon\Mvc\Model\Manager as ModelsManager;
 use PhalconApi\Auth\TokenParsers\JWTTokenParser;
-use Phalcon\Session\Adapter\Redis as Session;
 
-use Phalcon\Logger;
+use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Logger\Adapter\File as FileAdapter;
 use Uploader\Uploader as Uploader;
 
@@ -44,6 +43,7 @@ class ServiceBootstrap implements BootstrapInterface
             unset($config['adapter']);
             $class = 'Phalcon\Db\Adapter\Pdo\\' . $adapter;
 
+            /** @var Mysql $connection */
             $connection = new $class($config);
 
             // Assign the eventsManager to the db adapter instance
@@ -132,6 +132,11 @@ class ServiceBootstrap implements BootstrapInterface
          * @description PhalconRest - \PhalconRest\User\Service
          */
         $di->setShared(Services::USER_SERVICE, new UserService);
+
+        /**
+         * @description Uploader - Uploader\Uploader
+         * @link: https://github.com/stanislav-web/phalcon-uploader
+         */
         $di->setShared(Services::UPLOADS, function() {
             $uploader = new Uploader();
             return $uploader;
