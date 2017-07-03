@@ -3,7 +3,7 @@
 namespace CayBua\User;
 
 use CayBua\Constants\AclRoles;
-use App\Model\User;
+use CayBua\Model\User;
 use CayBua\Mvc\BaseModel as BaseModel;
 use CayBua\Constants\Services;
 use Phalcon\Di;
@@ -15,7 +15,6 @@ class Service extends \PhalconApi\User\Service
     public function getRole()
     {
         /** @var User $userModel */
-
         $userModel = $this->getDetails();
 
         $role = AclRoles::UNAUTHORIZED;

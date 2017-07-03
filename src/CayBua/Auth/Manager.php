@@ -3,7 +3,6 @@
 namespace CayBua\Auth;
 
 use PhalconApi\Auth\Session;
-use PhalconRest\Exception;
 
 class Manager extends \PhalconApi\Auth\Manager
 {
@@ -15,7 +14,7 @@ class Manager extends \PhalconApi\Auth\Manager
      * @param string $password
      *
      * @return Session Created session
-     * @throws Exception
+     * @throws /Exception
      *
      * Helper to login with email & password
      */
