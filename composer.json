@@ -10,7 +10,8 @@
     "redound/phalcon-rest": "^2.0.0",
     "league/fractal": "^0.13.0",
     "firebase/php-jwt": "^3.0",
-    "stanislav-web/phalcon-uploader": "v1.4-beta"
+    "stanislav-web/phalcon-uploader": "v1.4-beta",
+    "guzzlehttp/guzzle": "^6.3"
   },
   "license": "GPL",
   "authors": [
