@@ -79,7 +79,6 @@ class UsernameAccountType implements AccountType
         $config = Di::getDefault()->get(Services::CONFIG);
         $accesstrustedkey = $request->getHeader('AccessTrustedKey');
         if (!empty($accesstrustedkey) && $accesstrustedkey == $config->get('authentication')->accesstrustedkey) {
-            //Allow for server request
             $pass = true;
         } else {
             $myUser = BaseModel::doRequest('GET', '/users/' . $identity);

@@ -3,7 +3,9 @@
 namespace CayBua\Auth;
 
 use CayBua\Constants\Services;
+use CayBua\Mvc\BaseModel;
 use Phalcon\Di;
+use \CayBua\Model\User;
 
 class EmailAccountType implements \PhalconApi\Auth\AccountType
 {
@@ -17,8 +19,8 @@ class EmailAccountType implements \PhalconApi\Auth\AccountType
         $email = $data[Manager::LOGIN_DATA_EMAIL];
         $password = $data[Manager::LOGIN_DATA_PASSWORD];
 
-        /** @var \App\Model\User $user */
-        $user = \App\Model\User::findFirst([
+        /** @var \CayBua\Model\User $user */
+        $user = User::findFirst([
             'conditions' => 'email = :email:',
             'bind' => ['email' => $email]
         ]);
@@ -34,13 +36,6 @@ class EmailAccountType implements \PhalconApi\Auth\AccountType
         return (string)$user->id;
     }
 
-//    public function authenticate($identity)
-//    {
-//        return \App\Model\User::count([
-//            'conditions' => 'id = :id:',
-//            'bind' => ['id' => (int)$identity]
-//        ]) > 0;
-//    }
     public function authenticate($identity)
     {
         $pass = 0;
@@ -49,7 +44,6 @@ class EmailAccountType implements \PhalconApi\Auth\AccountType
         $config = Di::getDefault()->get(Services::CONFIG);
         $accesstrustedkey = $request->getHeader('AccessTrustedKey');
         if (!empty($accesstrustedkey) && $accesstrustedkey == $config->get('authentication')->accesstrustedkey) {
-            //Allow for server request
             $pass = 1;
         } else {
             $myUser = BaseModel::doRequest('GET', '/users/'.$identity);
