@@ -7,7 +7,7 @@ use CayBua\Http\UserHttp;
 
 class Service extends \PhalconApi\User\Service
 {
-    protected $detailsCache = [];
+    public static $detailsCache = [];
 
     public function getRole()
     {
@@ -22,15 +22,16 @@ class Service extends \PhalconApi\User\Service
 
     protected function getDetailsForIdentity($identity)
     {
-        if (array_key_exists($identity, $this->detailsCache)) {
-            return $this->detailsCache[$identity];
+        if (array_key_exists($identity, self::$detailsCache)) {
+            return self::$detailsCache[$identity];
         }
         $details = [];
-        $myUser = UserHttp::getUserInformationWithUserId($identity);
+        $userHttp = new UserHttp();
+        $myUser = $userHttp->getUserInformationWithUserId($identity)->getParsingResponse();
         if (isset($myUser['data']['item']) && $myUser['data']['item']['id'] > 0) {
             $details = $myUser['data']['item'];
         }
-        $this->detailsCache[$identity] = $details;
+        self::$detailsCache[$identity] = $details;
         return $details;
     }
 }

@@ -2,27 +2,27 @@
 
 namespace CayBua\Bootstrap;
 
-use App\Auth\UsernameAccountType;
+use CayBua\Auth\UsernameAccountType;
 use CayBua\Auth\Manager;
 use CayBua\User\Service;
-use Phalcon\Config;
-use PhalconRest\Api;
-use Phalcon\DiInterface;
-
 use CayBua\BootstrapInterface;
 use CayBua\Constants\Services;
 use CayBua\Fractal\CustomSerializer;
 
+use Phalcon\Config;
+use Phalcon\DiInterface;
 use Phalcon\Mvc\Url as UrlResolver;
 use Phalcon\Mvc\View\Simple as View;
 use Phalcon\Events\Manager as EventsManager;
-use League\Fractal\Manager as FractalManager;
 use Phalcon\Mvc\Model\Manager as ModelsManager;
-use PhalconApi\Auth\TokenParsers\JWTTokenParser;
-
-use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Logger\Adapter\File as FileAdapter;
+use Phalcon\Db\Adapter\Pdo\Mysql;
+
+use PhalconApi\Auth\TokenParsers\JWTTokenParser;
+use PhalconRest\Api;
+
 use Uploader\Uploader as Uploader;
+use League\Fractal\Manager as FractalManager;
 
 class ServiceBootstrap implements BootstrapInterface
 {

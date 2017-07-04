@@ -5,12 +5,12 @@
  * Date: 7/3/17
  * Time: 11:08
  */
+
 namespace CayBua\Http;
 
 use CayBua\Constants\Services;
 use Phalcon\Config;
 use Phalcon\Di;
-use Psr\Http\Message\ResponseInterface;
 
 class UserHttp extends BaseHttp
 {
@@ -26,9 +26,13 @@ class UserHttp extends BaseHttp
 
     /**
      * @param $userId
-     * @return mixed|null|ResponseInterface
+     * @return $this
      */
-    public function getUserInformationWithUserId($userId){
-        return $this->get($this->serviceConfig['action']['me']. '/'.$userId)->response();
+    public function getUserInformationWithUserId($userId)
+    {
+        $actionUrl = $this->serviceConfig['action']['me'] . '/' . $userId;
+        return
+            $this->get($actionUrl)
+                ->request();
     }
 }

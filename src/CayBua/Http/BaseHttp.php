@@ -19,6 +19,7 @@ abstract class BaseHttp
     public $method;
     public $actionUrl;
     public $body;
+    public $responseData;
 
     /**
      * @param string $actionUrl
@@ -76,9 +77,9 @@ abstract class BaseHttp
 
 
     /**
-     * @return mixed|null|\Psr\Http\Message\ResponseInterface
+     * @return $this
      */
-    public function response()
+    public function request()
     {
         $requestUrl = $this->serviceConfig['url'];
         if($this->actionUrl == '') {
@@ -94,7 +95,8 @@ abstract class BaseHttp
         } catch (RequestException $e) {
             $response = $e->getResponse();
         }
-        return $response;
+        $this->responseData = $response;
+        return $this;
     }
 
     /**
@@ -125,5 +127,21 @@ abstract class BaseHttp
             $responseData['data'] = $bodyStringData;
         }
         return $responseData;
+    }
+
+    /**
+     * @return ResponseInterface
+     */
+    public function getResponse()
+    {
+        return $this->responseData;
+    }
+
+    /**
+     * @return array
+     */
+    public function getParsingResponse()
+    {
+        return self::parsingResponse($this->responseData);
     }
 }
