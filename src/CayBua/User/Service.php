@@ -12,7 +12,6 @@ class Service extends \PhalconApi\User\Service
     public function getRole()
     {
         $userModel = $this->getDetails();
-
         $role = AclRoles::UNAUTHORIZED;
         if(!empty($userModel) && in_array(ucfirst(strtolower($userModel['role'])), AclRoles::ALL_ROLES)){
             $role = ucfirst(strtolower($userModel['role']));
@@ -27,7 +26,8 @@ class Service extends \PhalconApi\User\Service
         }
         $details = [];
         $userHttp = new UserHttp();
-        $myUser = $userHttp->getUserInformationWithUserId($identity)->getParsingResponse();
+        $token = $this->authManager->getSession()->getToken();
+        $myUser = $userHttp->getUserInformationWithToken($token)->getParsingResponse();
         if (isset($myUser['data']['item']) && $myUser['data']['item']['id'] > 0) {
             $details = $myUser['data']['item'];
         }

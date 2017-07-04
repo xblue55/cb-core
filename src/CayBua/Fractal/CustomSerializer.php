@@ -2,7 +2,9 @@
 
 namespace CayBua\Fractal;
 
-class CustomSerializer extends \League\Fractal\Serializer\ArraySerializer
+use League\Fractal\Serializer\ArraySerializer;
+
+class CustomSerializer extends ArraySerializer
 {
     public function collection($resourceKey, array $data)
     {

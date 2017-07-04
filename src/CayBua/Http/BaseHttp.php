@@ -118,7 +118,7 @@ abstract class BaseHttp
     public static function parsingResponse(ResponseInterface $response)
     {
         $responseData = [];
-        $responseData['status'] = $response->getStatusCode();
+        $responseData['statusCode'] = $response->getStatusCode();
         $responseData['contentType'] = $response->getHeader('Content-Type');
         $bodyStringData = $response->getBody()->getContents();
         if (stripos($responseData['contentType'][0], 'json') !== false) {

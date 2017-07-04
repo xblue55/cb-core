@@ -25,14 +25,19 @@ class UserHttp extends BaseHttp
     }
 
     /**
-     * @param $userId
      * @return $this
      */
-    public function getUserInformationWithUserId($userId)
+    public function getUserInformationWithToken($token)
     {
-        $actionUrl = $this->serviceConfig['action']['me'] . '/' . $userId;
+        $body = [
+            'headers' => [
+                'Authorization' => 'Bearer ' . $token
+            ]
+        ];
         return
-            $this->get($actionUrl)
+            $this
+                ->get($this->serviceConfig['action']['me'])
+                ->setBody($body)
                 ->request();
     }
 }
