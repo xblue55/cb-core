@@ -80,9 +80,9 @@ abstract class BaseHttp
     public function response()
     {
         if($this->actionUrl == '') {
-            $requestUrl = $this->removeSlashEndOfUrl($this->serviceUrl);
+            $requestUrl = $this->removeSlashEndOfUrl($this->serviceConfig['url']);
         }else{
-            $requestUrl = $this->serviceUrl . $this->actionUrl;
+            $requestUrl = $this->serviceConfig['url'] . $this->actionUrl;
         }
         $client = new GuzzleHttp\Client(
             [
