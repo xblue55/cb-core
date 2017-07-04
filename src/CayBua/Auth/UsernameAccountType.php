@@ -1,10 +1,7 @@
 <?php
 
-namespace App\Auth;
+namespace CayBua\Auth;
 
-use CayBua\Constants\Services;
-
-use Phalcon\Di;
 use PhalconApi\Auth\AccountType;
 
 class UsernameAccountType implements AccountType
@@ -23,7 +20,6 @@ class UsernameAccountType implements AccountType
      */
     public function authenticate($identity)
     {
-        // Gọi service User để lấy authenticate.
         return true;
     }
 }
