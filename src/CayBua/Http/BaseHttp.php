@@ -80,10 +80,9 @@ abstract class BaseHttp
      */
     public function response()
     {
+        $requestUrl = $this->serviceConfig['url'];
         if($this->actionUrl == '') {
             $requestUrl = $this->removeSlashEndOfUrl($this->serviceConfig['url']);
-        }else{
-            $requestUrl = $this->serviceConfig['url'] . $this->actionUrl;
         }
         $client = new GuzzleHttp\Client(
             [
@@ -109,9 +108,14 @@ abstract class BaseHttp
         return substr($url, 0, -1);
     }
 
+    /**
+     * Parsing Response Data
+     * @param ResponseInterface $response
+     * @return array
+     */
     public static function parsingResponse(ResponseInterface $response)
     {
-        $responseData = array();
+        $responseData = [];
         $responseData['status'] = $response->getStatusCode();
         $responseData['contentType'] = $response->getHeader('Content-Type');
         $bodyStringData = $response->getBody()->getContents();
@@ -120,7 +124,6 @@ abstract class BaseHttp
         } else {
             $responseData['data'] = $bodyStringData;
         }
-
         return $responseData;
     }
 }
