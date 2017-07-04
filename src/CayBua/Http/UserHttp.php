@@ -25,6 +25,7 @@ class UserHttp extends BaseHttp
     }
 
     /**
+     * @param $token
      * @return $this
      */
     public function getUserInformationWithToken($token)
