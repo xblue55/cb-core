@@ -29,7 +29,7 @@ class UsernameAccountType implements AccountType
             && isset($userData['data']['item'])
             && ($userData['data']['item']['id'] > 0)
         ){
-            Service::$detailsCache[$userData['data']['item']['id']] = $userData;
+            Service::$detailsCache[$userData['data']['item']['id']] = $userData['data']['item'];
             return true;
         }
         return false;
