@@ -2,6 +2,9 @@
 
 namespace CayBua\Bootstrap;
 
+use App\Auth\UsernameAccountType;
+use CayBua\Auth\Manager;
+use CayBua\User\Service;
 use Phalcon\Config;
 use PhalconRest\Api;
 use Phalcon\DiInterface;
@@ -122,6 +125,22 @@ class ServiceBootstrap implements BootstrapInterface
         $di->setShared(Services::UPLOADS, function() {
             $uploader = new Uploader();
             return $uploader;
+        });
+
+        /**
+         * @description PhalconRest - \PhalconRest\User\Service
+         */
+        $di->setShared(Services::USER_SERVICE, new Service());
+
+        /**
+         * @description Phalcon - AuthManager
+         */
+        $di->setShared(Services::AUTH_MANAGER, function () use ($di, $config) {
+
+            $authManager = new Manager($config->get('authentication')->expirationTime);
+            $authManager->registerAccountType(UsernameAccountType::NAME, new UsernameAccountType);
+
+            return $authManager;
         });
 
     }

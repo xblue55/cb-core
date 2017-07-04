@@ -3,10 +3,7 @@
 namespace CayBua\User;
 
 use CayBua\Constants\AclRoles;
-use CayBua\Model\User;
-use CayBua\Mvc\BaseModel as BaseModel;
-use CayBua\Constants\Services;
-use Phalcon\Di;
+use CayBua\Http\UserHttp;
 
 class Service extends \PhalconApi\User\Service
 {
@@ -14,14 +11,12 @@ class Service extends \PhalconApi\User\Service
 
     public function getRole()
     {
-        /** @var User $userModel */
         $userModel = $this->getDetails();
 
         $role = AclRoles::UNAUTHORIZED;
         if(!empty($userModel) && in_array(ucfirst(strtolower($userModel['role'])), AclRoles::ALL_ROLES)){
             $role = ucfirst(strtolower($userModel['role']));
         }
-
         return $role;
     }
 
@@ -31,13 +26,11 @@ class Service extends \PhalconApi\User\Service
             return $this->detailsCache[$identity];
         }
         $details = [];
-        $config = Di::getDefault()->get(Services::CONFIG);
-        $myUser = BaseModel::doRequest('GET', '/users/'.$identity, ['AccessTrustedKey'=>$config->get('authentication')->accesstrustedkey]);
+        $myUser = UserHttp::getUserInformationWithUserId($identity);
         if (isset($myUser['data']['item']) && $myUser['data']['item']['id'] > 0) {
             $details = $myUser['data']['item'];
         }
         $this->detailsCache[$identity] = $details;
-
         return $details;
     }
 }

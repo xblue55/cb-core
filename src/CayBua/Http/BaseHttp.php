@@ -13,11 +13,11 @@ use GuzzleHttp\Exception\RequestException;
 
 abstract class BaseHttp
 {
-    public static $serviceConfig;
-    public static $serviceUrl;
-    public static $method;
-    public static $actionUrl;
-    public static $body;
+    public $serviceConfig;
+    public $serviceUrl;
+    public $method;
+    public $actionUrl;
+    public $body;
 
     /**
      * @param string $actionUrl
@@ -25,8 +25,8 @@ abstract class BaseHttp
      */
     public function get($actionUrl = '')
     {
-        self::$method = 'GET';
-        self::$actionUrl = $actionUrl;
+        $this->method = 'GET';
+        $this->actionUrl = $actionUrl;
         return $this;
     }
 
@@ -36,8 +36,8 @@ abstract class BaseHttp
      */
     public function post($actionUrl = '')
     {
-        self::$method = 'POST';
-        self::$actionUrl = $actionUrl;
+        $this->method = 'POST';
+        $this->actionUrl = $actionUrl;
         return $this;
     }
 
@@ -47,8 +47,8 @@ abstract class BaseHttp
      */
     public function put($actionUrl = '')
     {
-        self::$method = 'PUT';
-        self::$actionUrl = $actionUrl;
+        $this->method = 'PUT';
+        $this->actionUrl = $actionUrl;
         return $this;
     }
 
@@ -58,8 +58,8 @@ abstract class BaseHttp
      */
     public function delete($actionUrl = '')
     {
-        self::$method = 'DELETE';
-        self::$actionUrl = $actionUrl;
+        $this->method = 'DELETE';
+        $this->actionUrl = $actionUrl;
         return $this;
     }
 
@@ -69,7 +69,7 @@ abstract class BaseHttp
      */
     public function setBody($body)
     {
-        self::$body = $body;
+        $this->body = $body;
         return $this;
     }
 
@@ -79,10 +79,10 @@ abstract class BaseHttp
      */
     public function response()
     {
-        if(self::$actionUrl == '') {
-            $requestUrl = $this->removeSlashEndOfUrl(self::$serviceUrl);
+        if($this->actionUrl == '') {
+            $requestUrl = $this->removeSlashEndOfUrl($this->serviceUrl);
         }else{
-            $requestUrl = self::$serviceUrl . self::$actionUrl;
+            $requestUrl = $this->serviceUrl . $this->actionUrl;
         }
         $client = new GuzzleHttp\Client(
             [
@@ -90,7 +90,7 @@ abstract class BaseHttp
             ]
         );
         try {
-            $response = $client->request(self::$method, self::$actionUrl, self::$body);
+            $response = $client->request($this->method, $this->actionUrl, $this->body);
         } catch (RequestException $e) {
             $response = $e->getResponse();
         }
