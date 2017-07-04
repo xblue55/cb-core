@@ -10,6 +10,7 @@ namespace CayBua\Http;
 
 use GuzzleHttp;
 use GuzzleHttp\Exception\RequestException;
+use Psr\Http\Message\ResponseInterface;
 
 abstract class BaseHttp
 {
@@ -106,5 +107,20 @@ abstract class BaseHttp
     protected function removeSlashEndOfUrl($url)
     {
         return substr($url, 0, -1);
+    }
+
+    public static function parsingResponse(ResponseInterface $response)
+    {
+        $responseData = array();
+        $responseData['status'] = $response->getStatusCode();
+        $responseData['contentType'] = $response->getHeader('Content-Type');
+        $bodyStringData = $response->getBody()->getContents();
+        if (stripos($responseData['contentType'][0], 'json') !== false) {
+            $responseData['data'] = json_decode($bodyStringData, true);
+        } else {
+            $responseData['data'] = $bodyStringData;
+        }
+
+        return $responseData;
     }
 }
