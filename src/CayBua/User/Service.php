@@ -34,4 +34,21 @@ class Service extends \PhalconApi\User\Service
         self::$detailsCache[$identity] = $details;
         return $details;
     }
+
+    public function getTickets(){
+        return [];
+    }
+
+    /**
+     * @param string $controllerName
+     * @param string $actionName
+     * @return bool
+     */
+    public function allowRbacPermission($controllerName, $actionName)
+    {
+        $resource = $controllerName . '.' . $actionName;
+        $tickets = $this->getTickets();
+        return in_array($resource, $tickets);
+    }
+
 }

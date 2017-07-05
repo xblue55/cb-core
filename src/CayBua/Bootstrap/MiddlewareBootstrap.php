@@ -3,13 +3,13 @@
 namespace CayBua\Bootstrap;
 
 use CayBua\BootstrapInterface;
-use Phalcon\Config;
-use Phalcon\DiInterface;
-use PhalconRest\Api;
-
+use CayBua\Middleware\RbacMiddleware;
 use CayBua\Middleware\AuthenticationMiddleware;
 use CayBua\Middleware\AuthorizationMiddleware;
 
+use Phalcon\Config;
+use Phalcon\DiInterface;
+use PhalconRest\Api;
 use PhalconApi\Middleware\CorsMiddleware;
 use PhalconRest\Middleware\FractalMiddleware;
 use PhalconApi\Middleware\NotFoundMiddleware;
@@ -26,6 +26,7 @@ class MiddlewareBootstrap implements BootstrapInterface
             ->attach(new NotFoundMiddleware)
             ->attach(new AuthenticationMiddleware)
             ->attach(new AuthorizationMiddleware)
+            ->attach(new RbacMiddleware)
             ->attach(new FractalMiddleware)
             ->attach(new UrlQueryMiddleware);
     }

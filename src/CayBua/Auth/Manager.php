@@ -2,7 +2,6 @@
 
 namespace CayBua\Auth;
 
-use CayBua\Http\UserHttp;
 use PhalconApi\Auth\Session;
 use PhalconApi\Exception;
 use PhalconApi\Constants\ErrorCodes;
