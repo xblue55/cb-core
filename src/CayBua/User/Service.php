@@ -35,8 +35,12 @@ class Service extends \PhalconApi\User\Service
         return $details;
     }
 
+    /**
+     * @return mixed
+     */
     public function getTickets(){
-        return [];
+        $user = $this->getDetails();
+        return $user['tickets'];
     }
 
     /**
