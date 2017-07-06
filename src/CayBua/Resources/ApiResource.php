@@ -41,4 +41,5 @@ abstract class ApiResource extends Resource
     {
         return parent::handler($handler, $lazy);
     }
+
 }
