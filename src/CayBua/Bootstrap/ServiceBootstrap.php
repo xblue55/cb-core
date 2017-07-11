@@ -119,15 +119,6 @@ class ServiceBootstrap implements BootstrapInterface
         });
 
         /**
-         * @description Uploader - Uploader\Uploader
-         * @link: https://github.com/stanislav-web/phalcon-uploader
-         */
-        $di->setShared(Services::UPLOADS, function() {
-            $uploader = new Uploader();
-            return $uploader;
-        });
-
-        /**
          * @description PhalconRest - \PhalconRest\User\Service
          */
         $di->setShared(Services::USER_SERVICE, new Service());
