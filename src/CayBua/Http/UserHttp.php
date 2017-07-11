@@ -15,7 +15,7 @@ use Phalcon\Di;
 class UserHttp extends BaseHttp
 {
     /**
-     * PrivateApiHttp constructor.
+     * UserHttp constructor.
      */
     public function __construct()
     {
