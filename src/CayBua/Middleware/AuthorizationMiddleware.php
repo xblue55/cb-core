@@ -2,7 +2,6 @@
 
 namespace CayBua\Middleware;
 
-use CayBua\Constants\Services;
 use Phalcon\Events\Event;
 use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\Micro\MiddlewareInterface;
