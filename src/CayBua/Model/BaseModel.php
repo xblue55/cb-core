@@ -13,16 +13,17 @@ use Phalcon\Mvc\Model;
 
 abstract class BaseModel extends Model
 {
+    public $id;
+    public $ipaddress;
     public $datecreated;
     public $datemodified;
-    public $ipaddress;
 
     public function columnMap()
     {
         return [
+            'ipaddress' => 'ipaddress',
             'datecreated' => 'datecreated',
             'datemodified' => 'datemodified',
-            'ipaddress' => 'ipaddress'
         ];
     }
 
