@@ -10,9 +10,9 @@ namespace CayBua\Middleware;
 
 use CayBua\Constants\AclRoles;
 use CayBua\Constants\Services;
+use CayBua\Api;
 
 use PhalconRest\Mvc\Plugin;
-use PhalconRest\Api;
 use PhalconApi\Constants\ErrorCodes;
 use PhalconApi\Exception;
 

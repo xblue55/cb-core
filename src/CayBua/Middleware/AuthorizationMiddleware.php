@@ -2,11 +2,11 @@
 
 namespace CayBua\Middleware;
 
+use CayBua\Api;
 use Phalcon\Events\Event;
 use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\Micro\MiddlewareInterface;
 use PhalconRest\Mvc\Plugin;
-use PhalconRest\Api;
 use PhalconApi\Constants\ErrorCodes;
 use PhalconApi\Exception;
 
