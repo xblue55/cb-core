@@ -20,6 +20,6 @@ class CollectionBootstrap implements BootstrapInterface
     public function run(Api $api, DiInterface $di, Config $config)
     {
         $api
-            ->collection(new ExportCollection('/export'));
+            ->collection(new ExportCollection('/' . $config->get('domainName') . '/export'));
     }
 }
