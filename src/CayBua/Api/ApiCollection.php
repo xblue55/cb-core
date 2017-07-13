@@ -91,11 +91,17 @@ class ApiCollection extends Collection implements MountableInterface, Collection
         return $this->description;
     }
 
+
     public function setPrefix($prefix)
     {
         throw new Exception(ErrorCodes::GENERAL_SYSTEM, null, 'Setting prefix after initialization is prohibited.');
     }
 
+    /**
+     * @param $handler
+     * @param bool $lazy
+     * @return $this
+     */
     public function handler($handler, $lazy = true)
     {
         $this->setHandler($handler, $lazy);
@@ -152,6 +158,10 @@ class ApiCollection extends Collection implements MountableInterface, Collection
         return $this;
     }
 
+    /**
+     * @param ApiEndpoint $endpoint
+     * @return string
+     */
     protected function createRouteName(ApiEndpoint $endpoint)
     {
         return serialize([
