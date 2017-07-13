@@ -1,9 +1,11 @@
 <?php
 
 namespace CayBua\Collections;
-use App\Controllers\ExportController;
+
+use CayBua\Controllers\ExportController;
 use PhalconRest\Api\ApiCollection;
 use PhalconRest\Api\ApiEndpoint;
+
 class ExportCollection extends ApiCollection
 {
     protected function initialize()
