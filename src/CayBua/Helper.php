@@ -499,7 +499,7 @@ class Helper
     }
 
     /**
-     * Ham dung de test General security token
+     * Ham dung de test general security token
      *
      * duoc tao trong $_SESSION['securityToken'] va duoc truyen vao bang $_GET['token']
      *
