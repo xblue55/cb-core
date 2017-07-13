@@ -11,6 +11,7 @@ namespace CayBua\Export\Documentation;
 class ApiEndpoint extends \PhalconRest\Export\Documentation\ApiEndpoint
 {
     protected $exampleParameters;
+    protected $exampleHeaders;
 
     /**
      * @return mixed
@@ -28,4 +29,19 @@ class ApiEndpoint extends \PhalconRest\Export\Documentation\ApiEndpoint
         $this->exampleParameters = $exampleParameters;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getExampleHeaders()
+    {
+        return $this->exampleHeaders;
+    }
+
+    /**
+     * @param mixed $exampleHeaders
+     */
+    public function setExampleHeaders($exampleHeaders)
+    {
+        $this->exampleHeaders = $exampleHeaders;
+    }
 }

@@ -16,6 +16,7 @@ class ApiEndpointTransformer extends Transformer
             'path' => $endpoint->getPath(),
             'exampleParameters' => $endpoint->getExampleParameters(),
             'exampleResponse' => $endpoint->getExampleResponse(),
+            'exampleHeaders' => $endpoint->getExampleHeaders(),
             'allowedRoles' => $endpoint->getAllowedRoles()
         ];
     }

@@ -24,6 +24,7 @@ class ApiEndpoint
 
     protected $postedDataMethod = PostedDataMethods::AUTO;
     protected $exampleResponse;
+    protected $exampleHeaders;
     protected $exampleParameters;
 
     protected $allowedRoles = [];
@@ -319,6 +320,25 @@ class ApiEndpoint
     public function getExampleParameters()
     {
         return $this->exampleParameters;
+    }
+
+    /**
+     * @param string $exampleHeaders Example of the response of the endpoint
+     *
+     * @return $this
+     */
+    public function setExampleHeaders($exampleHeaders)
+    {
+        $this->exampleHeaders = MarkdownExtra::defaultTransform($exampleHeaders);
+        return $this;
+    }
+
+    /**
+     * @return string Example of the response of the endpoint
+     */
+    public function getExampleHeaders()
+    {
+        return $this->exampleHeaders;
     }
 
     /**
