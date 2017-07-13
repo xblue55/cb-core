@@ -11,6 +11,11 @@ class UsernameAccountType implements AccountType
     const NAME = 'username';
 
 
+    /**
+     * It is not necessary to log in from another service to the user service because it has already been authenticated by the token
+     * @param array $data
+     * @return string|void
+     */
     public function login($data)
     {
 

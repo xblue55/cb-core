@@ -10,10 +10,11 @@ namespace CayBua\Controllers;
 
 use CayBua\Constants\Services;
 
-use PhalconRest\Export\Documentation;
+use CayBua\Export\Documentation;
+use CayBua\Transformers\DocumentationTransformer;
+
 use PhalconRest\Export\Postman\ApiCollection;
 use PhalconRest\Mvc\Controllers\CollectionController;
-use PhalconRest\Transformers\DocumentationTransformer;
 use PhalconRest\Transformers\Postman\ApiCollectionTransformer;
 
 class ExportController extends CollectionController
