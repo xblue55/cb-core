@@ -21,7 +21,6 @@ use Phalcon\Db\Adapter\Pdo\Mysql;
 use PhalconApi\Auth\TokenParsers\JWTTokenParser;
 use PhalconRest\Api;
 
-use Uploader\Uploader as Uploader;
 use League\Fractal\Manager as FractalManager;
 
 class ServiceBootstrap implements BootstrapInterface
