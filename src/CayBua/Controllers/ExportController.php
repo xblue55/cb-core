@@ -24,7 +24,7 @@ class ExportController extends CollectionController
         $config = $this->di->get(Services::CONFIG);
         $documentation = new Documentation(
             $config->get('application')->title,
-            $config->get('application')->hostName
+            $config->get('hostName')
         );
         $documentation->addManyCollections($this->application->getCollections());
         $documentation->addManyRoutes($this->application->getRouter()->getRoutes());
