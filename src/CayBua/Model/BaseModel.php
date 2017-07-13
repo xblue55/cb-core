@@ -21,6 +21,7 @@ abstract class BaseModel extends Model
     public function columnMap()
     {
         return [
+            'id' => 'id',
             'ipaddress' => 'ipaddress',
             'datecreated' => 'datecreated',
             'datemodified' => 'datemodified',
