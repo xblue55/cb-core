@@ -8,6 +8,7 @@ use CayBua\User\Service;
 use CayBua\BootstrapInterface;
 use CayBua\Constants\Services;
 use CayBua\Fractal\CustomSerializer;
+use CayBua\Api;
 
 use Phalcon\Config;
 use Phalcon\DiInterface;
@@ -19,7 +20,6 @@ use Phalcon\Logger\Adapter\File as FileAdapter;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 
 use PhalconApi\Auth\TokenParsers\JWTTokenParser;
-use PhalconRest\Api;
 
 use League\Fractal\Manager as FractalManager;
 

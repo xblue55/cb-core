@@ -4,11 +4,12 @@ namespace CayBua\Bootstrap;
 
 use CayBua\BootstrapInterface;
 use CayBua\Constants\Services;
+use CayBua\Constants\AclRoles;
+use CayBua\Api;
+
 use Phalcon\Acl;
 use Phalcon\Config;
 use Phalcon\DiInterface;
-use PhalconRest\Api;
-use CayBua\Constants\AclRoles;
 
 class AclBootstrap implements BootstrapInterface
 {

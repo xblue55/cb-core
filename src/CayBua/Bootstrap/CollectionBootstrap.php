@@ -11,9 +11,10 @@ namespace CayBua\Bootstrap;
 
 use CayBua\BootstrapInterface;
 use CayBua\Collections\ExportCollection;
+use CayBua\Api;
+
 use Phalcon\Config;
 use Phalcon\DiInterface;
-use CayBua\Api;
 
 class CollectionBootstrap implements BootstrapInterface
 {

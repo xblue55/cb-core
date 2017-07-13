@@ -6,10 +6,10 @@ use CayBua\BootstrapInterface;
 use CayBua\Middleware\RbacMiddleware;
 use CayBua\Middleware\AuthenticationMiddleware;
 use CayBua\Middleware\AuthorizationMiddleware;
+use CayBua\Api;
 
 use Phalcon\Config;
 use Phalcon\DiInterface;
-use PhalconRest\Api;
 use PhalconApi\Middleware\CorsMiddleware;
 use PhalconRest\Middleware\FractalMiddleware;
 use PhalconApi\Middleware\NotFoundMiddleware;
