@@ -41,7 +41,7 @@ class ExportController extends CollectionController
         $config = $this->di->get(Services::CONFIG);
         $postmanCollection = new ApiCollection(
             $config->get('application')->application->title,
-            $config->get('application')->hostName
+            $config->get('hostName')
         );
         $postmanCollection->addManyCollections($this->application->getCollections());
         $postmanCollection->addManyRoutes($this->application->getRouter()->getRoutes());
