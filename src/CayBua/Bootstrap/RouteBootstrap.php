@@ -29,7 +29,7 @@ class RouteBootstrap implements BootstrapInterface
                 $config->get('domainName') .
                 '/export/documentation.json'
             );
-            return $view->render('General/Documentation');
+            return $view->render('/general/documentation');
         });
     }
 }
