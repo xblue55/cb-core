@@ -13,7 +13,7 @@ use CayBua\BootstrapInterface;
 use CayBua\Collections\ExportCollection;
 use Phalcon\Config;
 use Phalcon\DiInterface;
-use PhalconRest\Api;
+use CayBua\Api;
 
 class CollectionBootstrap implements BootstrapInterface
 {

@@ -4,7 +4,6 @@ namespace CayBua;
 
 use Phalcon\Config;
 use Phalcon\DiInterface;
-use PhalconRest\Api;
 
 interface BootstrapInterface {
 

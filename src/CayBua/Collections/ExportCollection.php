@@ -3,8 +3,8 @@
 namespace CayBua\Collections;
 
 use CayBua\Controllers\ExportController;
-use PhalconRest\Api\ApiCollection;
-use PhalconRest\Api\ApiEndpoint;
+use CayBua\Api\ApiCollection;
+use CayBua\Api\ApiEndpoint;
 
 class ExportCollection extends ApiCollection
 {

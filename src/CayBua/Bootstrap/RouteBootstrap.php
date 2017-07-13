@@ -10,9 +10,9 @@ namespace CayBua\Bootstrap;
 
 use CayBua\BootstrapInterface;
 use CayBua\Constants\Services;
+use CayBua\Api;
 use Phalcon\Config;
 use Phalcon\DiInterface;
-use PhalconRest\Api;
 
 class RouteBootstrap implements BootstrapInterface
 {
