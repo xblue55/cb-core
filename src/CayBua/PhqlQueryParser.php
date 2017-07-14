@@ -9,6 +9,8 @@ use PhalconApi\Data\Query;
 use PhalconApi\Data\Query\Condition;
 use PhalconApi\Data\Query\Sorter;
 
+use Phalcon\Mvc\Model\Query\Builder;
+
 class PhqlQueryParser extends Plugin
 {
     const OPERATOR_IS_EQUAL = '=';
@@ -42,7 +44,7 @@ class PhqlQueryParser extends Plugin
         return $builder;
     }
 
-    public function applyQuery(\Phalcon\Mvc\Model\Query\Builder $builder, Query $query, ApiResource $resource)
+    public function applyQuery(Builder $builder, Query $query, ApiResource $resource)
     {
         $from = $builder->getFrom();
         $fromString = is_array($from) ? array_keys($from)[0] : $from;
