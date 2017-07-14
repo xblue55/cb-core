@@ -13,9 +13,10 @@ use CayBua\Constants\Services;
 use CayBua\Export\Documentation;
 use CayBua\Transformers\DocumentationTransformer;
 
-use PhalconRest\Export\Postman\ApiCollection;
+use CayBua\Export\Postman\ApiCollection;
+use CayBua\Transformers\Postman\ApiCollectionTransformer;
+
 use PhalconRest\Mvc\Controllers\CollectionController;
-use PhalconRest\Transformers\Postman\ApiCollectionTransformer;
 
 class ExportController extends CollectionController
 {
