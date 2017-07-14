@@ -2,7 +2,7 @@
 
 namespace CayBua\Transformers\Postman;
 
-use PhalconRest\Export\Postman\ApiCollection as PostmanCollection;
+use CayBua\Export\Postman\ApiCollection as PostmanCollection;
 use PhalconRest\Transformers\Transformer;
 
 class ApiCollectionTransformer extends Transformer
