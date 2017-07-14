@@ -11,8 +11,8 @@ namespace CayBua\Middleware;
 use CayBua\Constants\AclRoles;
 use CayBua\Constants\Services;
 use CayBua\Api;
+use CayBua\Mvc\Plugin;
 
-use PhalconRest\Mvc\Plugin;
 use PhalconApi\Constants\ErrorCodes;
 use PhalconApi\Exception;
 

@@ -3,12 +3,14 @@
 namespace CayBua\Middleware;
 
 use CayBua\Api;
+use CayBua\Mvc\Plugin;
+
+use PhalconApi\Exception;
+use PhalconApi\Constants\ErrorCodes;
+
 use Phalcon\Events\Event;
 use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\Micro\MiddlewareInterface;
-use PhalconRest\Mvc\Plugin;
-use PhalconApi\Constants\ErrorCodes;
-use PhalconApi\Exception;
 
 class AuthorizationMiddleware extends Plugin implements MiddlewareInterface
 {

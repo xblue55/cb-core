@@ -7,7 +7,7 @@ use CayBua\Export\Documentation\ApiEndpoint as DocumentationEndpoint;
 use CayBua\Api\ApiCollection;
 use CayBua\Api\ApiResource;
 
-use PhalconRest\Mvc\Plugin;
+use CayBua\Mvc\Plugin;
 use PhalconRest\Transformers\ModelTransformer;
 
 class Documentation extends Plugin

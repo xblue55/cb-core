@@ -9,14 +9,11 @@
 namespace CayBua\Controllers;
 
 use CayBua\Constants\Services;
-
 use CayBua\Export\Documentation;
 use CayBua\Transformers\DocumentationTransformer;
-
 use CayBua\Export\Postman\ApiCollection;
 use CayBua\Transformers\Postman\ApiCollectionTransformer;
-
-use PhalconRest\Mvc\Controllers\CollectionController;
+use CayBua\Mvc\Controllers\CollectionController;
 
 class ExportController extends CollectionController
 {
