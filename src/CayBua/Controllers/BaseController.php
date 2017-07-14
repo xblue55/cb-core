@@ -9,7 +9,7 @@
 
 namespace CayBua\Controllers;
 
-use PhalconRest\Mvc\Controllers\CrudResourceController;
+use CayBua\Mvc\Controllers\CrudResourceController;
 
 abstract class BaseController extends CrudResourceController
 {
