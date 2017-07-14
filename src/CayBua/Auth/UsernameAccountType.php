@@ -4,6 +4,7 @@ namespace CayBua\Auth;
 
 use CayBua\Http\UserHttp;
 use CayBua\User\Service;
+
 use PhalconApi\Auth\AccountType;
 
 class UsernameAccountType implements AccountType

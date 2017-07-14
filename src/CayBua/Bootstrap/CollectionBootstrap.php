@@ -8,7 +8,6 @@
 
 namespace CayBua\Bootstrap;
 
-
 use CayBua\BootstrapInterface;
 use CayBua\Collections\ExportCollection;
 use CayBua\Api;

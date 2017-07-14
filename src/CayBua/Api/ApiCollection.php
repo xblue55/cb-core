@@ -2,14 +2,15 @@
 
 namespace CayBua\Api;
 
-use Phalcon\Acl;
-use Phalcon\Mvc\Micro\CollectionInterface;
 use PhalconApi\Acl\MountableInterface;
 use PhalconApi\Constants\ErrorCodes;
 use PhalconApi\Constants\HttpMethods;
 use PhalconApi\Constants\PostedDataMethods;
 use PhalconApi\Core;
 use PhalconApi\Exception;
+
+use Phalcon\Acl;
+use Phalcon\Mvc\Micro\CollectionInterface;
 use Phalcon\Mvc\Micro\Collection;
 
 class ApiCollection extends Collection implements MountableInterface, CollectionInterface

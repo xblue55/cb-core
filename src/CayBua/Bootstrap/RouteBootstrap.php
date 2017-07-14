@@ -8,9 +8,10 @@
 
 namespace CayBua\Bootstrap;
 
+use CayBua\Api;
 use CayBua\BootstrapInterface;
 use CayBua\Constants\Services;
-use CayBua\Api;
+
 use Phalcon\Config;
 use Phalcon\DiInterface;
 

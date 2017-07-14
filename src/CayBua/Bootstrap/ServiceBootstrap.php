@@ -2,13 +2,15 @@
 
 namespace CayBua\Bootstrap;
 
+use CayBua\Api;
+use CayBua\BootstrapInterface;
 use CayBua\Auth\UsernameAccountType;
 use CayBua\Auth\Manager;
 use CayBua\User\Service;
-use CayBua\BootstrapInterface;
 use CayBua\Constants\Services;
 use CayBua\Fractal\CustomSerializer;
-use CayBua\Api;
+
+use PhalconApi\Auth\TokenParsers\JWTTokenParser;
 
 use Phalcon\Config;
 use Phalcon\DiInterface;
@@ -18,8 +20,6 @@ use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Mvc\Model\Manager as ModelsManager;
 use Phalcon\Logger\Adapter\File as FileAdapter;
 use Phalcon\Db\Adapter\Pdo\Mysql;
-
-use PhalconApi\Auth\TokenParsers\JWTTokenParser;
 
 use League\Fractal\Manager as FractalManager;
 
