@@ -5,8 +5,8 @@ namespace CayBua\Api;
 use Phalcon\Di;
 use Phalcon\Mvc\Micro\CollectionInterface;
 use PhalconApi\Acl\MountableInterface;
-use PhalconRest\Constants\Services;
-use PhalconRest\Mvc\Controllers\CrudResourceController;
+use CayBua\Constants\Services;
+use CayBua\Mvc\Controllers\CrudResourceController;
 use PhalconRest\Transformers\ModelTransformer;
 
 class ApiResource extends ApiCollection implements MountableInterface, CollectionInterface
