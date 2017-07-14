@@ -11,9 +11,9 @@ use PhalconApi\Exception;
 
 /**
  * Class Api
- * @package PhalconRest
+ * @package CayBua extends PhalconRest
  *
- * @property \PhalconRest\QueryParsers\PhqlQueryParser $phqlQueryParser
+ * @property \CayBua\QueryParsers\PhqlQueryParser $phqlQueryParser
  */
 class Api extends \PhalconApi\Api
 {
@@ -89,7 +89,7 @@ class Api extends \PhalconApi\Api
     }
 
     /**
-     * @return \PhalconRest\Api\ApiCollection|null  The matched collection
+     * @return \CayBua\Api\ApiCollection|null  The matched collection
      */
     public function getMatchedCollection()
     {
@@ -124,7 +124,7 @@ class Api extends \PhalconApi\Api
     }
 
     /**
-     * @return \PhalconRest\Api\ApiEndpoint|null  The matched endpoint
+     * @return \CayBua\Api\ApiEndpoint|null  The matched endpoint
      */
     public function getMatchedEndpoint()
     {
