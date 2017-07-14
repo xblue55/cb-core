@@ -5,7 +5,9 @@ namespace CayBua\User;
 use CayBua\Constants\AclRoles;
 use CayBua\Http\UserHttp;
 
-class Service extends \PhalconApi\User\Service
+use PhalconApi\User\Service as PhalconApiService;
+
+class Service extends PhalconApiService
 {
     public static $detailsCache = [];
 
