@@ -2,7 +2,7 @@
 
 namespace CayBua\Transformers\Postman;
 
-use PhalconRest\Export\Postman\Request as PostmanRequest;
+use CayBua\Export\Postman\Request as PostmanRequest;
 use PhalconRest\Transformers\Transformer;
 
 class RequestTransformer extends Transformer
