@@ -2,6 +2,9 @@
 
 namespace CayBua\Export\Postman;
 
+use Phalcon\Mvc\Router\Route;
+use CayBua\Api\ApiCollection as CBApiCollection;
+
 class ApiCollection
 {
     public $id;
@@ -18,13 +21,13 @@ class ApiCollection
 
     public function addManyRoutes(array $routes)
     {
-        /** @var \Phalcon\Mvc\Router\Route $route */
+        /** @var Route $route */
         foreach ($routes as $route) {
             $this->addRoute($route);
         }
     }
 
-    public function addRoute(\Phalcon\Mvc\Router\Route $route)
+    public function addRoute(Route $route)
     {
         if (@unserialize($route->getName())) {
             return;
@@ -50,15 +53,21 @@ class ApiCollection
         $this->requests[] = $request;
     }
 
+    /**
+     * @param array $collections
+     */
     public function addManyCollections(array $collections)
     {
-        /** @var \PhalconRest\Api\ApiCollection $collection */
+        /** @var CBApiCollection $collection */
         foreach ($collections as $collection) {
             $this->addCollection($collection);
         }
     }
 
-    public function addCollection(\PhalconRest\Api\ApiCollection $collection)
+    /**
+     * @param CBApiCollection $collection
+     */
+    public function addCollection(CBApiCollection $collection)
     {
         foreach ($collection->getEndpoints() as $endpoint) {
 
