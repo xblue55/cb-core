@@ -6,7 +6,7 @@ use CayBua\Mvc\Controller;
 
 use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
-use PhalconRest\Constants\Services;
+use CayBua\Constants\Services;
 
 class FractalController extends Controller
 {

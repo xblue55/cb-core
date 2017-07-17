@@ -443,6 +443,7 @@ class CrudResourceController extends ResourceController
      */
     protected function getItem($id)
     {
+        /** @var Model $modelClass */
         $modelClass = $this->getResource()->getModel();
         return $modelClass::findFirst($id);
     }

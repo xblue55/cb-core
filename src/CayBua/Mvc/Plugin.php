@@ -3,7 +3,7 @@
 namespace CayBua\Mvc;
 
 /**
- * @property \PhalconRest\Api $application
+ * @property \CayBua\Api $application
  */
 
 class Plugin extends \PhalconApi\Mvc\Plugin

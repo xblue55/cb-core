@@ -3,7 +3,7 @@
 namespace CayBua\Mvc\Controllers;
 
 use CayBua\Api\ApiResource as ApiResource;
-use PhalconRest\Transformers\ModelTransformer;
+use CayBua\Transformers\ModelTransformer;
 
 class ResourceController extends CollectionController
 {
