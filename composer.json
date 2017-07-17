@@ -9,7 +9,9 @@
   "require": {
     "redound/phalcon-rest": "^2.0.0",
     "guzzlehttp/guzzle": "^6.3",
-    "michelf/php-markdown": "^1.7"
+    "michelf/php-markdown": "^1.7",
+    "league/fractal": "^0.13.0",
+    "firebase/php-jwt": "^3.0"
   },
   "license": "GPL",
   "authors": [
