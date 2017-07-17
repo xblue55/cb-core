@@ -1,6 +1,6 @@
 {
   "name": "caybua/core",
-  "description": "CayBua core classes used for CayBua Phalcon REST Boilerplate framework",
+  "description": "CayBua core based on Phalcon REST Boilerplate",
   "autoload": {
     "psr-0": {
       "CayBua": "src/"
@@ -8,8 +8,6 @@
   },
   "require": {
     "redound/phalcon-rest": "^2.0.0",
-    "league/fractal": "^0.13.0",
-    "firebase/php-jwt": "^3.0",
     "guzzlehttp/guzzle": "^6.3",
     "michelf/php-markdown": "^1.7"
   },
