@@ -10,10 +10,10 @@ namespace CayBua\Bootstrap;
 
 use CayBua\Api;
 use CayBua\BootstrapInterface;
-use CayBua\Constants\Services;
 
 use Phalcon\Config;
 use Phalcon\DiInterface;
+use Phalcon\Mvc\View;
 
 class RouteBootstrap implements BootstrapInterface
 {
@@ -22,7 +22,8 @@ class RouteBootstrap implements BootstrapInterface
         $api->get('/' . $config->get('domainName') . '/documentation.html',
             function () use ($api, $config) {
                 /** @var \Phalcon\Mvc\View\Simple $view */
-                $view = $api->di->get(Services::VIEW);
+                $view = new View;
+                $view->setViewsDir(__DIR__ . '/../Views/');
                 $view->setVar('title', $config->get('application')->title);
                 $view->setVar('description', $config->get('application')->description);
                 $view->setVar(
@@ -31,7 +32,7 @@ class RouteBootstrap implements BootstrapInterface
                     '/' . $config->get('domainName') .
                     '/export/documentation.json'
                 );
-                return $view->render('/general/documentation');
+                return $view->render('general','documentation');
             });
     }
 }

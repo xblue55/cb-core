@@ -35,10 +35,10 @@
             <table class="table table-bordered">
                 <tr ng-show="collection.description">
                     <th>Description</th>
-                    <td>{{ collection.description }}</td>
+                    <th class="description" ng-bind-html="endpoint.description"></th>
                 </tr>
                 <tr>
-                    <th>Base path</th>
+                    <th class="basePath">Base path</th>
                     <td>{{ collection.prefix }}</td>
                 </tr>
                 <tr ng-show="collection.fields">
@@ -66,7 +66,7 @@
                     <table class="table table-bordered">
                         <tr ng-show="endpoint.description">
                             <th>Description</th>
-                            <th>{{ endpoint.description }}</th>
+                            <th class="markdown" ng-bind-html="endpoint.description"></th>
                         </tr>
                         <tr>
                             <th>Full URL</th>
@@ -76,15 +76,23 @@
                                 </a>
                             </td>
                         </tr>
-                        <tr ng-show="endpoint.exampleResponse">
-                            <th>Example response</th>
-                            <th><pre style="font-weight: normal;">{{ endpoint.exampleResponse | json }}</pre></th>
-                        </tr>
                         <tr>
                             <th>Allowed roles</th>
                             <td>
                                 <div class="label label-primary" ng-repeat="role in endpoint.allowedRoles" style="margin-right: 5px">{{ role }}</div>
                             </td>
+                        </tr>
+                        <tr ng-show="endpoint.exampleHeaders">
+                            <th>Headers</th>
+                            <th class="markdown" ng-bind-html="endpoint.exampleHeaders"></th>
+                        </tr>
+                        <tr ng-show="endpoint.exampleParameters">
+                            <th>Parameters</th>
+                            <th class="markdown" ng-bind-html="endpoint.exampleParameters"></th>
+                        </tr>
+                        <tr ng-show="endpoint.exampleResponse">
+                            <th>Example response</th>
+                            <th class="markdown" ng-bind-html="endpoint.exampleResponse"></th>
                         </tr>
                     </table>
                 </div>
@@ -162,6 +170,23 @@
         }
     });
 </script>
+<style>
+    th.basePath{
+        width: 150px;
+    }
+    thead tr th{
+        text-align: center;
+    }
+    th.markdown{
+        font-weight: inherit;
+    }
+    th.markdown table tr,
+    th.markdown table th,
+    th.markdown table td{
+        border: 1px solid #ddd;
+        padding: 6px 13px;
+    }
+</style>
 
 </body>
 </html>
