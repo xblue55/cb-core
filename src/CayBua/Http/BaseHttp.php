@@ -82,7 +82,7 @@ abstract class BaseHttp
     public function request()
     {
         $requestUrl = $this->serviceConfig['url'];
-        if($this->actionUrl == '') {
+        if ($this->actionUrl == '') {
             $requestUrl = $this->removeSlashEndOfUrl($this->serviceConfig['url']);
         }
         $client = new GuzzleHttp\Client(
@@ -91,7 +91,11 @@ abstract class BaseHttp
             ]
         );
         try {
-            $response = $client->request($this->method, $this->actionUrl, $this->body);
+            if (empty($this->body)) {
+                $response = $client->request($this->method, $this->actionUrl);
+            } else {
+                $response = $client->request($this->method, $this->actionUrl, $this->body);
+            }
         } catch (RequestException $e) {
             $response = $e->getResponse();
         }
