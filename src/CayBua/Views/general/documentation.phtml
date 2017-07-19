@@ -26,7 +26,7 @@
 
     <h2>Collections</h2>
 
-    <div ng-repeat="collection in vm.documentation.collections">
+    <div ng-repeat="(cKey, collection) in vm.documentation.collections">
 
         <div class="panel panel-primary">
             <div class="panel-heading">
@@ -59,7 +59,7 @@
             </table>
             <div class="panel-footer">
 
-                <div class="panel panel-primary" ng-repeat="endpoint in collection.endpoints">
+                <div class="panel panel-primary" ng-repeat="(eKey, endpoint) in collection.endpoints">
                     <div class="panel-heading">
                         <span ng-bind-html="endpoint.httpMethod | method"></span> {{ collection.prefix + endpoint.path }}
                     </div>
@@ -92,7 +92,22 @@
                         </tr>
                         <tr ng-show="endpoint.exampleResponse">
                             <th>Example response</th>
-                            <th class="markdown" ng-bind-html="endpoint.exampleResponse"></th>
+                            <th class="markdown" ng-bind-html="endpoint.exampleResponse">
+                                <div class="panel-group" id="accordion">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h4 class="panel-title">
+                                                <a href="#response{{cKey}}{{eKey}}" data-toggle="collapse" data-parent="#accordion">
+                                                    Click to expand
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="response{{cKey}}{{eKey}}" class="panel-collapse collapse">
+                                            <div class="panel-body" ></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </th>
                         </tr>
                     </table>
                 </div>
