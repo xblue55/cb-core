@@ -15,6 +15,10 @@ use Phalcon\Di;
 
 class UserPrivateHttp extends BaseHttp
 {
+    public static $dataCache = [];
+
+    CONST GET_USER_INFORMATION_WITH_USER_ID = 'GET_USER_INFORMATION_WITH_USER_ID';
+
     /**
      * UserHttp constructor.
      */
@@ -31,9 +35,13 @@ class UserPrivateHttp extends BaseHttp
      */
     public function getUserInformationWithUserID($userID)
     {
-        return
-            $this
+        if(isset(self::$dataCache[self::GET_USER_INFORMATION_WITH_USER_ID][$userID])){
+            return self::$dataCache[self::GET_USER_INFORMATION_WITH_USER_ID][$userID];
+        }else{
+            self::$dataCache[self::GET_USER_INFORMATION_WITH_USER_ID][$userID] = $this
                 ->get($userID)
                 ->request();
+            return self::$dataCache[self::GET_USER_INFORMATION_WITH_USER_ID][$userID];
+        }
     }
 }
