@@ -91,8 +91,11 @@ abstract class BaseHttp
                 'base_uri' => $requestUrl
             ]
         );
-        $key = json_encode($this->method).json_encode($this->actionUrl).json_encode($this->body);
-        if(isset(self::$dataCache[$key]) && !empty(self::$dataCache[$key])){
+        $key = json_encode($this->method)
+            . json_encode($requestUrl)
+            . json_encode($this->actionUrl)
+            . json_encode($this->body);
+        if (isset(self::$dataCache[$key]) && !empty(self::$dataCache[$key])) {
             $this->responseData = self::$dataCache[$key];
             return $this;
         }
