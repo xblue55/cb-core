@@ -2,7 +2,7 @@
 
 namespace CayBua\Auth;
 
-use CayBua\Http\UserHttp;
+use CayBua\Http\PublicHttp\UserPublicHttp;
 use CayBua\User\Service;
 
 use PhalconApi\Auth\AccountType;
@@ -28,7 +28,7 @@ class UsernameAccountType implements AccountType
      */
     public function authenticate($token)
     {
-        $useHttp = new UserHttp();
+        $useHttp = new UserPublicHttp();
         $userData = $useHttp->getUserInformationWithToken($token)->getParsingResponse();
         if(
             ($userData['statusCode'] == 200)
