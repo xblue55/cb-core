@@ -79,8 +79,8 @@ abstract class BaseHttp
 
 
     /**
-     * @param $parsingResponse
-     * @return $this
+     * @param bool $parsingResponse
+     * @return mixed|null|ResponseInterface
      */
     public function request($parsingResponse = false)
     {
