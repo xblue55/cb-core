@@ -29,7 +29,7 @@ class UsernameAccountType implements AccountType
     public function authenticate($token)
     {
         $useHttp = new UserPublicHttp();
-        $userData = $useHttp->getUserInformationWithToken($token)->getParsingResponse();
+        $userData = $useHttp->getUserInformationWithToken($token)->request(true);
         if(
             ($userData['statusCode'] == 200)
             && isset($userData['data']['item'])

@@ -14,13 +14,14 @@ use Psr\Http\Message\ResponseInterface;
 
 abstract class BaseHttp
 {
-    public static $dataCache = [];
     public $serviceConfig;
     public $serviceUrl;
     public $method;
     public $actionUrl;
     public $body;
     public $responseData;
+
+    public static $dataCache = [];
 
     /**
      * @param string $actionUrl
@@ -78,9 +79,10 @@ abstract class BaseHttp
 
 
     /**
+     * @param $parsingResponse
      * @return $this
      */
-    public function request()
+    public function request($parsingResponse = false)
     {
         $requestUrl = $this->serviceConfig['url'];
         if ($this->actionUrl == '') {
@@ -91,13 +93,11 @@ abstract class BaseHttp
                 'base_uri' => $requestUrl
             ]
         );
-        $key = json_encode($this->method)
-            . json_encode($requestUrl)
-            . json_encode($this->actionUrl)
-            . json_encode($this->body);
-        if (isset(self::$dataCache[$key]) && !empty(self::$dataCache[$key])) {
-            $this->responseData = self::$dataCache[$key];
-            return $this;
+        $key = md5($this->method . $requestUrl . $this->actionUrl . json_encode($this->body));
+        if ($parsingResponse) {
+            if ($this->hasCache($key)) {
+                return $this->readCache($key);
+            }
         }
         try {
             if (empty($this->body)) {
@@ -108,9 +108,12 @@ abstract class BaseHttp
         } catch (RequestException $e) {
             $response = $e->getResponse();
         }
-        self::$dataCache[$key] = $response;
-        $this->responseData = $response;
-        return $this;
+        $this->writeCache($key, self::parsingResponse($response));
+        if ($parsingResponse) {
+            return self::$dataCache[$key];
+        } else {
+            return $response;
+        }
     }
 
     /**
@@ -144,18 +147,32 @@ abstract class BaseHttp
     }
 
     /**
-     * @return ResponseInterface
+     * @param $key
+     * @param $data
      */
-    public function getResponse()
+    private function writeCache($key, $data)
     {
-        return $this->responseData;
+        self::$dataCache[$key] = $data;
     }
 
     /**
-     * @return array
+     * @param $key
+     * @return mixed
      */
-    public function getParsingResponse()
+    private function readCache($key)
     {
-        return self::parsingResponse($this->responseData);
+        return self::$dataCache[$key];
+    }
+
+    /**
+     * @param $key
+     * @return bool
+     */
+    private function hasCache($key)
+    {
+        if (isset(self::$dataCache[$key]) && !empty(self::$dataCache[$key])) {
+            return true;
+        }
+        return false;
     }
 }

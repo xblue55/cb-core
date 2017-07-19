@@ -24,7 +24,7 @@ class Service extends PhalconApiService
         $details = [];
         $userHttp = new UserPublicHttp();
         $token = $this->authManager->getSession()->getToken();
-        $myUser = $userHttp->getUserInformationWithToken($token)->getParsingResponse();
+        $myUser = $userHttp->getUserInformationWithToken($token)->request(true);
         if (isset($myUser['data']['item']) && $myUser['data']['item']['id'] > 0) {
             $details = $myUser['data']['item'];
         }
