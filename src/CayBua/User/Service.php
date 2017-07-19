@@ -22,9 +22,9 @@ class Service extends PhalconApiService
     protected function getDetailsForIdentity($identity)
     {
         $details = [];
-        $userHttp = new UserPublicHttp();
         $token = $this->authManager->getSession()->getToken();
-        $myUser = $userHttp->getUserInformationWithToken($token)->request(true);
+        $userHttp = new UserPublicHttp();
+        $myUser = $userHttp->getUserInformationWithToken($token);
         if (isset($myUser['data']['item']) && $myUser['data']['item']['id'] > 0) {
             $details = $myUser['data']['item'];
         }
