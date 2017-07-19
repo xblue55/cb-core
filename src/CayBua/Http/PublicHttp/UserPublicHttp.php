@@ -40,7 +40,7 @@ class UserPublicHttp extends BaseHttp
             $this
                 ->get($this->serviceConfig['action']['me'])
                 ->setBody($body)
-                ->request();
+                ->request(true);
     }
 
 }

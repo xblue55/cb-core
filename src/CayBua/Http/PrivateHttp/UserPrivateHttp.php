@@ -33,6 +33,6 @@ class UserPrivateHttp extends BaseHttp
     {
         return $this
             ->get($userID)
-            ->request();
+            ->request(true);
     }
 }
