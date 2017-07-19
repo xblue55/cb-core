@@ -6,13 +6,14 @@
  * Time: 11:08
  */
 
-namespace CayBua\Http;
+namespace CayBua\Http\PublicHttp;
 
 use CayBua\Constants\Services;
+use CayBua\Http\BaseHttp;
 use Phalcon\Config;
 use Phalcon\Di;
 
-class UserHttp extends BaseHttp
+class UserPublicHttp extends BaseHttp
 {
     /**
      * UserHttp constructor.
@@ -21,7 +22,7 @@ class UserHttp extends BaseHttp
     {
         /** @var Config $config */
         $config = Di::getDefault()->get(Services::CONFIG);
-        $this->serviceConfig = $config->get('services')['user'];
+        $this->serviceConfig = $config->get('services_public')['user'];
     }
 
     /**
@@ -41,4 +42,5 @@ class UserHttp extends BaseHttp
                 ->setBody($body)
                 ->request();
     }
+
 }
