@@ -92,7 +92,7 @@
                         </tr>
                         <tr ng-show="endpoint.exampleResponse">
                             <th>Example response</th>
-                            <th class="markdown" ng-bind-html="endpoint.exampleResponse">
+                            <th class="markdown">
                                 <div class="panel-group" id="accordion">
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
@@ -103,7 +103,7 @@
                                             </h4>
                                         </div>
                                         <div id="response{{cKey}}{{eKey}}" class="panel-collapse collapse">
-                                            <div class="panel-body" ></div>
+                                            <div class="panel-body" ng-bind-html="endpoint.exampleResponse"></div>
                                         </div>
                                     </div>
                                 </div>
