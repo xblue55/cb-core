@@ -14,6 +14,7 @@ use Psr\Http\Message\ResponseInterface;
 
 abstract class BaseHttp
 {
+    public static $dataCache = [];
     public $serviceConfig;
     public $serviceUrl;
     public $method;
@@ -90,6 +91,11 @@ abstract class BaseHttp
                 'base_uri' => $requestUrl
             ]
         );
+        $key = json_encode($this->method).json_encode($this->actionUrl).json_encode($this->body);
+        if(isset(self::$dataCache[$key]) && !empty(self::$dataCache[$key])){
+            $this->responseData = self::$dataCache[$key];
+            return $this;
+        }
         try {
             if (empty($this->body)) {
                 $response = $client->request($this->method, $this->actionUrl);
@@ -99,6 +105,7 @@ abstract class BaseHttp
         } catch (RequestException $e) {
             $response = $e->getResponse();
         }
+        self::$dataCache[$key] = $response;
         $this->responseData = $response;
         return $this;
     }

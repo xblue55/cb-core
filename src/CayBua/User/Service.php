@@ -9,8 +9,6 @@ use PhalconApi\User\Service as PhalconApiService;
 
 class Service extends PhalconApiService
 {
-    public static $detailsCache = [];
-
     public function getRole()
     {
         $userModel = $this->getDetails();
@@ -23,9 +21,6 @@ class Service extends PhalconApiService
 
     protected function getDetailsForIdentity($identity)
     {
-        if (array_key_exists($identity, self::$detailsCache)) {
-            return self::$detailsCache[$identity];
-        }
         $details = [];
         $userHttp = new UserPublicHttp();
         $token = $this->authManager->getSession()->getToken();
@@ -33,7 +28,6 @@ class Service extends PhalconApiService
         if (isset($myUser['data']['item']) && $myUser['data']['item']['id'] > 0) {
             $details = $myUser['data']['item'];
         }
-        self::$detailsCache[$identity] = $details;
         return $details;
     }
 
