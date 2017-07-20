@@ -13,6 +13,8 @@ use CayBua\Constants\Services;
 use CayBua\Api;
 use CayBua\Mvc\Plugin;
 
+use CayBua\User\Service;
+use Phalcon\Config;
 use PhalconApi\Constants\ErrorCodes;
 use PhalconApi\Exception;
 
@@ -25,11 +27,15 @@ class RbacMiddleware extends Plugin implements MiddlewareInterface
 
     public function beforeExecuteRoute(Event $event, Api $api)
     {
-        $URI  = $api->request->getURI();
+        $URI = $api->request->getURI();
         $allowed = true;
 
         // Is API request
-        if($this->isApiRequest($URI) && ($this->userService->getRole() != AclRoles::UNAUTHORIZED)){
+        if ($this->isApiRequest($URI) && ($this->userService->getRole() != AclRoles::UNAUTHORIZED)) {
+
+            /** @var Config $config */
+            $config = $this->di->get(Services::CONFIG);
+
             $activeHandler = $api->getActiveHandler();
 
             /** @var Micro\LazyLoader $activeControllerPath */
@@ -40,8 +46,14 @@ class RbacMiddleware extends Plugin implements MiddlewareInterface
             $activeController = $this->getControllerName($activeControllerClassName);
             $activeAction = $activeHandler[1];
 
+            /** @var Service $userService */
             $userService = $this->di->get(Services::USER_SERVICE);
-            $allowed = $userService->allowRbacPermission($activeController, $activeAction);
+
+            $allowed = $userService->allowRbacPermission(
+                $config->get('domainName'),
+                $activeController,
+                $activeAction
+            );
         }
 
         if (!$allowed) {
@@ -54,7 +66,8 @@ class RbacMiddleware extends Plugin implements MiddlewareInterface
      * @param $URI
      * @return bool
      */
-    private function isApiRequest($URI){
+    private function isApiRequest($URI)
+    {
         return count(explode('.html', $URI)) == 1;
     }
 

@@ -40,13 +40,14 @@ class Service extends PhalconApiService
     }
 
     /**
+     * @param string $domainName
      * @param string $controllerName
      * @param string $actionName
      * @return bool
      */
-    public function allowRbacPermission($controllerName, $actionName)
+    public function allowRbacPermission($domainName, $controllerName, $actionName)
     {
-        $resource = $controllerName . '.' . $actionName;
+        $resource = $domainName . '.' . $controllerName . '.' . $actionName;
         $tickets = $this->getTickets();
         return in_array($resource, $tickets);
     }
