@@ -17,8 +17,7 @@
     <![endif]-->
 </head>
 
-<body ng-app="app" ng-controller="AppController as vm" >
-
+<body ng-app="app" ng-controller="AppController as vm">
 <div class="container">
 
     <h1><?php echo $title ?></h1>
@@ -27,97 +26,120 @@
     <h2>Collections</h2>
 
     <div ng-repeat="(cKey, collection) in vm.documentation.collections">
-
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <a href="#collection{{cKey}}" data-toggle="collapse" data-parent="#accordion">
-                    {{ collection.name || collection.prefix }}
-                </a>
-            </div>
-            <table class="table table-bordered">
-                <tr ng-show="collection.description">
-                    <th>Description</th>
-                    <th class="description" ng-bind-html="endpoint.description"></th>
-                </tr>
-                <tr>
-                    <th class="basePath">Base path</th>
-                    <td>{{ collection.prefix }}</td>
-                </tr>
-                <tr ng-show="collection.fields">
-                    <th>Fields</th>
-                    <td>
-                        <table class="table table-bordered">
-                            <tr ng-repeat="(field, dataType) in collection.fields">
-                                <th>
-                                    {{ field }}
-                                </th>
+        <div class="panel-group">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#collection{{cKey}}">
+                            {{ collection.name || collection.prefix }}
+                        </a>
+                    </h4>
+                </div>
+                <div id="collection{{cKey}}" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <table class="table table-bordered table-responsive">
+                            <tr ng-show="collection.description">
+                                <th>Description</th>
+                                <th class="description" ng-bind-html="endpoint.description"></th>
+                            </tr>
+                            <tr>
+                                <th class="basePath">Base path</th>
+                                <td>{{ collection.prefix }}</td>
+                            </tr>
+                            <tr ng-show="collection.fields">
+                                <th>Fields</th>
                                 <td>
-                                    <div class="label label-primary">{{ dataType | dataType }}</div>
+                                    <table class="table table-bordered">
+                                        <tr ng-repeat="(field, dataType) in collection.fields">
+                                            <th>
+                                                {{ field }}
+                                            </th>
+                                            <td>
+                                                <div class="label label-primary">{{ dataType | dataType }}</div>
+                                            </td>
+                                        </tr>
+                                    </table>
                                 </td>
                             </tr>
                         </table>
-                    </td>
-                </tr>
-            </table>
-            <div id="collection{{cKey}}" class="panel-footer panel-collapse collapse">
-
-                <div class="panel panel-primary" ng-repeat="(eKey, endpoint) in collection.endpoints">
-                    <div class="panel-heading">
-                        <a href="#endpoint{{cKey}}{{eKey}}" data-toggle="collapse" data-parent="#accordion">
-                            <span ng-bind-html="endpoint.httpMethod | method"></span> {{ collection.prefix + endpoint.path }}
-                        </a>
-                    </div>
-                    <table id="endpoint{{cKey}}{{eKey}}" class="table table-bordered panel-collapse collapse">
-                        <tr ng-show="endpoint.description">
-                            <th>Description</th>
-                            <th class="markdown" ng-bind-html="endpoint.description"></th>
-                        </tr>
-                        <tr>
-                            <th>Full URL</th>
-                            <td>
-                                <a ng-href="{{ vm.documentation.basePath + collection.prefix + endpoint.path }}" target="_blank">
-                                    {{ vm.documentation.basePath + collection.prefix + endpoint.path }}
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Allowed roles</th>
-                            <td>
-                                <div class="label label-primary" ng-repeat="role in endpoint.allowedRoles" style="margin-right: 5px">{{ role }}</div>
-                            </td>
-                        </tr>
-                        <tr ng-show="endpoint.exampleHeaders">
-                            <th>Headers</th>
-                            <th class="markdown" ng-bind-html="endpoint.exampleHeaders"></th>
-                        </tr>
-                        <tr ng-show="endpoint.exampleParameters">
-                            <th>Parameters</th>
-                            <th class="markdown" ng-bind-html="endpoint.exampleParameters"></th>
-                        </tr>
-                        <tr ng-show="endpoint.exampleResponse">
-                            <th>Example response</th>
-                            <th class="markdown">
-                                <div class="panel-group" id="accordion">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading">
-                                            <h4 class="panel-title">
-                                                <a href="#response{{cKey}}{{eKey}}" data-toggle="collapse" data-parent="#accordion">
-                                                    Click to expand
-                                                </a>
-                                            </h4>
+                        <div class="group-endpoint" ng-repeat="(eKey, endpoint) in collection.endpoints">
+                            <div class="panel-group">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <div class="panel-title apilink">
+                                            <a data-toggle="collapse" href="#endpoint{{cKey}}{{eKey}}">
+                                                <span ng-bind-html="endpoint.httpMethod | method"></span> {{
+                                                collection.prefix + endpoint.path }}
+                                            </a>
                                         </div>
-                                        <div id="response{{cKey}}{{eKey}}" class="panel-collapse collapse">
-                                            <div class="panel-body" ng-bind-html="endpoint.exampleResponse"></div>
+                                    </div>
+                                    <div id="endpoint{{cKey}}{{eKey}}" class="panel-collapse collapse endpoint">
+                                        <div class="panel-body">
+                                            <table class="table table-bordered table-responsive">
+                                                <tr ng-show="endpoint.description">
+                                                    <th>Description</th>
+                                                    <th class="markdown" ng-bind-html="endpoint.description"></th>
+                                                </tr>
+                                                <tr>
+                                                    <th>Full URL</th>
+                                                    <td>
+                                                        <a ng-href="{{ vm.documentation.basePath + collection.prefix + endpoint.path }}"
+                                                           target="_blank">
+                                                            {{ vm.documentation.basePath + collection.prefix +
+                                                            endpoint.path }}
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Allowed roles</th>
+                                                    <td>
+                                                        <div class="label label-primary"
+                                                             ng-repeat="role in endpoint.allowedRoles"
+                                                             style="margin-right: 5px">{{ role }}
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr ng-show="endpoint.exampleHeaders">
+                                                    <th>Headers</th>
+                                                    <th class="markdown" ng-bind-html="endpoint.exampleHeaders"></th>
+                                                </tr>
+                                                <tr ng-show="endpoint.exampleParameters">
+                                                    <th>Parameters</th>
+                                                    <th class="markdown" ng-bind-html="endpoint.exampleParameters"></th>
+                                                </tr>
+                                                <tr ng-show="endpoint.exampleResponse">
+                                                    <th>Example response</th>
+                                                    <th class="markdown">
+                                                        <div class="panel-group" id="accordion">
+                                                            <div class="panel">
+                                                                <div class="panel-heading">
+                                                                    <div class="panel-title">
+                                                                        <a href="#response{{cKey}}{{eKey}}"
+                                                                           data-toggle="collapse"
+                                                                           data-parent="#accordion">
+                                                                            Click to expand
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                                <div id="response{{cKey}}{{eKey}}"
+                                                                     class="panel-collapse collapse">
+                                                                    <div class="panel-body" ng-bind-html="endpoint.exampleResponse"
+                                                                    ></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </th>
+                                                </tr>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
-                            </th>
-                        </tr>
-                    </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-
     </div>
 
     <h2>Other routes</h2>
@@ -146,13 +168,13 @@
     app.controller('AppController', AppController);
     function AppController($http) {
         var vm = this;
-        $http.get(documentationPath).then(function(response) {
+        $http.get(documentationPath).then(function (response) {
             vm.documentation = response.data.documentation;
         });
     }
-    app.filter('method', function() {
-        return function(input) {
-            switch(input) {
+    app.filter('method', function () {
+        return function (input) {
+            switch (input) {
                 case 'GET':
                     return '<div class="label label-success">' + input + '</div>';
                 case 'POST':
@@ -166,9 +188,9 @@
             }
         }
     });
-    app.filter('dataType', function() {
-        return function(input) {
-            switch(input) {
+    app.filter('dataType', function () {
+        return function (input) {
+            switch (input) {
                 case 1:
                     return 'Integer';
                 case 2:
@@ -190,26 +212,39 @@
     });
 </script>
 <style>
-    th.basePath{
+    th.basePath {
         width: 150px;
     }
-    thead tr th{
+
+    thead tr th {
         text-align: center;
     }
-    th.markdown{
+
+    th.markdown {
         font-weight: inherit;
     }
+
     th.markdown table tr,
     th.markdown table th,
-    th.markdown table td{
+    th.markdown table td {
         border: 1px solid #ddd;
         padding: 6px 13px;
     }
-    a{
-        text-decoration: none!important;
+
+    a {
+        text-decoration: none !important;
     }
-    .panel-primary>.panel-heading a{
+
+    .panel-primary > .panel-heading a {
         color: #fff;
+    }
+
+    .panel-title.apilink{
+        font-size: 15px;
+    }
+
+    .endpoint th:first-child{
+        width: 150px;
     }
 </style>
 </body>
