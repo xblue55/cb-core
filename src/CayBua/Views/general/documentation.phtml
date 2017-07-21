@@ -17,7 +17,7 @@
     <![endif]-->
 </head>
 
-<body ng-app="app" ng-controller="AppController as vm">
+<body ng-app="app" ng-controller="AppController as vm" >
 
 <div class="container">
 
@@ -30,7 +30,9 @@
 
         <div class="panel panel-primary">
             <div class="panel-heading">
-                {{ collection.name || collection.prefix }}
+                <a href="#collection{{cKey}}" data-toggle="collapse" data-parent="#accordion">
+                    {{ collection.name || collection.prefix }}
+                </a>
             </div>
             <table class="table table-bordered">
                 <tr ng-show="collection.description">
@@ -57,13 +59,15 @@
                     </td>
                 </tr>
             </table>
-            <div class="panel-footer">
+            <div id="collection{{cKey}}" class="panel-footer panel-collapse collapse">
 
                 <div class="panel panel-primary" ng-repeat="(eKey, endpoint) in collection.endpoints">
                     <div class="panel-heading">
-                        <span ng-bind-html="endpoint.httpMethod | method"></span> {{ collection.prefix + endpoint.path }}
+                        <a href="#endpoint{{cKey}}{{eKey}}" data-toggle="collapse" data-parent="#accordion">
+                            <span ng-bind-html="endpoint.httpMethod | method"></span> {{ collection.prefix + endpoint.path }}
+                        </a>
                     </div>
-                    <table class="table table-bordered">
+                    <table id="endpoint{{cKey}}{{eKey}}" class="table table-bordered panel-collapse collapse">
                         <tr ng-show="endpoint.description">
                             <th>Description</th>
                             <th class="markdown" ng-bind-html="endpoint.description"></th>
@@ -203,6 +207,9 @@
     }
     a{
         text-decoration: none!important;
+    }
+    .panel-primary>.panel-heading a{
+        color: #fff;
     }
 </style>
 </body>
