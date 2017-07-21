@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title><?= $title ?></title>
+    <title><?php echo $title ?></title>
 
     <!-- Bootstrap core CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
@@ -20,8 +20,8 @@
 <body ng-app="app" ng-controller="AppController as vm">
 <div class="container">
 
-    <h1><?= $title ?></h1>
-    <p class="lead"><?= $description ?></p>
+    <h1><?php echo $title ?></h1>
+    <p class="lead"><?php echo $description ?></p>
 
     <h2>Collections</h2>
 
@@ -40,7 +40,7 @@
                         <table class="table table-bordered table-responsive">
                             <tr ng-show="collection.description">
                                 <th>Description</th>
-                                <th class="description" ng-bind-html="endpoint.description"></th>
+                                <th class="description" ng-bind-html="collection.description"></th>
                             </tr>
                             <tr>
                                 <th class="basePath">Base path</th>
@@ -110,23 +110,19 @@
                                                 <tr ng-show="endpoint.exampleResponse">
                                                     <th>Example response</th>
                                                     <th class="markdown">
-                                                        <div class="panel-group" id="accordion">
-                                                            <div class="panel">
-                                                                <div class="panel-heading">
-                                                                    <div class="panel-title">
-                                                                        <a href="#response{{cKey}}{{eKey}}"
-                                                                           data-toggle="collapse"
-                                                                           data-parent="#accordion">
-                                                                            Click to expand
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                                <div id="response{{cKey}}{{eKey}}"
-                                                                     class="panel-collapse collapse">
-                                                                    <div class="panel-body" ng-bind-html="endpoint.exampleResponse"
-                                                                    ></div>
-                                                                </div>
-                                                            </div>
+                                                        <div class="panel-title">
+                                                            <a href="#response{{cKey}}{{eKey}}"
+                                                               data-toggle="collapse"
+                                                               data-parent="#accordion"
+                                                               class="btn btn-info">
+                                                                Click to expand
+                                                            </a>
+                                                        </div>
+                                                        <div id="response{{cKey}}{{eKey}}"
+                                                             class="panel-collapse collapse">
+                                                            <div class="panel-body"
+                                                                 ng-bind-html="endpoint.exampleResponse"
+                                                            ></div>
                                                         </div>
                                                     </th>
                                                 </tr>
@@ -161,7 +157,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 <script src="https://code.angularjs.org/1.4.8/angular-sanitize.min.js"></script>
 <script>
-    var documentationPath = '<?= $documentationPath ?>';
+    var documentationPath = '<?php echo $documentationPath ?>';
     var app = angular.module('app', [
         'ngSanitize'
     ]);
@@ -235,16 +231,32 @@
         text-decoration: none !important;
     }
 
+    a.btn {
+        color: #fff;
+        font-size: 13px;
+    }
+    a.btn:focus,
+    a.btn:active,
+    a.btn:hover{
+        background: #5bc0de!important;
+        border: 1px solid #46b8da!important;
+        box-shadow: none;
+        outline: none!important;
+    }
     .panel-primary > .panel-heading a {
         color: #fff;
     }
 
-    .panel-title.apilink{
+    .panel-title.apilink {
         font-size: 15px;
     }
 
-    .endpoint th:first-child{
+    .endpoint th:first-child {
         width: 150px;
+    }
+
+    .description {
+        font-weight: inherit;
     }
 </style>
 </body>
