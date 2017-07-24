@@ -3,42 +3,53 @@
 namespace CayBua\User;
 
 use CayBua\Constants\AclRoles;
-use App\Model\User;
-use CayBua\Mvc\BaseModel as BaseModel;
-use CayBua\Constants\Services;
-use Phalcon\Di;
 
-class Service extends \PhalconApi\User\Service
+use CayBua\Http\PublicHttp\UserPublicHttp;
+use PhalconApi\User\Service as PhalconApiService;
+
+class Service extends PhalconApiService
 {
-    protected $detailsCache = [];
-
     public function getRole()
     {
-        /** @var User $userModel */
-
         $userModel = $this->getDetails();
-
         $role = AclRoles::UNAUTHORIZED;
         if(!empty($userModel) && in_array(ucfirst(strtolower($userModel['role'])), AclRoles::ALL_ROLES)){
             $role = ucfirst(strtolower($userModel['role']));
         }
-
         return $role;
     }
 
     protected function getDetailsForIdentity($identity)
     {
-        if (array_key_exists($identity, $this->detailsCache)) {
-            return $this->detailsCache[$identity];
-        }
         $details = [];
-        $config = Di::getDefault()->get(Services::CONFIG);
-        $myUser = BaseModel::doRequest('GET', '/users/'.$identity, ['AccessTrustedKey'=>$config->get('authentication')->accesstrustedkey]);
+        $token = $this->authManager->getSession()->getToken();
+        $userHttp = new UserPublicHttp();
+        $myUser = $userHttp->getUserInformationWithToken($token);
         if (isset($myUser['data']['item']) && $myUser['data']['item']['id'] > 0) {
             $details = $myUser['data']['item'];
         }
-        $this->detailsCache[$identity] = $details;
-
         return $details;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getTickets(){
+        $user = $this->getDetails();
+        return $user['tickets'];
+    }
+
+    /**
+     * @param string $domainName
+     * @param string $controllerName
+     * @param string $actionName
+     * @return bool
+     */
+    public function allowRbacPermission($domainName, $controllerName, $actionName)
+    {
+        $resource = $domainName . '.' . $controllerName . '.' . $actionName;
+        $tickets = $this->getTickets();
+        return in_array($resource, $tickets);
+    }
+
 }

@@ -2,9 +2,9 @@
 
 namespace CayBua\Collections;
 
-use App\Controllers\ExportController;
-use PhalconRest\Api\ApiCollection;
-use PhalconRest\Api\ApiEndpoint;
+use CayBua\Controllers\ExportController;
+use CayBua\Api\ApiCollection;
+use CayBua\Api\ApiEndpoint;
 
 class ExportCollection extends ApiCollection
 {
@@ -13,7 +13,6 @@ class ExportCollection extends ApiCollection
         $this
             ->name('Export')
             ->handler(ExportController::class)
-
             ->endpoint(ApiEndpoint::get('/documentation.json', 'documentation'))
             ->endpoint(ApiEndpoint::get('/postman.json', 'postman'));
     }

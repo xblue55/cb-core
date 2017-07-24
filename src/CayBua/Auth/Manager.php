@@ -3,7 +3,8 @@
 namespace CayBua\Auth;
 
 use PhalconApi\Auth\Session;
-use PhalconRest\Exception;
+use PhalconApi\Exception;
+use PhalconApi\Constants\ErrorCodes;
 
 class Manager extends \PhalconApi\Auth\Manager
 {
@@ -15,7 +16,7 @@ class Manager extends \PhalconApi\Auth\Manager
      * @param string $password
      *
      * @return Session Created session
-     * @throws Exception
+     * @throws /Exception
      *
      * Helper to login with email & password
      */
@@ -26,5 +27,50 @@ class Manager extends \PhalconApi\Auth\Manager
             self::LOGIN_DATA_EMAIL => $email,
             self::LOGIN_DATA_PASSWORD => $password
         ]);
+    }
+
+    /**
+     * @param string $token Token to authenticate with
+     *
+     * @return bool
+     * @throws Exception
+     */
+    public function authenticateToken($token)
+    {
+        try {
+
+            $session = $this->tokenParser->getSession($token);
+        }
+        catch (\Exception $e) {
+
+            throw new Exception(ErrorCodes::AUTH_TOKEN_INVALID);
+        }
+
+        if (!$session) {
+            return false;
+        }
+
+        if ($session->getExpirationTime() < time()) {
+
+            throw new Exception(ErrorCodes::AUTH_SESSION_EXPIRED);
+        }
+
+        $session->setToken($token);
+
+        // Authenticate identity
+        $account = $this->getAccountType($session->getAccountTypeName());
+
+        if (!$account) {
+            throw new Exception(ErrorCodes::AUTH_SESSION_INVALID);
+        }
+
+        if (!$account->authenticate($token)) {
+
+            throw new Exception(ErrorCodes::AUTH_TOKEN_INVALID);
+        }
+
+        $this->session = $session;
+
+        return true;
     }
 }

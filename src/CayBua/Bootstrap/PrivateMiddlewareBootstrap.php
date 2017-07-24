@@ -4,9 +4,6 @@ namespace CayBua\Bootstrap;
 
 use CayBua\Api;
 use CayBua\BootstrapInterface;
-use CayBua\Middleware\RbacMiddleware;
-use CayBua\Middleware\AuthenticationMiddleware;
-use CayBua\Middleware\AuthorizationMiddleware;
 
 use PhalconRest\Middleware\FractalMiddleware;
 
@@ -18,7 +15,7 @@ use PhalconApi\Middleware\UrlQueryMiddleware;
 use Phalcon\Config;
 use Phalcon\DiInterface;
 
-class MiddlewareBootstrap implements BootstrapInterface
+class PrivateMiddlewareBootstrap implements BootstrapInterface
 {
     public function run(Api $api, DiInterface $di, Config $config)
     {
@@ -26,9 +23,6 @@ class MiddlewareBootstrap implements BootstrapInterface
             ->attach(new CorsMiddleware($config->get('cors')->allowedOrigins->toArray()))
             ->attach(new OptionsResponseMiddleware)
             ->attach(new NotFoundMiddleware)
-            ->attach(new AuthenticationMiddleware)
-            ->attach(new AuthorizationMiddleware)
-            ->attach(new RbacMiddleware)
             ->attach(new FractalMiddleware)
             ->attach(new UrlQueryMiddleware);
     }

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title><?php echo $title ?></title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body ng-app="app" ng-controller="AppController as vm">
+<div class="container">
+
+    <h1><?php echo $title ?></h1>
+    <p class="lead"><?php echo $description ?></p>
+
+    <h2>Collections</h2>
+
+    <div ng-repeat="(cKey, collection) in vm.documentation.collections">
+        <div class="panel-group">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#collection{{cKey}}">
+                            {{ collection.name || collection.prefix }}
+                        </a>
+                    </h4>
+                </div>
+                <div id="collection{{cKey}}" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <table class="table table-bordered table-responsive">
+                            <tr ng-show="collection.description">
+                                <th>Description</th>
+                                <th class="description" ng-bind-html="collection.description"></th>
+                            </tr>
+                            <tr>
+                                <th class="basePath">Base path</th>
+                                <td>{{ collection.prefix }}</td>
+                            </tr>
+                            <tr ng-show="collection.fields">
+                                <th>Fields</th>
+                                <td>
+                                    <table class="table table-bordered">
+                                        <tr ng-repeat="(field, dataType) in collection.fields">
+                                            <th>
+                                                {{ field }}
+                                            </th>
+                                            <td>
+                                                <div class="label label-primary">{{ dataType | dataType }}</div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="group-endpoint" ng-repeat="(eKey, endpoint) in collection.endpoints">
+                            <div class="panel-group">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <div class="panel-title apilink">
+                                            <a data-toggle="collapse" href="#endpoint{{cKey}}{{eKey}}">
+                                                <span ng-bind-html="endpoint.httpMethod | method"></span> {{
+                                                collection.prefix + endpoint.path }}
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div id="endpoint{{cKey}}{{eKey}}" class="panel-collapse collapse endpoint">
+                                        <div class="panel-body">
+                                            <table class="table table-bordered table-responsive">
+                                                <tr ng-show="endpoint.description">
+                                                    <th>Description</th>
+                                                    <th class="markdown" ng-bind-html="endpoint.description"></th>
+                                                </tr>
+                                                <tr>
+                                                    <th>Full URL</th>
+                                                    <td>
+                                                        <a ng-href="{{ vm.documentation.basePath + collection.prefix + endpoint.path }}"
+                                                           target="_blank">
+                                                            {{ vm.documentation.basePath + collection.prefix +
+                                                            endpoint.path }}
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Allowed roles</th>
+                                                    <td>
+                                                        <div class="label label-primary"
+                                                             ng-repeat="role in endpoint.allowedRoles"
+                                                             style="margin-right: 5px">{{ role }}
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr ng-show="endpoint.exampleHeaders">
+                                                    <th>Headers</th>
+                                                    <th class="markdown" ng-bind-html="endpoint.exampleHeaders"></th>
+                                                </tr>
+                                                <tr ng-show="endpoint.exampleParameters">
+                                                    <th>Parameters</th>
+                                                    <th class="markdown" ng-bind-html="endpoint.exampleParameters"></th>
+                                                </tr>
+                                                <tr ng-show="endpoint.exampleResponse">
+                                                    <th>Example response</th>
+                                                    <th class="markdown">
+                                                        <div class="panel-title">
+                                                            <a href="#response{{cKey}}{{eKey}}"
+                                                               data-toggle="collapse"
+                                                               data-parent="#accordion"
+                                                               class="btn btn-info">
+                                                                Click to expand
+                                                            </a>
+                                                        </div>
+                                                        <div id="response{{cKey}}{{eKey}}"
+                                                             class="panel-collapse collapse">
+                                                            <div class="panel-body"
+                                                                 ng-bind-html="endpoint.exampleResponse"
+                                                            ></div>
+                                                        </div>
+                                                    </th>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2>Other routes</h2>
+
+    <div class="panel panel-default" ng-repeat="route in vm.documentation.routes">
+        <div class="panel-heading">
+            {{ route.pattern }}
+        </div>
+    </div>
+
+</div><!-- /.container -->
+
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script src="https://code.angularjs.org/1.4.8/angular-sanitize.min.js"></script>
+<script>
+    var documentationPath = '<?php echo $documentationPath ?>';
+    var app = angular.module('app', [
+        'ngSanitize'
+    ]);
+    app.controller('AppController', AppController);
+    function AppController($http) {
+        var vm = this;
+        $http.get(documentationPath).then(function (response) {
+            vm.documentation = response.data.documentation;
+        });
+    }
+    app.filter('method', function () {
+        return function (input) {
+            switch (input) {
+                case 'GET':
+                    return '<div class="label label-success">' + input + '</div>';
+                case 'POST':
+                    return '<div class="label label-warning">' + input + '</div>';
+                case 'PUT':
+                    return '<div class="label label-info">' + input + '</div>';
+                case 'DELETE':
+                    return '<div class="label label-danger">' + input + '</div>';
+                default:
+                    return null;
+            }
+        }
+    });
+    app.filter('dataType', function () {
+        return function (input) {
+            switch (input) {
+                case 1:
+                    return 'Integer';
+                case 2:
+                    return 'Float';
+                case 3:
+                    return 'Double';
+                case 4:
+                    return 'Boolean';
+                case 5:
+                    return 'String';
+                case 6:
+                    return 'Timestamp';
+                case 7:
+                    return 'JSON';
+                default:
+                    return 'Unknown';
+            }
+        }
+    });
+</script>
+<style>
+    th.basePath {
+        width: 150px;
+    }
+
+    thead tr th {
+        text-align: center;
+    }
+
+    th.markdown {
+        font-weight: inherit;
+    }
+
+    th.markdown table tr,
+    th.markdown table th,
+    th.markdown table td {
+        border: 1px solid #ddd;
+        padding: 6px 13px;
+    }
+
+    a {
+        text-decoration: none !important;
+    }
+
+    a.btn {
+        color: #fff;
+        font-size: 13px;
+    }
+    a.btn:focus,
+    a.btn:active,
+    a.btn:hover{
+        background: #5bc0de!important;
+        border: 1px solid #46b8da!important;
+        box-shadow: none;
+        outline: none!important;
+    }
+    .panel-primary > .panel-heading a {
+        color: #fff;
+    }
+
+    .panel-title.apilink {
+        font-size: 15px;
+    }
+
+    .endpoint th:first-child {
+        width: 150px;
+    }
+
+    .description {
+        font-weight: inherit;
+    }
+</style>
+</body>
+</html>

@@ -2,28 +2,26 @@
 
 namespace CayBua\Bootstrap;
 
-use Phalcon\Config;
-use PhalconRest\Api;
-use Phalcon\DiInterface;
-
+use CayBua\Api;
 use CayBua\BootstrapInterface;
-use CayBua\Constants\Services;
 use CayBua\Auth\UsernameAccountType;
+use CayBua\Auth\Manager;
+use CayBua\User\Service;
+use CayBua\Constants\Services;
 use CayBua\Fractal\CustomSerializer;
-use CayBua\User\Service as UserService;
-use CayBua\Auth\Manager as AuthManager;
 
+use PhalconApi\Auth\TokenParsers\JWTTokenParser;
+
+use Phalcon\Config;
+use Phalcon\DiInterface;
 use Phalcon\Mvc\Url as UrlResolver;
 use Phalcon\Mvc\View\Simple as View;
 use Phalcon\Events\Manager as EventsManager;
-use League\Fractal\Manager as FractalManager;
 use Phalcon\Mvc\Model\Manager as ModelsManager;
-use PhalconApi\Auth\TokenParsers\JWTTokenParser;
-use Phalcon\Session\Adapter\Redis as Session;
-
-use Phalcon\Logger;
 use Phalcon\Logger\Adapter\File as FileAdapter;
-use Uploader\Uploader as Uploader;
+use Phalcon\Db\Adapter\Pdo\Mysql;
+
+use League\Fractal\Manager as FractalManager;
 
 class ServiceBootstrap implements BootstrapInterface
 {
@@ -44,6 +42,7 @@ class ServiceBootstrap implements BootstrapInterface
             unset($config['adapter']);
             $class = 'Phalcon\Db\Adapter\Pdo\\' . $adapter;
 
+            /** @var Mysql $connection */
             $connection = new $class($config);
 
             // Assign the eventsManager to the db adapter instance
@@ -89,16 +88,6 @@ class ServiceBootstrap implements BootstrapInterface
             return new JWTTokenParser($config->get('authentication')->secret, JWTTokenParser::ALGORITHM_HS256);
         });
 
-        /**
-         * @description Phalcon - AuthManager
-         */
-        $di->setShared(Services::AUTH_MANAGER, function () use ($di, $config) {
-
-            $authManager = new AuthManager($config->get('authentication')->expirationTime);
-            $authManager->registerAccountType(UsernameAccountType::NAME, new UsernameAccountType);
-
-            return $authManager;
-        });
 
         /**
          * @description PhalconRes - \Phalcon\Logger
@@ -131,23 +120,18 @@ class ServiceBootstrap implements BootstrapInterface
         /**
          * @description PhalconRest - \PhalconRest\User\Service
          */
-        $di->setShared(Services::USER_SERVICE, new UserService);
-        $di->setShared(Services::UPLOADS, function() {
-            $uploader = new Uploader();
-            return $uploader;
+        $di->setShared(Services::USER_SERVICE, new Service());
+
+        /**
+         * @description Phalcon - AuthManager
+         */
+        $di->setShared(Services::AUTH_MANAGER, function () use ($di, $config) {
+
+            $authManager = new Manager($config->get('authentication')->expirationTime);
+            $authManager->registerAccountType(UsernameAccountType::NAME, new UsernameAccountType);
+
+            return $authManager;
         });
-        // $di->setShared(Services::SESSION,
-        //     function () use ($config) {
-        //         $session = new Session([
-        //             'host' => $config->get('redis')->host,
-        //             'port' => $config->get('redis')->port,
-        //             'persistent' => $config->get('redis')->persistent,
-        //             'lifetime' => $config->get('redis')->lifetime
-        //         ]);
-        //         $session->start();
-        //         return $session;
-        //     }
-        // );
 
     }
 }

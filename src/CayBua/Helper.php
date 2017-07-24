@@ -46,7 +46,7 @@ class Helper
      */
     public static function randomNumber($floor, $ceiling)
     {
-        srand((double) microtime() * 1000000);
+        srand((double)microtime() * 1000000);
 
         return rand($floor, $ceiling);
     }
@@ -62,7 +62,7 @@ class Helper
         if ($s >= "1073741824") {
             $s = number_format($s / 1073741824, 2) . " GB";
         } elseif ($s >= "1048576") {
-            $s  = number_format($s / 1048576, 2) . " MB";
+            $s = number_format($s / 1048576, 2) . " MB";
         } elseif ($s >= "1024") {
             $s = number_format($s / 1024, 2) . " KB";
         } elseif ($s >= "1") {
@@ -99,16 +99,16 @@ class Helper
     }
 
     /**
-    * Ham dung de convert cac ky tu co dau thanh khong dau
-    * Dung tot cho cac chuc nang SEO cho browser(vi nhieu engine ko
-    * hieu duoc dau tieng viet, nen can phai bo dau tieng viet di)
-    *
-    * @param mixed $string
-    */
+     * Ham dung de convert cac ky tu co dau thanh khong dau
+     * Dung tot cho cac chuc nang SEO cho browser(vi nhieu engine ko
+     * hieu duoc dau tieng viet, nen can phai bo dau tieng viet di)
+     *
+     * @param mixed $string
+     */
     public static function codau2khongdau($string = '', $alphabetOnly = false, $tolower = true)
     {
 
-        $output =  $string;
+        $output = $string;
         if ($output != '') {
             //Tien hanh xu ly bo dau o day
             $search = array(
@@ -219,7 +219,7 @@ class Helper
 
     public static function specialchar2normalchar($string = '')
     {
-        $output =  $string;
+        $output = $string;
         if ($output != '') {
             //Tien hanh xu ly bo dau o day
             $search = array(
@@ -335,13 +335,13 @@ class Helper
     }
 
     /**
-    * Ham dung de strip slash tu 1 chuoi
-    *  - neu chuoi do' duoc submit va da duoc them slash(do config: magic_quotes_gpc) thi tien hanh strip slash
-    * - nguoc lai, return chuoi
-    *
-    * @param string $string
-    * @return string
-    */
+     * Ham dung de strip slash tu 1 chuoi
+     *  - neu chuoi do' duoc submit va da duoc them slash(do config: magic_quotes_gpc) thi tien hanh strip slash
+     * - nguoc lai, return chuoi
+     *
+     * @param string $string
+     * @return string
+     */
     public static function mystripslashes($string)
     {
         if (get_magic_quotes_gpc()) {
@@ -352,8 +352,6 @@ class Helper
     }
 
 
-
-
     public static function getLangContent($langPath = '', $module_name = '')
     {
         $lang_content = array();
@@ -361,14 +359,12 @@ class Helper
         if (file_exists($langFile)) {
             $xml = new \SimpleXMLElement($langFile, null, true);
             foreach ($xml->lines as $line) {
-                $lang_content["{$line->attributes()->name}"] = (string) $line;
+                $lang_content["{$line->attributes()->name}"] = (string)$line;
             }
         }
 
         return $lang_content;
     }
-
-
 
 
     public static function getCurrentDateDirName($includeDay = true)
@@ -385,22 +381,22 @@ class Helper
     }
 
     /**
-    * Convert date string in format 'dd/mm/yyyy' and time string in format 'hh:mm'to timestamp
-    * @param string $datestring
-    * @param string $timestring
-    */
+     * Convert date string in format 'dd/mm/yyyy' and time string in format 'hh:mm'to timestamp
+     * @param string $datestring
+     * @param string $timestring
+     */
     public static function strtotimedmy($datestring = '01/01/1970', $timestring = '00:01')
     {
         $timegroup = explode(':', $timestring);
         $dategroup = explode('/', $datestring);
 
         return mktime(
-            (int) trim($timegroup[0]),
-            (int) trim($timegroup[1]),
+            (int)trim($timegroup[0]),
+            (int)trim($timegroup[1]),
             1,
-            (int) trim($dategroup[1]),
-            (int) trim($dategroup[0]),
-            (int) trim($dategroup[2])
+            (int)trim($dategroup[1]),
+            (int)trim($dategroup[0]),
+            (int)trim($dategroup[2])
         );
     }
 
@@ -417,7 +413,7 @@ class Helper
     {
         $phrase_array = explode(' ', $phrase);
         if (count($phrase_array) > $max_words && $max_words > 0) {
-            $phrase = implode(' ', array_slice($phrase_array, 0, $max_words)).'...';
+            $phrase = implode(' ', array_slice($phrase_array, 0, $max_words)) . '...';
         }
 
         return $phrase;
@@ -427,7 +423,7 @@ class Helper
     {
         $money = preg_replace('/[^0-9]/i', '', $moneyString);
 
-        return (float) $money;
+        return (float)$money;
     }
 
     public static function formatPrice($money)
@@ -451,11 +447,11 @@ class Helper
 
 
     /**
-    * Manual css filter
-    *
-    * @param mixed $data
-    * @return mixed
-    */
+     * Manual css filter
+     *
+     * @param mixed $data
+     * @return mixed
+     */
     public static function xssClean($data)
     {
 
@@ -493,21 +489,21 @@ class Helper
 
 
     /**
-    * Tao token cho cac thao tac add, edit, delete entry,quiz,comment,user...
-    * de chong lai tan cong CSRF
-    *
-    */
+     * Tao token cho cac thao tac add, edit, delete entry,quiz,comment,user...
+     * de chong lai tan cong CSRF
+     *
+     */
     public static function getSecurityToken()
     {
         return md5(self::randomNumber(1, 1000) . session_id());
     }
 
     /**
-    * Ham dung de test general security token
-    *
-    * duoc tao trong $_SESSION['securityToken'] va duoc truyen vao bang $_GET['token']
-    *
-    */
+     * Ham dung de test general security token
+     *
+     * duoc tao trong $_SESSION['securityToken'] va duoc truyen vao bang $_GET['token']
+     *
+     */
     public static function checkSecurityToken()
     {
         $registry = new \stdClass();
@@ -520,10 +516,10 @@ class Helper
     }
 
     /**
-    * Ham replace cac ky tu dash thua (double dash --> single dash, remove first and last dash in url)
-    *
-    * @param mixed $url
-    */
+     * Ham replace cac ky tu dash thua (double dash --> single dash, remove first and last dash in url)
+     *
+     * @param mixed $url
+     */
     public static function refineDashInUrl($url)
     {
         $url = preg_replace('/[-]+/', '-', $url);
@@ -531,20 +527,20 @@ class Helper
             $url = substr($url, 1);
         }
 
-        if ($url[strlen($url)-1] == '-') {
-            $url = substr($url, 0, strlen($url)-1);
+        if ($url[strlen($url) - 1] == '-') {
+            $url = substr($url, 0, strlen($url) - 1);
         }
 
         return $url;
     }
 
     /**
-    * Download external file using cURL
-    *
-    * @param string $img : URL of external file
-    * @param string $fullpath : local filepath
-    * @param string $type: type of external file.
-    */
+     * Download external file using cURL
+     *
+     * @param string $img : URL of external file
+     * @param string $fullpath : local filepath
+     * @param string $type : type of external file.
+     */
     public static function saveExternalFile($img, $fullpath, $type = 'image', $isUseCurl = true)
     {
 
@@ -555,7 +551,7 @@ class Helper
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($ch, CURLOPT_BINARYTRANSFER, 1);
             curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-            $rawdata=curl_exec($ch);
+            $rawdata = curl_exec($ch);
             curl_close($ch);
 
             //check if return error (include html in output)
@@ -594,9 +590,9 @@ class Helper
 
         $pageURL .= "://";
         if ($_SERVER["SERVER_PORT"] != "80") {
-            $pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
+            $pageURL .= $_SERVER["SERVER_NAME"] . ":" . $_SERVER["SERVER_PORT"] . $_SERVER["REQUEST_URI"];
         } else {
-            $pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
+            $pageURL .= $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"];
         }
 
         $pageURL = str_replace('?live', '?', $pageURL);
@@ -606,10 +602,10 @@ class Helper
     }
 
     /**
-    * Ham loc chuoi screenname
-    *
-    * @param string $screenname
-    */
+     * Ham loc chuoi screenname
+     *
+     * @param string $screenname
+     */
     public static function refineScreenname($screenname)
     {
         $screenname = preg_replace('/[^a-z0-9.]/', '', $screenname);
@@ -629,14 +625,14 @@ class Helper
     }
 
     /**
-    * Ham them 1 querystring vao sau url,
-    *
-    * Neu URL da co dau ? thi khong can them dau ? ma chi can them &...
-    * Neu URL chua co dau ? thi them dau ?, sau do them & va query string
-    *
-    * @param string $url
-    * @param string $paramString
-    */
+     * Ham them 1 querystring vao sau url,
+     *
+     * Neu URL da co dau ? thi khong can them dau ? ma chi can them &...
+     * Neu URL chua co dau ? thi them dau ?, sau do them & va query string
+     *
+     * @param string $url
+     * @param string $paramString
+     */
     public static function urlAddParam($url, $paramString)
     {
         //neu chua co dua ?
@@ -666,32 +662,32 @@ class Helper
     }
 
     /**
-    * Goi 1 async post request de khong delay cua main process
-    *
-    * @param mixed $url
-    */
+     * Goi 1 async post request de khong delay cua main process
+     *
+     * @param mixed $url
+     */
     public static function backgroundHttpPost($url, $paramString = '')
     {
-        $parts=parse_url($url);
+        $parts = parse_url($url);
 
         if (PROTOCOL == 'https') {
-            $fp = fsockopen('ssl://' . $parts['host'], isset($parts['port'])?$parts['port']:443, $errno, $errstr, 30);
+            $fp = fsockopen('ssl://' . $parts['host'], isset($parts['port']) ? $parts['port'] : 443, $errno, $errstr, 30);
         } else {
-            $fp = fsockopen($parts['host'], isset($parts['port'])?$parts['port']:80, $errno, $errstr, 30);
+            $fp = fsockopen($parts['host'], isset($parts['port']) ? $parts['port'] : 80, $errno, $errstr, 30);
         }
 
         if (!$fp) {
             return false;
         } else {
-            $out = "POST ".$parts['path']."?".$parts['query']." HTTP/1.1\r\n";
-            $out.= "Host: ".$parts['host']."\r\n";
-            $out.= "Content-Type: application/x-www-form-urlencoded\r\n";
-            $out.= "Content-Length: ".strlen($paramString)."\r\n";
-            $out.= "Connection: Close\r\n\r\n";
+            $out = "POST " . $parts['path'] . "?" . $parts['query'] . " HTTP/1.1\r\n";
+            $out .= "Host: " . $parts['host'] . "\r\n";
+            $out .= "Content-Type: application/x-www-form-urlencoded\r\n";
+            $out .= "Content-Length: " . strlen($paramString) . "\r\n";
+            $out .= "Connection: Close\r\n\r\n";
 
 
             if ($paramString != '') {
-                $out.= $paramString;
+                $out .= $paramString;
             }
 
             fwrite($fp, $out);
@@ -702,27 +698,27 @@ class Helper
     }
 
     /**
-    * Goi 1 async get request de khong delay cua main process
-    *
-    * @param mixed $url
-    */
+     * Goi 1 async get request de khong delay cua main process
+     *
+     * @param mixed $url
+     */
     public static function backgroundHttpGet($url)
     {
-        $parts=parse_url($url);
+        $parts = parse_url($url);
 
         if (PROTOCOL == 'https') {
-            $fp = fsockopen('ssl://' . $parts['host'], isset($parts['port'])?$parts['port']:443, $errno, $errstr, 30);
+            $fp = fsockopen('ssl://' . $parts['host'], isset($parts['port']) ? $parts['port'] : 443, $errno, $errstr, 30);
         } else {
-            $fp = fsockopen($parts['host'], isset($parts['port'])?$parts['port']:80, $errno, $errstr, 30);
+            $fp = fsockopen($parts['host'], isset($parts['port']) ? $parts['port'] : 80, $errno, $errstr, 30);
         }
 
         if (!$fp) {
             return false;
         } else {
-            $out = "GET ".$parts['path']."?".$parts['query']." HTTP/1.1\r\n";
-            $out.= "Host: ".$parts['host']."\r\n";
-            $out.= "Content-Type: application/x-www-form-urlencoded\r\n";
-            $out.= "Connection: Close\r\n\r\n";
+            $out = "GET " . $parts['path'] . "?" . $parts['query'] . " HTTP/1.1\r\n";
+            $out .= "Host: " . $parts['host'] . "\r\n";
+            $out .= "Content-Type: application/x-www-form-urlencoded\r\n";
+            $out .= "Connection: Close\r\n\r\n";
 
             fwrite($fp, $out);
             fclose($fp);
@@ -733,10 +729,10 @@ class Helper
 
 
     /**
-    * Kiem tra neu url khong bat dau bang http://
-    *
-    * @param mixed $url
-    */
+     * Kiem tra neu url khong bat dau bang http://
+     *
+     * @param mixed $url
+     */
     public static function paddingWebsitePrefix($url)
     {
         if (strpos($url, 'http') !== 0) {
@@ -747,11 +743,11 @@ class Helper
     }
 
     /**
-    * Boi vi he thong goi mail khong nhan duoc tieng viet trong fullname
-    * nen xu ly fullname truoc khi goi email
-    *
-    * @param mixed $fullname
-    */
+     * Boi vi he thong goi mail khong nhan duoc tieng viet trong fullname
+     * nen xu ly fullname truoc khi goi email
+     *
+     * @param mixed $fullname
+     */
     public static function refineEmailSendername($fullname)
     {
         $fullname = ucwords(Helper::codau2khongdau($fullname));
@@ -765,11 +761,11 @@ class Helper
 
 
     /**
-    * Loai bo ky tu khogn can thiet de chong XSS
-    * Loai bo HTML tag, chi giu lai cac ky tu binh thuong, ko format
-    *
-    * @param mixed $s
-    */
+     * Loai bo ky tu khogn can thiet de chong XSS
+     * Loai bo HTML tag, chi giu lai cac ky tu binh thuong, ko format
+     *
+     * @param mixed $s
+     */
     public static function plaintext($s)
     {
         $s = strip_tags($s);
@@ -829,10 +825,10 @@ class Helper
      * @version   SVN: Release: $Id: alphaID.inc.php 344 2009-06-10 17:43:59Z kevin $
      * @link    http://kevin.vanzonneveld.net/
      *
-     * @param mixed   $in      String or long input to translate
-     * @param boolean $to_num  Reverses translation when true
-     * @param mixed   $pad_up  Number or boolean padds the result up to a specified length
-     * @param string  $passKey Supplying a password makes it harder to calculate the original ID
+     * @param mixed $in String or long input to translate
+     * @param boolean $to_num Reverses translation when true
+     * @param mixed $pad_up Number or boolean padds the result up to a specified length
+     * @param string $passKey Supplying a password makes it harder to calculate the original ID
      *
      * @return mixed string or long
      */
@@ -840,22 +836,22 @@ class Helper
     {
         $index = "abcdefghijkmnpqrstuvwxyz123456789";
         if ($passKey !== null) {
-        // Although this function's purpose is to just make the
-        // ID short - and not so much secure,
-        // with this patch by Simon Franz (http://blog.snaky.org/)
-        // you can optionally supply a password to make it harder
-        // to calculate the corresponding numeric ID
+            // Although this function's purpose is to just make the
+            // ID short - and not so much secure,
+            // with this patch by Simon Franz (http://blog.snaky.org/)
+            // you can optionally supply a password to make it harder
+            // to calculate the corresponding numeric ID
 
-            for ($n = 0; $n<strlen($index); $n++) {
+            for ($n = 0; $n < strlen($index); $n++) {
                 $i[] = substr($index, $n, 1);
             }
 
             $passhash = hash('sha256', $passKey);
             $passhash = (strlen($passhash) < strlen($index))
-            ? hash('sha512', $passKey)
-            : $passhash;
+                ? hash('sha512', $passKey)
+                : $passhash;
 
-            for ($n=0; $n < strlen($index); $n++) {
+            for ($n = 0; $n < strlen($index); $n++) {
                 $p[] = substr($passhash, $n, 1);
             }
 
@@ -863,16 +859,16 @@ class Helper
             $index = implode($i);
         }
 
-        $base  = strlen($index);
+        $base = strlen($index);
 
         if ($to_num) {
-        // Digital number  <<--  alphabet letter code
-            $in  = strrev($in);
+            // Digital number  <<--  alphabet letter code
+            $in = strrev($in);
             $out = 0;
             $len = strlen($in) - 1;
             for ($t = 0; $t <= $len; $t++) {
                 $pow = pow($base, $len - $t);
-                $out   = $out + strpos($index, substr($in, $t, 1)) * $pow;
+                $out = $out + strpos($index, substr($in, $t, 1)) * $pow;
             }
 
             if (is_numeric($pad_up)) {
@@ -884,7 +880,7 @@ class Helper
             $out = sprintf('%F', $out);
             $out = substr($out, 0, strpos($out, '.'));
         } else {
-        // Digital number  -->>  alphabet letter code
+            // Digital number  -->>  alphabet letter code
             if (is_numeric($pad_up)) {
                 $pad_up--;
                 if ($pad_up > 0) {
@@ -895,9 +891,9 @@ class Helper
             $out = "";
             for ($t = floor(log($in, $base)); $t >= 0; $t--) {
                 $bcp = pow($base, $t);
-                $a   = floor($in / $bcp) % $base;
+                $a = floor($in / $bcp) % $base;
                 $out = $out . substr($index, $a, 1);
-                $in  = $in - ($a * $bcp);
+                $in = $in - ($a * $bcp);
             }
             $out = strrev($out); // reverse
         }
@@ -947,9 +943,9 @@ class Helper
         if ($handle = opendir($directory)) {
             while (false !== ($file = readdir($handle))) {
                 if ($file != "." && $file != "..") {
-                    if (is_dir($directory. DIRECTORY_SEPARATOR . $file)) {
-                        if($recursive) {
-                            $array_items = array_merge($array_items, self::directoryToArray($directory. DIRECTORY_SEPARATOR . $file, $recursive));
+                    if (is_dir($directory . DIRECTORY_SEPARATOR . $file)) {
+                        if ($recursive) {
+                            $array_items = array_merge($array_items, self::directoryToArray($directory . DIRECTORY_SEPARATOR . $file, $recursive));
                         }
                         $file = $directory . DIRECTORY_SEPARATOR . $file;
                         $array_items[] = preg_replace("/\/\//si", DIRECTORY_SEPARATOR, $file);
@@ -979,12 +975,9 @@ class Helper
         $message = preg_replace('/@\[([^\]]+)\]\((u|b):(\d+)\)/s', '<a href="#$2$3url#" class="tipsy-hovercard-trigger" data-url="#$2$3hoverurl#" title="$1">$1</a>', $message);
 
         $entityList = array();
-        if(count($matches > 0))
-        {
-            for($i = 0; $i < count($matches[0]); $i++)
-            {
-                if($matches[1][$i] == 'u')
-                {
+        if (count($matches > 0)) {
+            for ($i = 0; $i < count($matches[0]); $i++) {
+                if ($matches[1][$i] == 'u') {
                     $entity = new \Model\User($matches[2][$i], true);
                     $taginfo = array(
                         'url' => $entity->getUserPath(),
@@ -1004,15 +997,15 @@ class Helper
 
                 //replace
                 $message = str_replace(array(
-                    '#'.$matches[1][$i] . $matches[2][$i] . 'url#',
-                    '#'.$matches[1][$i] . $matches[2][$i] . 'hoverurl#',
+                    '#' . $matches[1][$i] . $matches[2][$i] . 'url#',
+                    '#' . $matches[1][$i] . $matches[2][$i] . 'hoverurl#',
                 ), array(
                     $taginfo['url'],
                     $taginfo['hoverurl'],
                 ), $message);
 
                 //assign
-                $entityList[$matches[1][$i].$matches[2][$i]] = $taginfo;
+                $entityList[$matches[1][$i] . $matches[2][$i]] = $taginfo;
             }
         }
 
@@ -1040,23 +1033,23 @@ class Helper
     {
         return sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
 
-        // 32 bits for "time_low"
-        mt_rand(0, 0xffff), mt_rand(0, 0xffff),
+            // 32 bits for "time_low"
+            mt_rand(0, 0xffff), mt_rand(0, 0xffff),
 
-        // 16 bits for "time_mid"
-        mt_rand(0, 0xffff),
+            // 16 bits for "time_mid"
+            mt_rand(0, 0xffff),
 
-        // 16 bits for "time_hi_and_version",
-        // four most significant bits holds version number 4
-        mt_rand(0, 0x0fff) | 0x4000,
+            // 16 bits for "time_hi_and_version",
+            // four most significant bits holds version number 4
+            mt_rand(0, 0x0fff) | 0x4000,
 
-        // 16 bits, 8 bits for "clk_seq_hi_res",
-        // 8 bits for "clk_seq_low",
-        // two most significant bits holds zero and one for variant DCE1.1
-        mt_rand(0, 0x3fff) | 0x8000,
+            // 16 bits, 8 bits for "clk_seq_hi_res",
+            // 8 bits for "clk_seq_low",
+            // two most significant bits holds zero and one for variant DCE1.1
+            mt_rand(0, 0x3fff) | 0x8000,
 
-        // 48 bits for "node"
-        mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
+            // 48 bits for "node"
+            mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
         );
     }
 
@@ -1076,17 +1069,17 @@ class Helper
             return $return;
         } else {
             //get one level lower combinations
-            $oneLevelLower = self::getCombinations($base, $n-1);
+            $oneLevelLower = self::getCombinations($base, $n - 1);
 
             //for every one level lower combinations add one element to them that the last element of a combination is preceeded by the element which follows it in base array if there is none, does not add
             $newCombs = array();
 
             foreach ($oneLevelLower as $oll) {
 
-                $lastEl = $oll[$n-2];
+                $lastEl = $oll[$n - 2];
                 $found = false;
-                foreach ($base as  $key => $b) {
-                    if($b == $lastEl){
+                foreach ($base as $key => $b) {
+                    if ($b == $lastEl) {
                         $found = true;
                         continue;
                         //last element found
@@ -1150,7 +1143,8 @@ class Helper
      * Simple combination in an array values
      * @param  array $array Single dimension array, such as: $a = array(1, 2, 3..)
      */
-    public static function arrayCombination($array) {
+    public static function arrayCombination($array)
+    {
         // initialize by adding the empty set
         $results = array(array());
 
@@ -1166,7 +1160,7 @@ class Helper
     /**
      * Created value from combine element of each values of array of input array
      * @param  [type]  $array [description]
-     * @param  boolean $inb   [description]
+     * @param  boolean $inb [description]
      * @return [type]         [description]
      */
     public static function crossArrayCombination($array, $inb = false)
@@ -1208,9 +1202,9 @@ class Helper
                     // Also, using operator+ instead of array_merge
                     // allows us to not lose the keys once more
                     if ($inb == 'recursing') {
-                        $return[] = array_merge(array($v), (array) $v2);
+                        $return[] = array_merge(array($v), (array)$v2);
                     } else {
-                        $return[] = array($k => $v) + array_combine($keys, (array) $v2);
+                        $return[] = array($k => $v) + array_combine($keys, (array)$v2);
                     }
                 }
             }
@@ -1219,7 +1213,8 @@ class Helper
         return $return;
     }
 
-    public static function httpStatus($num) {
+    public static function httpStatus($num)
+    {
         $http = array(
             100 => 'HTTP/1.1 100 Continue',
             101 => 'HTTP/1.1 101 Switching Protocols',
@@ -1298,6 +1293,7 @@ class Helper
         // search backwards starting from haystack length characters from the end
         return $needle === "" || strrpos($haystack, $needle, -strlen($haystack)) !== false;
     }
+
     public static function endsWith($haystack, $needle)
     {
         // search forward starting from end minus needle length characters

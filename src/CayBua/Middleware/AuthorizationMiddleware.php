@@ -2,14 +2,15 @@
 
 namespace CayBua\Middleware;
 
-use CayBua\Constants\Services;
+use CayBua\Api;
+use CayBua\Mvc\Plugin;
+
+use PhalconApi\Exception;
+use PhalconApi\Constants\ErrorCodes;
+
 use Phalcon\Events\Event;
 use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\Micro\MiddlewareInterface;
-use PhalconRest\Mvc\Plugin;
-use PhalconRest\Api;
-use PhalconApi\Constants\ErrorCodes;
-use PhalconApi\Exception;
 
 class AuthorizationMiddleware extends Plugin implements MiddlewareInterface
 {
@@ -21,18 +22,12 @@ class AuthorizationMiddleware extends Plugin implements MiddlewareInterface
         if (!$collection || !$endpoint) {
             return;
         }
-        $request = $this->di->get(Services::REQUEST);
-        $config = $this->di->get(Services::CONFIG);
-        $accesstrustedkey = $request->getHeader('AccessTrustedKey');
-        if (!empty($accesstrustedkey) && $accesstrustedkey == $config->get('authentication')->accesstrustedkey) {
-            //Allow for server request
-        } else {
-            $allowed = $this->acl->isAllowed($this->userService->getRole(), $collection->getIdentifier(),
-                $endpoint->getIdentifier());
 
-            if (!$allowed) {
-                throw new Exception(ErrorCodes::ACCESS_DENIED);
-            }
+        $allowed = $this->acl->isAllowed($this->userService->getRole(), $collection->getIdentifier(),
+            $endpoint->getIdentifier());
+
+        if (!$allowed) {
+            throw new Exception(ErrorCodes::ACCESS_DENIED);
         }
     }
 
