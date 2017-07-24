@@ -47,9 +47,14 @@ class Service extends PhalconApiService
      */
     public function allowRbacPermission($domainName, $controllerName, $actionName)
     {
-        $resource = $domainName . '.' . $controllerName . '.' . $actionName;
-        $tickets = $this->getTickets();
-        return in_array($resource, $tickets);
+        $userRole = $this->getRole();
+        if($userRole == AclRoles::ADMINISTRATOR){
+            return true;
+        } else {
+            $resource = $domainName . '.' . $controllerName . '.' . $actionName;
+            $tickets = $this->getTickets();
+            return in_array($resource, $tickets);
+        }
     }
 
 }
