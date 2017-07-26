@@ -2,7 +2,7 @@
 
 namespace CayBua\Constants;
 
-class Model
+class ModelConstants
 {
     const IS_DELETED = 1;
 }
