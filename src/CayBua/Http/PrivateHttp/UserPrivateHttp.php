@@ -42,7 +42,7 @@ class UserPrivateHttp extends BaseHttp
      */
     public function getUseProfileWithUserID($userID){
         return $this
-            ->get($this->serviceConfig['action']['profile'].$userID)
+            ->get($this->serviceConfig['action']['profile'].'/'.$userID)
             ->request(true);
     }
 }
