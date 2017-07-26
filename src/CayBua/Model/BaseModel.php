@@ -18,6 +18,9 @@ abstract class BaseModel extends Model
     public $datecreated;
     public $datemodified;
 
+    /**
+     * @return array
+     */
     public function columnMap()
     {
         return [
@@ -28,6 +31,9 @@ abstract class BaseModel extends Model
         ];
     }
 
+    /**
+     * Add tracking date and IP address when create model
+     */
     public function beforeValidationOnCreate()
     {
         $this->datecreated = time();
@@ -36,10 +42,26 @@ abstract class BaseModel extends Model
         $this->ipaddress = ip2long($request->getClientAddress());
     }
 
+    /**
+     * Add tracking date and IP address when update model
+     */
     public function beforeUpdate()
     {
         $this->datemodified = time();
         $request = $this->getDI()->get(Services::REQUEST);
         $this->ipaddress = ip2long($request->getClientAddress());
+    }
+
+    /**
+     * @return array
+     */
+    public function getMessagesArray(){
+        $messages = $this->getMessages();
+        $messagesResponse = [];
+        /** @var \Phalcon\Mvc\Model\Message $message */
+        foreach ($messages as $message) {
+            $messagesResponse[] = $message->getMessage();
+        }
+        return $messagesResponse;
     }
 }
