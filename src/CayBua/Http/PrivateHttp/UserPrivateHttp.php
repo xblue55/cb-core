@@ -27,12 +27,22 @@ class UserPrivateHttp extends BaseHttp
 
     /**
      * @param $userID
-     * @return $this
+     * @return mixed|null|\Psr\Http\Message\ResponseInterface
      */
     public function getUserInformationWithUserID($userID)
     {
         return $this
             ->get($userID)
+            ->request(true);
+    }
+
+    /**
+     * @param $userID
+     * @return mixed|null|\Psr\Http\Message\ResponseInterface
+     */
+    public function getUseProfileWithUserID($userID){
+        return $this
+            ->get($this->serviceConfig['action']['profile'].$userID)
             ->request(true);
     }
 }
