@@ -4,6 +4,7 @@ namespace CayBua;
 
 class Helper
 {
+
     /**
      * Convert normal url text to hyperlink
      *

@@ -9,6 +9,7 @@
 namespace CayBua\Model;
 
 use CayBua\Constants\Services;
+use Phalcon\Di;
 use Phalcon\Mvc\Model;
 
 abstract class BaseModel extends Model
@@ -18,6 +19,9 @@ abstract class BaseModel extends Model
     public $datecreated;
     public $datemodified;
 
+    /**
+     * @return array
+     */
     public function columnMap()
     {
         return [
@@ -28,6 +32,9 @@ abstract class BaseModel extends Model
         ];
     }
 
+    /**
+     * Add tracking date and IP address when create model
+     */
     public function beforeValidationOnCreate()
     {
         $this->datecreated = time();
@@ -36,10 +43,59 @@ abstract class BaseModel extends Model
         $this->ipaddress = ip2long($request->getClientAddress());
     }
 
+    /**
+     * Add tracking date and IP address when update model
+     */
     public function beforeUpdate()
     {
         $this->datemodified = time();
         $request = $this->getDI()->get(Services::REQUEST);
         $this->ipaddress = ip2long($request->getClientAddress());
+    }
+
+    /**
+     * @return array
+     */
+    public function getMessagesArray(){
+        $messages = $this->getMessages();
+        $messagesResponse = [];
+        /** @var \Phalcon\Mvc\Model\Message $message */
+        foreach ($messages as $message) {
+            $messagesResponse[] = $message->getMessage();
+        }
+        return $messagesResponse;
+    }
+
+    /**
+     * @param $resourceServerNumber
+     * @return string
+     */
+    public function getImageResourceServer($resourceServerNumber)
+    {
+        $config = Di::getDefault()->get(Services::CONFIG);
+        $resourceServers = $config->get('resourceServer');
+        $resourceServerPath = '';
+        foreach ($resourceServers as $key => $resourceServerPathConfig) {
+            if ($key == $resourceServerNumber) {
+                $resourceServerPath = $resourceServerPathConfig;
+            }
+        }
+        return $resourceServerPath;
+    }
+
+    /**
+     * @param $resourceServerPath
+     * @return int|string
+     */
+    public function setImageResourceServer($resourceServerPath){
+        $config = Di::getDefault()->get(Services::CONFIG);
+        $resourceServers = $config->get('resourceServer');
+        $resourceServerNumber = 0;
+        foreach ($resourceServers as $key => $resourceServerPathConfig) {
+            if ($resourceServerPathConfig == $resourceServerPath) {
+                $resourceServerNumber = $key;
+            }
+        }
+        return $resourceServerNumber;
     }
 }
