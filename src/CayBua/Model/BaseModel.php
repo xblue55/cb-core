@@ -68,20 +68,19 @@ abstract class BaseModel extends Model
 
     /**
      * @param $resourceServerNumber
-     * @param $path
      * @return string
      */
-    public function getImageFullPath($resourceServerNumber, $path)
+    public function getImageResourceServer($resourceServerNumber)
     {
         $config = Di::getDefault()->get(Services::CONFIG);
         $resourceServers = $config->get('resourceServer');
-        $fullPath = '';
-        foreach ($resourceServers as $key => $resourceServerPath) {
+        $resourceServerPath = '';
+        foreach ($resourceServers as $key => $resourceServerPathConfig) {
             if ($key == $resourceServerNumber) {
-                $fullPath = $resourceServerPath . $path;
+                $resourceServerPath = $resourceServerPathConfig;
             }
         }
-        return $fullPath;
+        return $resourceServerPath;
     }
 
     /**
