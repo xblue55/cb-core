@@ -83,4 +83,20 @@ abstract class BaseModel extends Model
         }
         return $fullPath;
     }
+
+    /**
+     * @param $resourceServerPath
+     * @return int|string
+     */
+    public function setImageResourceServer($resourceServerPath){
+        $config = Di::getDefault()->get(Services::CONFIG);
+        $resourceServers = $config->get('resourceServer');
+        $resourceServerNumber = 0;
+        foreach ($resourceServers as $key => $resourceServerPathConfig) {
+            if ($resourceServerPathConfig == $resourceServerPath) {
+                $resourceServerNumber = $key;
+            }
+        }
+        return $resourceServerNumber;
+    }
 }
