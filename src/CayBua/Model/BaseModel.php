@@ -9,6 +9,7 @@
 namespace CayBua\Model;
 
 use CayBua\Constants\Services;
+use Phalcon\Di;
 use Phalcon\Mvc\Model;
 
 abstract class BaseModel extends Model
@@ -63,5 +64,23 @@ abstract class BaseModel extends Model
             $messagesResponse[] = $message->getMessage();
         }
         return $messagesResponse;
+    }
+
+    /**
+     * @param $resourceServerNumber
+     * @param $path
+     * @return string
+     */
+    public function getImageFullPath($resourceServerNumber, $path)
+    {
+        $config = Di::getDefault()->get(Services::CONFIG);
+        $resourceServers = $config->get('resourceServer');
+        $fullPath = '';
+        foreach ($resourceServers as $key => $resourceServerPath) {
+            if ($key == $resourceServerNumber) {
+                $fullPath = $resourceServerPath . $path;
+            }
+        }
+        return $fullPath;
     }
 }
