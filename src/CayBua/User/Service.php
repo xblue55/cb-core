@@ -4,7 +4,7 @@ namespace CayBua\User;
 
 use CayBua\Constants\AclRoles;
 
-use CayBua\Http\PublicHttp\UserPublicHttp;
+use CayBua\Http\UserHttp;
 use PhalconApi\User\Service as PhalconApiService;
 
 class Service extends PhalconApiService
@@ -23,7 +23,7 @@ class Service extends PhalconApiService
     {
         $details = [];
         $token = $this->authManager->getSession()->getToken();
-        $userHttp = new UserPublicHttp();
+        $userHttp = new UserHttp();
         $myUser = $userHttp->getUserInformationWithToken($token);
         if (isset($myUser['data']['item']) && $myUser['data']['item']['id'] > 0) {
             $details = $myUser['data']['item'];

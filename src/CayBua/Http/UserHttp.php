@@ -2,18 +2,17 @@
 /**
  * Created by PhpStorm.
  * User: BangDinh
- * Date: 7/3/17
- * Time: 11:08
+ * Date: 7/30/17
+ * Time: 21:20
  */
 
-namespace CayBua\Http\PublicHttp;
+namespace CayBua\Http;
 
 use CayBua\Constants\Services;
-use CayBua\Http\BaseHttp;
 use Phalcon\Config;
 use Phalcon\Di;
 
-class UserPublicHttp extends BaseHttp
+class UserHttp extends BaseHttp
 {
     /**
      * UserHttp constructor.
@@ -22,7 +21,7 @@ class UserPublicHttp extends BaseHttp
     {
         /** @var Config $config */
         $config = Di::getDefault()->get(Services::CONFIG);
-        $this->serviceConfig = $config->get('services_public')['user'];
+        $this->serviceConfig = $config->get('services')['user'];
     }
 
     /**
@@ -43,4 +42,24 @@ class UserPublicHttp extends BaseHttp
                 ->request(true);
     }
 
+    /**
+     * @param $userID
+     * @return mixed|null|\Psr\Http\Message\ResponseInterface
+     */
+    public function getUserInformationWithUserID($userID)
+    {
+        return $this
+            ->get($userID)
+            ->request(true);
+    }
+
+    /**
+     * @param $userID
+     * @return mixed|null|\Psr\Http\Message\ResponseInterface
+     */
+    public function getUseProfileWithUserID($userID){
+        return $this
+            ->get($this->serviceConfig['action']['profile'].'/'.$userID)
+            ->request(true);
+    }
 }
