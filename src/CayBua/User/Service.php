@@ -26,14 +26,17 @@ class Service extends PhalconApiService
          * This is private service request
          * AclRoles is a LOCAL_SERVICE
          */
-        if(empty($userModel) && in_array(ConfigConstants::ACCESS_TRUSTED_KEY, $headers)){
+        if (empty($userModel) && in_array(ConfigConstants::ACCESS_TRUSTED_KEY, $headers)) {
             $config = Di::getDefault()->get(Services::CONFIG);
             $accessTrustedKey = $config->get(ConfigConstants::ACCESS_TRUSTED_KEY);
-            if($accessTrustedKey === $headers[ConfigConstants::ACCESS_TRUSTED_KEY]){
+            if (
+                !empty($headers[ConfigConstants::ACCESS_TRUSTED_KEY]) &&
+                ($accessTrustedKey === $headers[ConfigConstants::ACCESS_TRUSTED_KEY])
+            ) {
                 $role = AclRoles::LOCAL_SERVICE;
             }
         }
-        if(!empty($userModel) && in_array(ucfirst(strtolower($userModel['role'])), AclRoles::ALL_ROLES)){
+        if (!empty($userModel) && in_array(ucfirst(strtolower($userModel['role'])), AclRoles::ALL_ROLES)) {
             $role = ucfirst(strtolower($userModel['role']));
         }
         return $role;
@@ -58,7 +61,8 @@ class Service extends PhalconApiService
     /**
      * @return mixed
      */
-    public function getTickets(){
+    public function getTickets()
+    {
         $user = $this->getDetails();
         return $user['tickets'];
     }
@@ -72,7 +76,7 @@ class Service extends PhalconApiService
     public function allowRbacPermission($domainName, $controllerName, $actionName)
     {
         $userRole = $this->getRole();
-        if($userRole == AclRoles::ADMINISTRATOR){
+        if ($userRole == AclRoles::ADMINISTRATOR) {
             return true;
         } else {
             $resource = $domainName . '.' . $controllerName . '.' . $actionName;
