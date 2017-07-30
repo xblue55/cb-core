@@ -4,10 +4,10 @@ namespace CayBua\Middleware;
 
 use CayBua\Api;
 use CayBua\Constants\AclRoles;
+use CayBua\Constants\ConfigConstants;
 use CayBua\Constants\Services;
 use CayBua\Mvc\Plugin;
 
-use Phalcon\Di;
 use PhalconApi\Exception;
 use PhalconApi\Constants\ErrorCodes;
 
@@ -28,15 +28,6 @@ class AuthorizationMiddleware extends Plugin implements MiddlewareInterface
 
         $allowed = $this->acl->isAllowed($this->userService->getRole(), $collection->getIdentifier(),
             $endpoint->getIdentifier());
-
-        if($this->userService->getRole() == AclRoles::LOCAL_SERVICE){
-            $config = $this->di->get(Services::CONFIG);
-            if($config->get('accessTrustedKey') == ''){
-                $allowed = true;
-            }else{
-                $allowed = false;
-            }
-        }
 
         if (!$allowed) {
             throw new Exception(ErrorCodes::ACCESS_DENIED);
