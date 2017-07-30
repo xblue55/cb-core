@@ -29,7 +29,7 @@ class Service extends PhalconApiService
         $key = ucfirst(ConfigConstants::ACCESS_TRUSTED_KEY);
         if (empty($userModel) && in_array($key, $headers)) {
             $config = Di::getDefault()->get(Services::CONFIG);
-            $accessTrustedKey = $config->get($key);
+            $accessTrustedKey = $config->get(ConfigConstants::ACCESS_TRUSTED_KEY);
             if (!empty($headers[$key]) && ($accessTrustedKey === $headers[$key])) {
                 $role = AclRoles::LOCAL_SERVICE;
             }
