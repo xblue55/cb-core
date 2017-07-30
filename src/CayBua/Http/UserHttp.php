@@ -8,6 +8,7 @@
 
 namespace CayBua\Http;
 
+use CayBua\Constants\ConfigConstants;
 use CayBua\Constants\Services;
 use Phalcon\Config;
 use Phalcon\Di;
@@ -21,7 +22,7 @@ class UserHttp extends BaseHttp
     {
         /** @var Config $config */
         $config = Di::getDefault()->get(Services::CONFIG);
-        $this->serviceConfig = $config->get('services')['user'];
+        $this->serviceConfig = $config->get(ConfigConstants::SERVICES)['user'];
     }
 
     /**
@@ -40,17 +41,6 @@ class UserHttp extends BaseHttp
                 ->get($this->serviceConfig['action']['me'])
                 ->setBody($body)
                 ->request(true);
-    }
-
-    /**
-     * @param $userID
-     * @return mixed|null|\Psr\Http\Message\ResponseInterface
-     */
-    public function getUserInformationWithUserID($userID)
-    {
-        return $this
-            ->get($userID)
-            ->request(true);
     }
 
     /**
