@@ -5,6 +5,7 @@ namespace CayBua\User;
 use CayBua\Constants\AclRoles;
 
 use CayBua\Constants\ConfigConstants;
+use CayBua\Constants\HeaderConstants;
 use CayBua\Constants\Services;
 use CayBua\Http\UserHttp;
 use Phalcon\Di;
@@ -26,7 +27,7 @@ class Service extends PhalconApiService
          * This is private service request
          * AclRoles is a LOCAL_SERVICE
          */
-        $key = ucfirst(ConfigConstants::ACCESS_TRUSTED_KEY);
+        $key = HeaderConstants::ACCESS_TRUSTED_KEY;
         if (empty($userModel) && in_array($key, $headers)) {
             $config = Di::getDefault()->get(Services::CONFIG);
             $accessTrustedKey = $config->get(ConfigConstants::ACCESS_TRUSTED_KEY);
