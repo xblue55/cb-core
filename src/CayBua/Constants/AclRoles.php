@@ -9,6 +9,6 @@ class AclRoles
     const USER = 'User';
     const MANAGER = 'Manager';
     const ADMINISTRATOR = 'Administrator';
-
-    const ALL_ROLES = [self::UNAUTHORIZED, self::AUTHORIZED, self::USER, self::MANAGER, self::ADMINISTRATOR];
+    const LOCAL_SERVICE = 'LocalService';
+    const ALL_ROLES = [self::UNAUTHORIZED, self::AUTHORIZED, self::USER, self::MANAGER, self::ADMINISTRATOR, self::LOCAL_SERVICE];
 }

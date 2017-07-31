@@ -8,7 +8,9 @@
 
 namespace CayBua\Model;
 
+use CayBua\Constants\ConfigConstants;
 use CayBua\Constants\Services;
+use CayBua\Http\UserHttp;
 use Phalcon\Di;
 use Phalcon\Mvc\Model;
 
@@ -73,7 +75,7 @@ abstract class BaseModel extends Model
     public function getImageResourceServer($resourceServerNumber)
     {
         $config = Di::getDefault()->get(Services::CONFIG);
-        $resourceServers = $config->get('resourceServer');
+        $resourceServers = $config->get(ConfigConstants::RESOURCE_SERVER);
         $resourceServerPath = '';
         foreach ($resourceServers as $key => $resourceServerPathConfig) {
             if ($key == $resourceServerNumber) {
@@ -89,7 +91,7 @@ abstract class BaseModel extends Model
      */
     public function setImageResourceServer($resourceServerPath){
         $config = Di::getDefault()->get(Services::CONFIG);
-        $resourceServers = $config->get('resourceServer');
+        $resourceServers = $config->get(ConfigConstants::RESOURCE_SERVER);
         $resourceServerNumber = 0;
         foreach ($resourceServers as $key => $resourceServerPathConfig) {
             if ($resourceServerPathConfig == $resourceServerPath) {
@@ -97,5 +99,19 @@ abstract class BaseModel extends Model
             }
         }
         return $resourceServerNumber;
+    }
+
+    /**
+     * @param $userID
+     * @return array
+     */
+    public function getUser($userID){
+        $userHttp = new UserHttp();
+        $userProfileDataResponse = $userHttp->getUseProfileWithUserID($userID);
+        $userProfileData = $userProfileDataResponse['data']['item'];
+        if(isset($userProfileData) && !empty($userProfileData)){
+            return $userProfileData;
+        }
+        return [];
     }
 }

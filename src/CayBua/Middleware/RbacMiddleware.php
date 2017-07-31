@@ -9,6 +9,7 @@
 namespace CayBua\Middleware;
 
 use CayBua\Constants\AclRoles;
+use CayBua\Constants\ConfigConstants;
 use CayBua\Constants\Services;
 use CayBua\Api;
 use CayBua\Mvc\Plugin;
@@ -31,7 +32,11 @@ class RbacMiddleware extends Plugin implements MiddlewareInterface
         $allowed = true;
 
         // Is API request
-        if ($this->isApiRequest($URI) && ($this->userService->getRole() != AclRoles::UNAUTHORIZED)) {
+        if (
+            $this->isApiRequest($URI) &&
+            ($this->userService->getRole() != AclRoles::UNAUTHORIZED) &&
+            ($this->userService->getRole() != AclRoles::LOCAL_SERVICE)
+        ) {
 
             /** @var Config $config */
             $config = $this->di->get(Services::CONFIG);
@@ -50,7 +55,7 @@ class RbacMiddleware extends Plugin implements MiddlewareInterface
             $userService = $this->di->get(Services::USER_SERVICE);
 
             $allowed = $userService->allowRbacPermission(
-                $config->get('domainName'),
+                $config->get(ConfigConstants::DOMAIN_NAME),
                 $activeController,
                 $activeAction
             );

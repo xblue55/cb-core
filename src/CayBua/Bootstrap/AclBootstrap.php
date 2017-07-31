@@ -22,11 +22,14 @@ class AclBootstrap implements BootstrapInterface
         $authorizedRole = new Acl\Role(AclRoles::AUTHORIZED);
 
         $acl->addRole($unauthorizedRole);
+        $acl->addRole(new Acl\Role(AclRoles::LOCAL_SERVICE), $unauthorizedRole);
+
         $acl->addRole($authorizedRole);
 
         $acl->addRole(new Acl\Role(AclRoles::ADMINISTRATOR), $authorizedRole);
         $acl->addRole(new Acl\Role(AclRoles::MANAGER), $authorizedRole);
         $acl->addRole(new Acl\Role(AclRoles::USER), $authorizedRole);
+
 
         $acl->mountMany($api->getCollections());
     }
