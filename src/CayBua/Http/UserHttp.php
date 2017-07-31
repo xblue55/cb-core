@@ -15,14 +15,16 @@ use Phalcon\Di;
 
 class UserHttp extends BaseHttp
 {
+    /** @var Config $config */
+    protected $config;
+
     /**
      * UserHttp constructor.
      */
     public function __construct()
     {
-        /** @var Config $config */
-        $config = Di::getDefault()->get(Services::CONFIG);
-        $this->serviceConfig = $config->get(ConfigConstants::SERVICES)['user'];
+        $this->config = Di::getDefault()->get(Services::CONFIG);
+        $this->serviceConfig = $this->config->get(ConfigConstants::SERVICES)['user'];
     }
 
     /**
@@ -48,8 +50,14 @@ class UserHttp extends BaseHttp
      * @return mixed|null|\Psr\Http\Message\ResponseInterface
      */
     public function getUseProfileWithUserID($userID){
+        $body = [
+            'headers' => [
+                'Access-Trusted-Key' => $this->config->get(ConfigConstants::ACCESS_TRUSTED_KEY)
+            ]
+        ];
         return $this
             ->get($this->serviceConfig['action']['profile'].'/'.$userID)
+            ->setBody($body)
             ->request(true);
     }
 }
