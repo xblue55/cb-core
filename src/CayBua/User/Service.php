@@ -28,7 +28,7 @@ class Service extends PhalconApiService
          * AclRoles is a LOCAL_SERVICE
          */
         $key = HeaderConstants::ACCESS_TRUSTED_KEY;
-        if (empty($userModel) && in_array($key, $headers)) {
+        if (empty($userModel) && array_key_exists($key, $headers)) {
             $config = Di::getDefault()->get(Services::CONFIG);
             $accessTrustedKey = $config->get(ConfigConstants::ACCESS_TRUSTED_KEY);
             if (!empty($headers[$key]) && ($accessTrustedKey === $headers[$key])) {
