@@ -6,11 +6,14 @@ use CayBua\Api;
 use CayBua\BootstrapInterface;
 use CayBua\Auth\UsernameAccountType;
 use CayBua\Auth\Manager;
+use CayBua\Constants\ConfigConstants;
 use CayBua\User\Service;
 use CayBua\Constants\Services;
 use CayBua\Fractal\CustomSerializer;
 
 use PhalconApi\Auth\TokenParsers\JWTTokenParser;
+
+use League\Fractal\Manager as FractalManager;
 
 use Phalcon\Config;
 use Phalcon\DiInterface;
@@ -20,8 +23,8 @@ use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Mvc\Model\Manager as ModelsManager;
 use Phalcon\Logger\Adapter\File as FileAdapter;
 use Phalcon\Db\Adapter\Pdo\Mysql;
-
-use League\Fractal\Manager as FractalManager;
+use Phalcon\Cache\Frontend\Data as FrontData;
+use Phalcon\Cache\Backend\Redis;
 
 class ServiceBootstrap implements BootstrapInterface
 {
@@ -131,6 +134,26 @@ class ServiceBootstrap implements BootstrapInterface
             $authManager->registerAccountType(UsernameAccountType::NAME, new UsernameAccountType);
 
             return $authManager;
+        });
+
+        /**
+         * Cache
+         */
+        $di->setShared(Services::REDIS, function () use ($config) {
+            $redisConfig = $config->get(ConfigConstants::REDIS);
+            $frontCache = new FrontData([
+                "lifetime" => $redisConfig->lifetime,
+            ]);
+            $cache = new Redis(
+                $frontCache,
+                [
+                    'host' => $redisConfig->host,
+                    'port' => $redisConfig->port,
+                    'persistent' => $redisConfig->persistent,
+                    'index' => $redisConfig->index
+                ]
+            );
+            return $cache;
         });
 
     }
