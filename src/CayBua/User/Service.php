@@ -9,6 +9,7 @@ use CayBua\Constants\HeaderConstants;
 use CayBua\Constants\Services;
 use CayBua\Http\UserHttp;
 use Phalcon\Di;
+use Phalcon\Mvc\Model;
 use PhalconApi\User\Service as PhalconApiService;
 
 class Service extends PhalconApiService
@@ -34,6 +35,10 @@ class Service extends PhalconApiService
             if (!empty($headers[$key]) && ($accessTrustedKey === $headers[$key])) {
                 $role = AclRoles::LOCAL_SERVICE;
             }
+        }
+        if(is_object($userModel)){
+            /** @var Model $userModel */
+            $userModel = $userModel->toArray();
         }
         if (!empty($userModel) && in_array(ucfirst(strtolower($userModel['role'])), AclRoles::ALL_ROLES)) {
             $role = ucfirst(strtolower($userModel['role']));
