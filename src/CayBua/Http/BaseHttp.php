@@ -176,6 +176,12 @@ abstract class BaseHttp
         return false;
     }
 
+    /**
+     * @param $params
+     * @param int $page
+     * @param int $recordPerPage
+     * @return string
+     */
     public function buildQueryString($params, $page = 1, $recordPerPage = 0)
     {
         $queryString = '';
@@ -201,6 +207,10 @@ abstract class BaseHttp
 
         return $queryString;
     }
+
+    /**
+     * @return array
+     */
     private function getQueryKey()
     {
         return [
