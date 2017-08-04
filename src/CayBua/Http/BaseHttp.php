@@ -175,4 +175,41 @@ abstract class BaseHttp
         }
         return false;
     }
+
+    public function buildQueryString($params, $page = 1, $recordPerPage = 0)
+    {
+        $queryString = '';
+        if ($recordPerPage > 0) {
+            $queryString .= strpos($queryString, '?') ? '&' : '?';
+            $queryString .= 'limit=' . $recordPerPage;
+        }
+        if ($page > 1) {
+            $offset = ($page - 1) * $recordPerPage;
+            $queryString .= strpos($queryString, '?') ? '&' : '?';
+            $queryString .= 'offset=' . $offset;
+        }
+        foreach ($params as $key => $value) {
+            if (in_array($key, $this->getQueryKey()) and !empty($value)) {
+                $queryString .= strpos($queryString, '?') ? '&' : '?';
+                if ($key == 'fields') {
+                    $queryString .= $key . '=' . implode(',', $value);
+                } else {
+                    $queryString .= $key . '=' . json_encode($value);
+                }
+            }
+        }
+
+        return $queryString;
+    }
+    private function getQueryKey()
+    {
+        return [
+            'having',
+            'where',
+            'fields',
+            'or',
+            'in',
+            'sort',
+        ];
+    }
 }
