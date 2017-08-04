@@ -46,10 +46,6 @@ abstract class BaseModel extends Model
      */
     public function beforeValidationOnCreate()
     {
-        $userService = $this->getDI()->get(Services::USER_SERVICE);
-        $userService = $userService->getDetails();
-        $this->uid = $userService['id'];
-        $this->cid = $userService['cid'];
         $this->datecreated = time();
         $this->datemodified = $this->datecreated;
         $request = $this->getDI()->get(Services::REQUEST);
