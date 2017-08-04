@@ -331,27 +331,27 @@ class CrudResourceController extends ResourceController
         return $success ? $item : null;
     }
 
-    protected function beforeAssignData(Model $item, $data)
+    protected function beforeAssignData($item, $data)
     {
     }
 
-    protected function afterAssignData(Model $item, $data)
+    protected function afterAssignData($item, $data)
     {
     }
 
-    protected function beforeSave(Model $item)
+    protected function beforeSave($item)
     {
     }
 
-    protected function beforeCreate(Model $item)
+    protected function beforeCreate($item)
     {
     }
 
-    protected function afterCreate(Model $item)
+    protected function afterCreate($item)
     {
     }
 
-    protected function afterSave(Model $item)
+    protected function afterSave($item)
     {
     }
 
