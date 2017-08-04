@@ -17,8 +17,6 @@ use Phalcon\Db\Adapter\Pdo\Mysql as Database;
 abstract class BaseModel extends Model
 {
     public $id;
-    public $uid;
-    public $cid;
     public $ipaddress;
     public $datecreated;
     public $datemodified;
@@ -46,10 +44,6 @@ abstract class BaseModel extends Model
      */
     public function beforeValidationOnCreate()
     {
-        $userService = $this->getDI()->get(Services::USER_SERVICE);
-        $userService = $userService->getDetails();
-        $this->uid = $userService['id'];
-        $this->cid = $userService['cid'];
         $this->datecreated = time();
         $this->datemodified = $this->datecreated;
         $request = $this->getDI()->get(Services::REQUEST);
