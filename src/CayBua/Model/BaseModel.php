@@ -17,8 +17,6 @@ use Phalcon\Db\Adapter\Pdo\Mysql as Database;
 abstract class BaseModel extends Model
 {
     public $id;
-    public $uid;
-    public $cid;
     public $ipaddress;
     public $datecreated;
     public $datemodified;

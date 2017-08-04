@@ -12,6 +12,20 @@ use CayBua\Constants\Services;
 
 abstract class BaseUserTrackingModel extends BaseModel
 {
+    public $uid;
+    public $cid;
+
+    /**
+     * @return array
+     */
+    public function columnMap()
+    {
+        return parent::columnMap() + [
+                'uid' => 'uid',
+                'cid' => 'cid'
+            ];
+    }
+
     /**
      * User tracking model
      */
