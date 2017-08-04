@@ -186,7 +186,7 @@ abstract class BaseModel extends Model
             $dataProcessValue = $model->toArray();
             $sql = '';
             foreach ($dataProcessValue as $value) {
-                $sql .= !empty($value) ? ("'" . $value . "',") : "NULL,";
+                $sql .= isset($value) ? ("'" . $value . "',") : "NULL,";
             }
             $insertString .= '(' . substr($sql, 0, -1) . '),';
         }
