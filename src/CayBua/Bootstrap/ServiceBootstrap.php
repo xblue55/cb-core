@@ -22,6 +22,7 @@ use Phalcon\Logger\Adapter\File as FileAdapter;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 
 use League\Fractal\Manager as FractalManager;
+use PHPExcel;
 
 class ServiceBootstrap implements BootstrapInterface
 {
@@ -133,5 +134,13 @@ class ServiceBootstrap implements BootstrapInterface
             return $authManager;
         });
 
+        /**
+         * @description PHPExcel - OpenXML - Read, Write and Create spreadsheet documents in PHP - Spreadsheet engine
+         * @link https://github.com/PHPOffice/PHPExcel
+         */
+        $di->setShared(Services::PHP_EXCEL, function() use ($di, $config){
+            $objPHPExcel = new PHPExcel();
+            return $objPHPExcel;
+        });
     }
 }

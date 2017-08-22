@@ -11,7 +11,8 @@
     "guzzlehttp/guzzle": "^6.3",
     "michelf/php-markdown": "^1.7",
     "league/fractal": "^0.13.0",
-    "firebase/php-jwt": "^3.0"
+    "firebase/php-jwt": "^3.0",
+    "phpoffice/phpexcel": "^1.8"
   },
   "license": "GPL",
   "authors": [
