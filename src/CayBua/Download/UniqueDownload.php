@@ -6,7 +6,7 @@
  * Time: 17:32
  */
 
-namespace App\Download;
+namespace CayBua\Download;
 
 use CayBua\Constants\Services;
 use Phalcon\Cache\Backend\Redis;

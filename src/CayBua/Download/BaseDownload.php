@@ -6,7 +6,7 @@
  * Time: 17:49
  */
 
-namespace App\Download;
+namespace CayBua\Download;
 
 abstract class BaseDownload implements DownloadInterface
 {

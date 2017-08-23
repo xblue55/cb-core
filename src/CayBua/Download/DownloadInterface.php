@@ -6,7 +6,7 @@
  * Time: 17:46
  */
 
-namespace App\Download;
+namespace CayBua\Download;
 
 interface DownloadInterface
 {
