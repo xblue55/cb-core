@@ -24,6 +24,22 @@ abstract class BaseHttp
     public static $dataCache = [];
 
     /**
+     * @return mixed
+     */
+    public function getServiceConfig()
+    {
+        return $this->serviceConfig;
+    }
+
+    /**
+     * @param mixed $serviceConfig
+     */
+    public function setServiceConfig($serviceConfig)
+    {
+        $this->serviceConfig = $serviceConfig;
+    }
+
+    /**
      * @param string $actionUrl
      * @return $this
      */
@@ -76,7 +92,6 @@ abstract class BaseHttp
         $this->body = $body;
         return $this;
     }
-
 
     /**
      * @param bool $parsingResponse
