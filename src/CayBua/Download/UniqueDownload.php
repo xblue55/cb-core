@@ -14,29 +14,49 @@ use Phalcon\Di;
 
 class UniqueDownload implements DownloadInterface
 {
-    private $keyExpire;
+    private $keyExpireTime;
     private $keyStorage;
     private $keyLength;
     private $prefix;
     private $uniqueKey;
     private $filePath;
+    private $downloadLimited;
 
     /** @var Redis $redis */
     private $redis;
 
     /**
      * UniqueDownload constructor.
-     * @param string $keyExpire
+     * @param string $keyExpireTime
      * @param string $keyStorage
      * @param int $keyLength
+     * @param int $downloadLimited
+     * @internal param string $keyExpire
      */
-    public function __construct($keyExpire = '+1 month', $keyStorage = 'redis', $keyLength = 1024)
+    public function __construct($keyExpireTime = '+1 month', $keyStorage = 'redis', $keyLength = 1024, $downloadLimited = 5)
     {
-        $this->keyExpire = $keyExpire;
+        $this->keyExpireTime = $keyExpireTime;
         $this->keyStorage = $keyStorage;
         $this->keyLength = $keyLength;
         $this->prefix = 'unique_download_key_';
         $this->redis = Di::getDefault()->get(Services::REDIS);
+        $this->downloadLimited = $downloadLimited;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDownloadLimited()
+    {
+        return $this->downloadLimited;
+    }
+
+    /**
+     * @param int $downloadLimited
+     */
+    public function setDownloadLimited($downloadLimited)
+    {
+        $this->downloadLimited = $downloadLimited;
     }
 
     /**
@@ -77,8 +97,7 @@ class UniqueDownload implements DownloadInterface
      */
     public function generateUniqueKey()
     {
-        $this->setUniqueKey(uniqid('key', TRUE));
-        $this->saveUniqueKey();
+        $this->setUniqueKey(uniqid());
     }
 
     /**
@@ -87,12 +106,12 @@ class UniqueDownload implements DownloadInterface
     public function saveUniqueKey()
     {
         if ($this->keyStorage == 'redis') {
-            $uniqueKey = $this->generateUniqueKey();
-            $this->redis->save($this->prefix, json_encode([
-                'key' => $uniqueKey,
-                'filePath' => $this->getFilePath(),
-                'expire_time' => $this->keyExpire
-            ]));
+            $this->redis->save($this->prefix.$this->getUniqueKey(), [
+                'key' => $this->getUniqueKey(),
+                'file_path' => $this->getFilePath(),
+                'expire_time' => $this->keyExpireTime,
+                'download_limited' => $this->downloadLimited
+            ]);
         }
     }
 
@@ -168,4 +187,6 @@ class UniqueDownload implements DownloadInterface
 
         return $isDownload;
     }
+
+
 }
