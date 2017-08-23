@@ -43,6 +43,23 @@ class UniqueDownload implements DownloadInterface
         $this->downloadLimited = $downloadLimited;
     }
 
+
+    /**
+     * @return string
+     */
+    public function getKeyExpireTime()
+    {
+        return $this->keyExpireTime;
+    }
+
+    /**
+     * @param string $keyExpireTime
+     */
+    public function setKeyExpireTime($keyExpireTime)
+    {
+        $this->keyExpireTime = $keyExpireTime;
+    }
+
     /**
      * @return int
      */
@@ -187,6 +204,5 @@ class UniqueDownload implements DownloadInterface
 
         return $isDownload;
     }
-
 
 }
