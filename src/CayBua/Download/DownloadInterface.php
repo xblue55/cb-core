@@ -16,7 +16,8 @@ interface DownloadInterface
     public function hasFile();
 
     /**
+     * @param $uniqueKey
      * @return mixed
      */
-    public function download();
+    public function download($uniqueKey);
 }

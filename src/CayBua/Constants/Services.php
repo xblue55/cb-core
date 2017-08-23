@@ -10,4 +10,5 @@ class Services extends \PhalconRest\Constants\Services
     const LOGGER = 'logger';
     const UPLOADS = 'uploads';
     const PHP_EXCEL = 'PHPExcel';
+    const REDIS = 'Redis';
 }

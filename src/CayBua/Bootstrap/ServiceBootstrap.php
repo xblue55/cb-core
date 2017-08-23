@@ -6,6 +6,7 @@ use CayBua\Api;
 use CayBua\BootstrapInterface;
 use CayBua\Auth\UsernameAccountType;
 use CayBua\Auth\Manager;
+use CayBua\Constants\ConfigConstants;
 use CayBua\User\Service;
 use CayBua\Constants\Services;
 use CayBua\Fractal\CustomSerializer;
@@ -20,6 +21,9 @@ use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Mvc\Model\Manager as ModelsManager;
 use Phalcon\Logger\Adapter\File as FileAdapter;
 use Phalcon\Db\Adapter\Pdo\Mysql;
+use Phalcon\Cache\Frontend\Data as FrontData;
+use Phalcon\Cache\Backend\Redis;
+
 
 use League\Fractal\Manager as FractalManager;
 use PHPExcel;
@@ -141,6 +145,26 @@ class ServiceBootstrap implements BootstrapInterface
         $di->setShared(Services::PHP_EXCEL, function() use ($di, $config){
             $objPHPExcel = new PHPExcel();
             return $objPHPExcel;
+        });
+
+        /**
+         * Caching with redis
+         */
+        $di->setShared(Services::REDIS, function () use ($config) {
+            $redisConfig = $config->get(ConfigConstants::REDIS);
+            $frontCache = new FrontData([
+                "lifetime" => $redisConfig->lifetime,
+            ]);
+            $cache = new Redis(
+                $frontCache,
+                [
+                    'host' => $redisConfig->host,
+                    'port' => $redisConfig->port,
+                    'persistent' => $redisConfig->persistent,
+                    'index' => $redisConfig->index
+                ]
+            );
+            return $cache;
         });
     }
 }

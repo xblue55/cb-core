@@ -8,11 +8,21 @@
 
 namespace App\Download;
 
+use CayBua\Constants\Services;
+use Phalcon\Cache\Backend\Redis;
+use Phalcon\Di;
+
 class UniqueDownload implements DownloadInterface
 {
     private $keyExpire;
     private $keyStorage;
     private $keyLength;
+    private $prefix;
+    private $uniqueKey;
+    private $filePath;
+
+    /** @var Redis $redis */
+    private $redis;
 
     /**
      * UniqueDownload constructor.
@@ -25,32 +35,77 @@ class UniqueDownload implements DownloadInterface
         $this->keyExpire = $keyExpire;
         $this->keyStorage = $keyStorage;
         $this->keyLength = $keyLength;
+        $this->prefix = 'unique_download_key_';
+        $this->redis = Di::getDefault()->get(Services::REDIS);
     }
 
     /**
-     * @return string
+     * @return mixed
      */
-    public function writeUniqueKey()
+    public function getFilePath()
     {
-        $key = uniqid('key', TRUE);
-        return $key;
+        return $this->filePath;
     }
 
     /**
+     * @param mixed $filePath
+     */
+    public function setFilePath($filePath)
+    {
+        $this->filePath = $filePath;
+    }
+
+    /**
+     * Get uniqueKey
+     * @return mixed
+     */
+    public function getUniqueKey()
+    {
+        return $this->uniqueKey;
+    }
+
+    /**
+     * Set uniqueKey
+     * @param $uniqueKey
+     */
+    public function setUniqueKey($uniqueKey){
+        $this->uniqueKey = $uniqueKey;
+    }
+
+    /**
+     *  Generate uniqueKey with uniqid
+     */
+    public function generateUniqueKey()
+    {
+        $this->setUniqueKey(uniqid('key', TRUE));
+        $this->saveUniqueKey();
+    }
+
+    /**
+     * Save uniqueKey in Redis database
+     */
+    public function saveUniqueKey()
+    {
+        if ($this->keyStorage == 'redis') {
+            $uniqueKey = $this->generateUniqueKey();
+            $this->redis->save($this->prefix, json_encode([
+                'key' => $uniqueKey,
+                'filePath' => $this->getFilePath(),
+                'expire_time' => $this->keyExpire
+            ]));
+        }
+    }
+
+    /**
+     * @param $uniqueKey
      * @return bool
      */
-    public function hasUniqueKey()
+    public function deleteUniqueKey($uniqueKey)
     {
-        return true;
-    }
-
-    /**
-     * @param $key
-     * @return bool
-     */
-    public function deleteUniqueKey($key)
-    {
-        return true;
+        if($this->redis->delete($uniqueKey)){
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -58,16 +113,59 @@ class UniqueDownload implements DownloadInterface
      */
     public function generateDownloadLink()
     {
-        return '';
+        return '/download.php?key=' . $this->getUniqueKey();
     }
 
+    /**
+     * Check uniqueKey, if key exist, setUniqueKey
+     * @param $uniqueKey
+     * @return bool
+     */
+    public function hasUniqueKey($uniqueKey)
+    {
+        $key = $this->redis->get($this->prefix . $uniqueKey);
+        if($key){
+            $this->setUniqueKey($key);
+        }
+        return false;
+    }
+
+    /**
+     * @param $uniqueKey
+     * @return bool
+     */
+    public function checkExpireTime($uniqueKey)
+    {
+        return true;
+    }
+
+    /**
+     * Check file exist
+     */
     public function hasFile()
     {
-
+        return is_file($this->getFilePath());
     }
 
-    public function download()
+    /**
+     * @param $uniqueKey
+     * @return bool
+     */
+    public function download($uniqueKey)
     {
+        $isDownload = true;
 
+        if(!$this->hasUniqueKey($uniqueKey)){
+            $isDownload = false;
+        }
+        if(!$this->checkExpireTime($uniqueKey)){
+            $isDownload = false;
+        }
+
+        if(!$this->$this->hasFile()){
+            $isDownload = false;
+        }
+
+        return $isDownload;
     }
 }
