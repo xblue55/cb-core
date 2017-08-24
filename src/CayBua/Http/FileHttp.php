@@ -29,17 +29,17 @@ class FileHttp extends BaseHttp
     }
 
     /**
-     * @param $tmpPath
+     * @param $path
      * @return mixed|null|\Psr\Http\Message\ResponseInterface
      */
-    public function uploadFileWithUniqueKeyDownload($tmpPath){
+    public function uploadFileWithUniqueKeyDownload($path){
         $body = [
             'headers' => [
                 'Access-Trusted-Key' => $this->config->get(ConfigConstants::ACCESS_TRUSTED_KEY)
             ],
             'multipart' => [
                 [
-                    'contents' => fopen($tmpPath, 'r')
+                    'contents' => fopen($path, 'r')
                 ]
             ]
         ];
