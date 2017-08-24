@@ -39,12 +39,13 @@ class FileHttp extends BaseHttp
             ],
             'multipart' => [
                 [
+                    'name' => 'file',
                     'contents' => fopen($path, 'r')
                 ]
             ]
         ];
         return $this
-            ->get($this->serviceConfig['action']['upload-with-unique-key-download'])
+            ->post($this->serviceConfig['action']['uploader-with-unique-key-download'])
             ->setBody($body)
             ->request(true);
     }
