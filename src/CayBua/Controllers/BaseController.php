@@ -18,16 +18,4 @@ abstract class BaseController extends CrudResourceController
     {
         return get_called_class();
     }
-
-    /**
-     * @param $data
-     * @return array
-     */
-    public function transformPostData($data)
-    {
-        $userService = $this->userService->getDetails();
-        $data['uid'] = $userService['id'];
-        $data['cid'] = $userService['cid'];
-        return parent::transformPostData($data);
-    }
 }
