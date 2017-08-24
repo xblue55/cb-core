@@ -116,9 +116,8 @@ abstract class BaseModel extends Model
     {
         $userHttp = new UserHttp();
         $userProfileDataResponse = $userHttp->getUseProfileWithUserID($userID);
-        $userProfileData = $userProfileDataResponse['data']['item'];
-        if (isset($userProfileData) && !empty($userProfileData)) {
-            return $userProfileData;
+        if (isset($userProfileDataResponse['data']['item']) && !empty($userProfileDataResponse['data']['item'])) {
+            return $userProfileDataResponse['data']['item'];
         }
         return [];
     }

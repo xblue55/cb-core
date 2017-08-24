@@ -24,7 +24,7 @@ class UserHttp extends BaseHttp
     public function __construct()
     {
         $this->config = Di::getDefault()->get(Services::CONFIG);
-        $this->serviceConfig = $this->config->get(ConfigConstants::SERVICES)['user'];
+        $this->setServiceConfig($this->config->get(ConfigConstants::SERVICES)['user']);
     }
 
     /**
