@@ -14,4 +14,5 @@ class ConfigConstants
     const DOMAIN_NAME = 'domainName';
     const SERVICES = 'services';
     const RESOURCE_SERVER = 'resourceServer';
+    const REDIS = 'redis';
 }
