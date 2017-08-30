@@ -1,16 +1,20 @@
 <?php
 namespace CayBua\Mvc\Controllers;
 
-use Phalcon\Mvc\Model;
-use Phalcon\Mvc\Model\Query\Builder as QueryBuilder;
 use PhalconApi\Constants\ErrorCodes;
 use PhalconApi\Constants\PostedDataMethods;
 use PhalconApi\Exception;
 
+use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\Query\Builder as QueryBuilder;
+use Phalcon\Paginator\Adapter\QueryBuilder as PaginatorQueryBuilder;
+
+
 class CrudResourceController extends ResourceController
 {
-    /*** ALL ***/
-
+    /**
+     * Get all data
+     */
     public function all()
     {
         $this->beforeHandle();
@@ -47,11 +51,45 @@ class CrudResourceController extends ResourceController
     protected function getAllData()
     {
         $phqlBuilder = $this->phqlQueryParser->fromQuery($this->query, $this->getResource());
-
         $this->modifyReadQuery($phqlBuilder);
         $this->modifyAllQuery($phqlBuilder);
+        if(!$this->checkPaging()){
+            return $phqlBuilder->getQuery()->execute();
+        }
+        $paginator = new PaginatorQueryBuilder(
+            [
+                "builder" => $phqlBuilder,
+                "limit" => $this->query->getLimit(),
+                "page" => $this->query->getPage(),
+            ]
+        );
+        $page = $paginator->getPaginate();
+        $data = [
+            'items' => $page->items,
+            '_meta' => [
+                'current' => $page->current,
+                'before' => $page->before,
+                'next' => $page->next,
+                'last' => $page->last,
+                'total_pages' => $page->total_pages,
+                'total_items' => $page->total_items
+            ]
+        ];
 
-        return $phqlBuilder->getQuery()->execute();
+        return $data;
+    }
+
+    /**
+     * @return bool
+     */
+    private function checkPaging()
+    {
+        if ($this->query->hasLimit() && $this->query->hasPage() && ! $this->query->hasOffset()) {
+            if(is_numeric($this->query->getPage()) && ($this->query->getPage() > 0)){
+                return true;
+            }
+        }
+        return false;
     }
 
     protected function modifyReadQuery(QueryBuilder $query)
@@ -74,7 +112,15 @@ class CrudResourceController extends ResourceController
 
     protected function getAllResponse($data)
     {
-        return $this->createResourceCollectionResponse($data);
+        if ($this->checkPaging()) {
+            $response = $this->createResourceCollectionResponse($data['items'], [
+                '_meta' => $data['_meta']
+            ]);
+        } else {
+            $response = $this->createResourceCollectionResponse($data);
+        }
+
+        return $response;
     }
 
     protected function afterHandleAll($data, $response)
