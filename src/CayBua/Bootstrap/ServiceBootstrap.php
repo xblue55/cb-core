@@ -7,6 +7,8 @@ use CayBua\BootstrapInterface;
 use CayBua\Auth\UsernameAccountType;
 use CayBua\Auth\Manager;
 use CayBua\Constants\ConfigConstants;
+use CayBua\Data\Query;
+use CayBua\Data\Query\UrlQueryParser;
 use CayBua\User\Service;
 use CayBua\Constants\Services;
 use CayBua\Fractal\CustomSerializer;
@@ -166,5 +168,9 @@ class ServiceBootstrap implements BootstrapInterface
             );
             return $cache;
         });
+
+        $di->setShared(Services::QUERY, new Query);
+
+        $di->setShared(Services::URL_QUERY_PARSER, new UrlQueryParser);
     }
 }
