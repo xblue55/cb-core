@@ -9,7 +9,6 @@ use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Query\Builder as QueryBuilder;
 use Phalcon\Paginator\Adapter\QueryBuilder as PaginatorQueryBuilder;
 
-
 class CrudResourceController extends ResourceController
 {
     /**

@@ -7,13 +7,13 @@ use CayBua\BootstrapInterface;
 use CayBua\Middleware\RbacMiddleware;
 use CayBua\Middleware\AuthenticationMiddleware;
 use CayBua\Middleware\AuthorizationMiddleware;
+use CayBua\Middleware\UrlQueryMiddleware;
 
 use PhalconRest\Middleware\FractalMiddleware;
 
 use PhalconApi\Middleware\CorsMiddleware;
 use PhalconApi\Middleware\NotFoundMiddleware;
 use PhalconApi\Middleware\OptionsResponseMiddleware;
-use PhalconApi\Middleware\UrlQueryMiddleware;
 
 use Phalcon\Config;
 use Phalcon\DiInterface;
