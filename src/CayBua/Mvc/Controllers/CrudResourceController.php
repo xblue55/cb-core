@@ -85,7 +85,9 @@ class CrudResourceController extends ResourceController
     private function checkPaging()
     {
         if ($this->query->hasLimit() && $this->query->hasPage() && ! $this->query->hasOffset()) {
-            return true;
+            if(is_numeric($this->query->getPage()) && ($this->query->getPage() > 0)){
+                return true;
+            }
         }
         return false;
     }
