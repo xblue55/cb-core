@@ -8,7 +8,7 @@ use CayBua\Auth\UsernameAccountType;
 use CayBua\Auth\Manager;
 use CayBua\Constants\ConfigConstants;
 use CayBua\Data\Query;
-use CayBua\Data\Query\QueryParsers\UrlQueryParser;
+use CayBua\Data\Query\UrlQueryParser;
 use CayBua\User\Service;
 use CayBua\Constants\Services;
 use CayBua\Fractal\CustomSerializer;
