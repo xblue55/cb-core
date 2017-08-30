@@ -1,6 +1,6 @@
 <?php
 
-namespace CayBua\Data\Query\QueryParsers;
+namespace CayBua\Data\Query;
 
 use CayBua\Data\Query;
 use PhalconApi\Data\Query\Condition;
