@@ -1316,4 +1316,49 @@ class Helper
     {
         return realpath(dirname($filePath) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
     }
+
+    /**
+     * Convert YYYY-mm-dd, YYYYmmdd to timestamp
+     * @param $ymdString
+     * @return int
+     */
+     public static function ymdToTimestamp($ymdString)
+     {
+         $ts = 0;
+ 
+         $ymdString = str_replace('-', '', $ymdString);
+         if (preg_match('/(\d{4})(\d{2})(\d{2})/', $ymdString, $match)) {
+             $ts = mktime(0, 0, 1, $match[2], $match[3], $match[1]);
+         }
+ 
+         return $ts;
+     }
+ 
+     /**
+      * Convert YYYY-mm-dd HH:MM:SS to timestamp
+      * @param $ymdhisString
+      * @return int
+      */
+     public static function ymdhisToTimestamp($ymdhisString)
+     {
+         $ts = 0;
+ 
+         $info = explode(' ', $ymdhisString);
+ 
+         //process hour
+         $timeInfo = explode(':', $info[1]);
+ 
+         //process date
+         $ymdString = str_replace('-', '', $info[0]);
+         if (preg_match('/(\d{4})(\d{2})(\d{2})/', $ymdString, $match)) {
+             $ts = mktime($timeInfo[0], $timeInfo[1], $timeInfo[2], $match[2], $match[3], $match[1]);
+         }
+ 
+         return $ts;
+    }
+    function days_in_month($month, $year) 
+    { 
+    // calculate number of days in a month 
+        return $month == 2 ? ($year % 4 ? 28 : ($year % 100 ? 29 : ($year % 400 ? 28 : 29))) : (($month - 1) % 7 % 2 ? 30 : 31); 
+    } 
 }
