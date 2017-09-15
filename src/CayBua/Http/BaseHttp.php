@@ -201,23 +201,25 @@ abstract class BaseHttp
     {
         $queryString = '';
         if ($recordPerPage > 0) {
-            $queryString .= strpos($queryString, '?') ? '&' : '?';
-            $queryString .= 'limit=' . $recordPerPage;
+            $queryString .= ($queryString != '' ? '&' : '') . 'limit=' . $recordPerPage;
         }
         if ($page > 1) {
             $offset = ($page - 1) * $recordPerPage;
-            $queryString .= strpos($queryString, '?') ? '&' : '?';
-            $queryString .= 'offset=' . $offset;
+            $queryString .= ($queryString != '' ? '&' : '') . 'offset=' . $offset;
         }
         foreach ($params as $key => $value) {
             if (in_array($key, $this->getQueryKey()) and !empty($value)) {
-                $queryString .= strpos($queryString, '?') ? '&' : '?';
+                $queryString .= $queryString != '' ? '&' : '';
                 if ($key == 'fields') {
                     $queryString .= $key . '=' . implode(',', $value);
                 } else {
                     $queryString .= $key . '=' . json_encode($value);
                 }
             }
+        }
+
+        if ($queryString != '') {
+            $queryString = '?' . $queryString;
         }
 
         return $queryString;
