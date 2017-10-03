@@ -36,7 +36,7 @@ class Service extends PhalconApiService
                 $role = AclRoles::LOCAL_SERVICE;
             }
         }
-        if(is_object($userModel)){
+        if (is_object($userModel)) {
             /** @var Model $userModel */
             $userModel = $userModel->toArray();
         }
@@ -72,21 +72,23 @@ class Service extends PhalconApiService
     }
 
     /**
-     * @param string $domainName
-     * @param string $controllerName
-     * @param string $actionName
+     * @param $uri
+     * @param $method
      * @return bool
      */
-    public function allowRbacPermission($domainName, $controllerName, $actionName)
+    public function allowRbacPermission($uri, $method)
     {
         $userRole = $this->getRole();
         if ($userRole == AclRoles::ADMINISTRATOR) {
             return true;
-        } else {
-            $resource = $domainName . '.' . $controllerName . '.' . $actionName;
-            $tickets = $this->getTickets();
-            return in_array($resource, $tickets);
         }
+        $tickets = $this->getTickets();
+        foreach ($tickets as $ticket){
+            if(($ticket['method'] == $method) && ($uri == $ticket['slug'])){
+                return true;
+            }
+        }
+        return false;
     }
 
     public function getCompanyOfCurrentUserLogin()

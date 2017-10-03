@@ -36,6 +36,9 @@ class UserHttp extends BaseHttp
         $body = [
             'headers' => [
                 'Authorization' => 'Bearer ' . $token
+            ],
+            'query' => [
+                'include' => 'roles,services,tickets',
             ]
         ];
         return
