@@ -72,11 +72,11 @@ class Service extends PhalconApiService
     }
 
     /**
-     * @param $uri
      * @param $method
+     * @param $uri
      * @return bool
      */
-    public function allowRbacPermission($uri, $method)
+    public function allowRbacPermission($method, $uri)
     {
         $userRole = $this->getRole();
         if ($userRole == AclRoles::ADMINISTRATOR) {

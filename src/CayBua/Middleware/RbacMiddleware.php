@@ -31,9 +31,9 @@ class RbacMiddleware extends Plugin implements MiddlewareInterface
         if (($role != AclRoles::UNAUTHORIZED) && ($role != AclRoles::LOCAL_SERVICE)) {
             /** @var Service $userService */
             $userService = $this->di->get(Services::USER_SERVICE);
-            $uri = $api->request->getURI();
+            $uri = $api->request->get();
             $method = $api->request->getMethod();
-            $allowed = $userService->allowRbacPermission($method, $uri);
+            $allowed = $userService->allowRbacPermission($method, $uri['_url']);
         }
         if (!$allowed) {
             throw new Exception(ErrorCodes::ACCESS_DENIED);
