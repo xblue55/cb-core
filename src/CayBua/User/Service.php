@@ -91,4 +91,12 @@ class Service extends PhalconApiService
         }
         return false;
     }
+
+    public function getCompanyOfCurrentUserLogin()
+    {
+        $token = $this->authManager->getSession()->getToken();
+        $redis = Di::getDefault()->get(Services::REDIS);
+        
+        return $redis->get($token);
+    }
 }
