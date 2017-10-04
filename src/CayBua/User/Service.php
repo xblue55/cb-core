@@ -83,12 +83,12 @@ class Service extends PhalconApiService
             return true;
         }
         $tickets = $this->getTickets();
-        foreach ($tickets as $ticket){
-            if(($ticket['method'] == $method) && ($uri == $ticket['slug'])){
+        $uri = preg_replace('/[0-9]+/', '{id}', $uri);
+        foreach ($tickets as $ticket) {
+            if (($ticket['method'] == $method) && ($ticket['slug'] == $uri)) {
                 return true;
             }
         }
         return false;
     }
-
 }
