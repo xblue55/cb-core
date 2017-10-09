@@ -12,7 +12,9 @@
     "michelf/php-markdown": "^1.7",
     "league/fractal": "^0.13.0",
     "firebase/php-jwt": "^3.0",
-    "phpoffice/phpexcel": "^1.8"
+    "phpoffice/phpexcel": "^1.8",
+    "stanislav-web/phalcon-uploader": "v1.4-beta",
+    "eventviva/php-image-resize": "1.6.*"
   },
   "license": "GPL",
   "authors": [
