@@ -12,15 +12,13 @@ use Phalcon\Di;
 use Phalcon\Mvc\Model;
 use PhalconApi\User\Service as PhalconApiService;
 
-class Service extends PhalconApiService
-{
+class Service extends PhalconApiService {
     /**
      * @return string
      */
-    public function getRole()
-    {
+    public function getRole() {
         $userModel = $this->getDetails();
-
+        
         $role = AclRoles::UNAUTHORIZED;
         $headers = $this->request->getHeaders();
         /**
@@ -43,15 +41,16 @@ class Service extends PhalconApiService
         if (!empty($userModel) && in_array(ucfirst(strtolower($userModel['role'])), AclRoles::ALL_ROLES)) {
             $role = ucfirst(strtolower($userModel['role']));
         }
+        
         return $role;
     }
-
+    
     /**
      * @param mixed $identity
+     *
      * @return array
      */
-    protected function getDetailsForIdentity($identity)
-    {
+    protected function getDetailsForIdentity($identity) {
         $details = [];
         $token = $this->authManager->getSession()->getToken();
         $userHttp = new UserHttp();
@@ -59,25 +58,26 @@ class Service extends PhalconApiService
         if (isset($myUser['data']['item']) && $myUser['data']['item']['id'] > 0) {
             $details = $myUser['data']['item'];
         }
+        
         return $details;
     }
-
+    
     /**
      * @return mixed
      */
-    public function getTickets()
-    {
+    public function getTickets() {
         $user = $this->getDetails();
+        
         return $user['tickets'];
     }
-
+    
     /**
      * @param $method
      * @param $uri
+     *
      * @return bool
      */
-    public function allowRbacPermission($method, $uri)
-    {
+    public function allowRbacPermission($method, $uri) {
         $userRole = $this->getRole();
         if ($userRole == AclRoles::ADMINISTRATOR) {
             return true;
@@ -89,14 +89,30 @@ class Service extends PhalconApiService
                 return true;
             }
         }
+        
         return false;
     }
-
-    public function getCompanyOfCurrentUserLogin()
-    {
+    
+    /**
+     * get company id
+     *
+     * @return mixed
+     */
+    public function getCompanyOfCurrentUserLogin() {
         $token = $this->authManager->getSession()->getToken();
         $redis = Di::getDefault()->get(Services::REDIS);
         
         return $redis->get($token);
+    }
+    
+    /**
+     * get user id login
+     *
+     * @return mixed
+     */
+    public function getUserId() {
+        $userModel = $this->getDetails();
+        
+        return $userModel['id'];
     }
 }
