@@ -101,8 +101,12 @@ class Service extends PhalconApiService {
     public function getCompanyOfCurrentUserLogin() {
         $token = $this->authManager->getSession()->getToken();
         $redis = Di::getDefault()->get(Services::REDIS);
+        $companyId = (int)$redis->get($token);
+        if ($companyId < 1) {
+            $companyId = -1;
+        }
         
-        return $redis->get($token);
+        return $companyId;
     }
     
     /**
